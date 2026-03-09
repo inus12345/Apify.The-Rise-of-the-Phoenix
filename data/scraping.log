@@ -1,0 +1,44 @@
+2026-03-08 18:46:52,165 - news_scraper.scraping.engine - ERROR - [engine.py:94] - Request error fetching https://example.com/news?page=1: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1002)
+2026-03-08 18:46:52,189 - news_scraper.scraping.engine - ERROR - [engine.py:94] - Request error fetching https://example.com/news?page=2: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1002)
+2026-03-08 18:46:52,210 - news_scraper.scraping.engine - ERROR - [engine.py:94] - Request error fetching https://example.com/news?page=3: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1002)
+2026-03-08 18:46:52,215 - news_scraper.scraping.engine - INFO - [engine.py:346] - Exported 0 articles to CSV: ./data/example_export.csv
+2026-03-08 18:46:52,219 - news_scraper.scraping.engine - INFO - [engine.py:320] - Scraping complete for Example News Site: 0 articles saved
+2026-03-09 11:48:22,328 - news_scraper.web.app - ERROR - [app.py:838] - Exception on / [GET]
+Traceback (most recent call last):
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/Documents/AAComputer Science/Coding Projects/2026/The_Rise_of_the_Phoenix/news_scraper/web/app.py", line 62, in index
+    return render_template('index.html',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/jinja2/environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/jinja2/environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/Users/inusgrobler/Documents/AAComputer Science/Coding Projects/2026/The_Rise_of_the_Phoenix/news_scraper/web/templates/index.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "/Users/inusgrobler/Documents/AAComputer Science/Coding Projects/2026/The_Rise_of_the_Phoenix/news_scraper/web/templates/base.html", line 249, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/Documents/AAComputer Science/Coding Projects/2026/The_Rise_of_the_Phoenix/news_scraper/web/templates/index.html", line 24, in block 'content'
+    {% if recent_sites|length > 0 %}{{ recent_sites[0].last_scraped.strftime('%Y-%m-%d') }}{% else %}-{% endif %}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/inusgrobler/.pyenv/versions/3.11.3/lib/python3.11/site-packages/jinja2/utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'None' has no attribute 'strftime'

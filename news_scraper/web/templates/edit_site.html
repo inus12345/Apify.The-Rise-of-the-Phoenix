@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header-section">
+    <h2>Edit Site: {{ site.name }}</h2>
+    <a href="{{ url_for('view_site', site_id=site.id) }}" class="btn btn-secondary">Back to Site</a>
+</div>
+
+<div class="card">
+    <form method="POST" action="{{ url_for('edit_site', site_id=site.id) }}">
+        <div class="form-group">
+            <label for="name">Display Name *</label>
+            <input type="text" id="name" name="name" value="{{ site.name }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="url">Site URL *</label>
+            <input type="url" id="url" name="url" value="{{ site.url }}" required placeholder="https://example.com/news">
+        </div>
+
+        <div class="form-group">
+            <label for="pattern">Category Page Pattern</label>
+            <input type="text" id="pattern" name="pattern" value="{{ site.category_url_pattern or '' }}" placeholder="{url}?page={page}">
+            <small style="color: #666;">Pattern for paginated listing pages. Use {url} and {page} as placeholders.</small>
+        </div>
+
+        <div class="form-group">
+            <label for="pages">Number of Pages</label>
+            <input type="number" id="pages" name="pages" value="{{ site.num_pages_to_scrape }}" min="1" max="100">
+        </div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="active" name="active" {% if site.active %}checked{% endif %}>
+            <label for="active">Active site</label>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{{ url_for('view_site', site_id=site.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #e74c3c;">Danger Zone</h3>
+    <p><strong>Delete this site:</strong> Deleting will remove the site and all its scraped articles.</p>
+    <form method="POST" action="{{ url_for('delete_site', site_id=site.id) }}" onsubmit="return confirm('Are you sure? This cannot be undone.');">
+        <button type="submit" class="btn btn-danger">Remove This Site</button>
+    </form>
+</div>
+{% endblock %}

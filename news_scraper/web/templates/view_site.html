@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header-section">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <h2>{{ site.name }}</h2>
+        {% if site.active %}
+        <span class="status-active">Active</span>
+        {% else %}
+        <span class="status-inactive">Inactive</span>
+        {% endif %}
+    </div>
+    <div style="display: flex; gap: 1rem;">
+        <a href="{{ url_for('list_sites') }}" class="btn btn-secondary">Back to Sites</a>
+        <a href="{{ url_for('edit_site', site_id=site.id) }}" class="btn btn-primary" style="background: #17a2b8; color: white;">Edit Site</a>
+    </div>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Site Details</h3>
+    <table style="width: auto;">
+        <tr>
+            <td style="padding-right: 2rem;"><strong>ID:</strong></td>
+            <td>{{ site.id }}</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 2rem;"><strong>URL:</strong></td>
+            <td><a href="{{ site.url }}" target="_blank" style="color: #667eea;">{{ site.url }}</a></td>
+        </tr>
+        <tr>
+            <td style="padding-right: 2rem;"><strong>Pages to Scrape:</strong></td>
+            <td>{{ site.num_pages_to_scrape }} page(s)</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 2rem;"><strong>Last Scraped:</strong></td>
+            <td>{{ site.last_scraped.strftime('%Y-%m-%d %H:%M') if site.last_scraped else 'Never' }}</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 2rem;"><strong>Articles:</strong></td>
+            <td>{{ article_count }} articles</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Scrape This Site</h3>
+    <form method="POST" action="{{ url_for('scrape_site', site_id=site.id) }}" style="display: flex; gap: 1.5rem; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="rate_limit" name="rate_limit" checked>
+            <label for="rate_limit">Enable rate limiting</label>
+        </div>
+        <button type="submit" class="btn btn-success" style="padding: 0.75rem 2rem; font-size: 1.1rem;">Start Scraping</button>
+    </form>
+    <p style="margin-top: 1rem; color: #666;"><em>Rate limiting ensures respectful scraping by adding delays between requests.</em></p>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Delete Site</h3>
+    <form method="POST" action="{{ url_for('delete_site', site_id=site.id) }}" onsubmit="return confirm('Are you sure? This cannot be undone.');">
+        <button type="submit" class="btn btn-danger">Remove This Site</button>
+        <p style="margin-top: 0.5rem; color: #e74c3c;"><em>Deleting this site will also remove its scraped articles.</em></p>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Recent Articles from {{ site.name }}</h3>
+    {% if recent_articles %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Published</th>
+                <th>Source Domain</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for article in recent_articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title[:80] }}{% if article.title|length > 80 %}...{% endif %}</td>
+                <td>{{ article.date_publish.strftime('%Y-%m-%d') if article.date_publish else 'N/A' }}</td>
+                <td>{{ article.source_domain or 'N/A' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <p>No articles scraped yet for this site.</p>
+        <a href="{{ url_for('scrape_site', site_id=site.id) }}" class="btn btn-primary">Scrape Now</a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Site Configuration</h3>
+    <table style="width: auto;">
+        <tr>
+            <td style="padding-right: 2rem;"><strong>Category Pattern:</strong></td>
+            <td>{{ site.category_url_pattern or 'Default' }}</td>
+        </tr>
+        <tr>
+            <td style="padding-right: 2rem;"><strong>Uses JavaScript:</strong></td>
+            <td>{% if site.uses_javascript %}Yes (Selenium){% else %}No (HTTPX){% endif %}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+name,url,pages_urls,num_pages,anti_robot,load_more_button,alt_source_domain
+mg,https://mg.co.za/,https://mg.co.za/section/africa/,1,True,Scroll Down,
+Awakening News Network,https://anntw.com/,https://anntw.com/,1,True,False,
+CNA,https://www.cna.com.tw/,https://www.cna.com.tw/,1,True,False,
+CTS News,https://www.cts.com.tw/,https://www.cts.com.tw/,1,True,False,
+China Daily News,https://www.cdns.com.tw/,https://www.cdns.com.tw/,1,True,False,

@@ -1,0 +1,20 @@
+# News Scraper Platform - Dependencies
+
+# Core dependencies
+sqlalchemy>=2.0.0
+pydantic-settings>=2.0.0
+httpx>=0.24.0
+beautifulsoup4>=4.12.0
+
+# CLI dependencies
+click>=8.1.0
+tabulate>=0.9.0
+
+# Optional: for enhanced scraping (Selenium fallback in Phase 4)
+# selenium>=4.0.0
+
+# Web interface dependencies (Phase 4+)
+flask>=2.3.0
+
+# Database
+# SQLite is included with Python standard library

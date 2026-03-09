@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="header-section">
+    <h2>Sites Configuration</h2>
+    <div style="display: flex; gap: 1rem;">
+        <a href="{{ url_for('add_site') }}" class="btn btn-primary">+ Add New Site</a>
+        <a href="{{ url_for('export_sites') }}" class="btn btn-success">Export JSON</a>
+        {% if show_inactive %}
+        <a href="{{ url_for('list_sites') }}" class="btn btn-secondary" style="background: #6c757d; color: white;">Hide Inactive</a>
+        {% else %}
+        <a href="{{ url_for('list_sites') }}?show_inactive=true" class="btn btn-secondary">Show All</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="card">
+    {% if sites %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Pages</th>
+                <th>Last Scrape</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for site in sites %}
+            <tr>
+                <td>{{ site.id }}</td>
+                <td><a href="{{ url_for('view_site', site_id=site.id) }}" style="color: #667eea; font-weight: 500;">{{ site.name }}</a></td>
+                <td>{{ site.url[:50] }}{% if site.url|length > 50 %}...{% endif %}</td>
+                <td>{{ site.num_pages_to_scrape }} pages</td>
+                <td>{{ site.last_scraped.strftime('%Y-%m-%d') if site.last_scraped else 'Never' }}</td>
+                <td><span class="status-active">{% if site.active %}Active{% else %}Inactive{% endif %}</span></td>
+                <td style="display: flex; gap: 0.5rem;">
+                    <a href="{{ url_for('view_site', site_id=site.id) }}" class="btn btn-primary" style="padding: 0.25rem 0.75rem;">View</a>
+                    <a href="{{ url_for('edit_site', site_id=site.id) }}" class="btn btn-secondary" style="background: #17a2b8; color: white; padding: 0.25rem 0.75rem;">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <h3>No sites configured yet.</h3>
+        <p>Add your first news source to start scraping articles.</p>
+        <br>
+        <a href="{{ url_for('add_site') }}" class="btn btn-primary">Add New Site</a>
+    </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Bulk Actions</h3>
+    <form action="{{ url_for('scrape_all') }}" method="POST" style="display: flex; gap: 1rem; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="rate_limit" name="rate_limit" checked>
+            <label for="rate_limit">Enable rate limiting</label>
+        </div>
+        <button type="submit" class="btn btn-success">Scrape All Active Sites</button>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #667eea;">Available Templates</h3>
+    <p>Use predefined configurations for popular platforms:</p>
+    {% if SITE_TEMPLATES %}
+    <ul>
+        {% for template_name, template_data in SITE_TEMPLATES.items() %}
+        <li><strong>{{ template_name }}</strong>: {{ template_data.name }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No templates available.</p>
+    {% endif %}
+</div>
+{% endblock %}
