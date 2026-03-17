@@ -91,19 +91,93 @@ class JSONExporter:
     
     def _article_to_dict(self, article: ScrapedArticle) -> Dict[str, Any]:
         """Convert a ScrapedArticle to a dictionary for JSON export."""
+        site = getattr(article, "site_config", None)
+        strategy = site.scrape_strategy if site else None
+        site_country = (site.country or site.location) if site else None
+        site_language = site.language if site else article.language
+        technologies = []
+        if site and getattr(site, "technologies", None):
+            technologies = [
+                {
+                    "technology_name": tech.technology_name,
+                    "technology_type": tech.technology_type,
+                    "version": tech.version,
+                    "confidence_score": tech.confidence_score,
+                    "detection_source": tech.detection_source,
+                    "notes": tech.notes,
+                }
+                for tech in site.technologies
+            ]
         result = {
             "id": article.id,
             "url": article.url,
+            "canonical_url": article.canonical_url,
             "title": article.title,
             "body": article.body,
             "authors": article.authors,
+            "section": article.section,
+            "tags": article.tags,
             "date_publish": self._serialize_date(article.date_publish),
+            "scrape_date": self._serialize_date(article.scrape_date),
             "date_download": self._serialize_date(article.date_download),
             "description": article.description,
             "image_url": article.image_url,
+            "image_links": article.image_links,
+            "extra_links": article.extra_links,
+            "word_count": article.word_count,
+            "reading_time_minutes": article.reading_time_minutes,
+            "raw_metadata": article.raw_metadata,
+            "content_hash": article.content_hash,
             "source_domain": article.source_domain,
             "language": article.language,
+            "source_site_name": site.name if site else None,
+            "source_site_url": site.url if site else None,
+            "source_site_domain": site.domain if site else article.source_domain,
+            "source_site_country": site_country,
+            "source_site_language": site_language,
             "scrape_status": article.scrape_status,
+            "scraper_engine_used": article.scraper_engine_used,
+            "site": {
+                "site_config_id": site.id if site else article.site_config_id,
+                "name": site.name if site else None,
+                "url": site.url if site else None,
+                "domain": site.domain if site else article.source_domain,
+                "country": site_country,
+                "location": site.location if site else None,
+                "language": site_language,
+                "description": site.description if site else None,
+                "server_header": site.server_header if site else None,
+                "server_vendor": site.server_vendor if site else None,
+                "hosting_provider": site.hosting_provider if site else None,
+                "ip_address": site.ip_address if site else None,
+                "technology_stack_summary": site.technology_stack_summary if site else None,
+                "category_url_pattern": site.category_url_pattern if site else None,
+                "num_pages_to_scrape": site.num_pages_to_scrape if site else None,
+                "status": site.status if site else None,
+                "active": site.active if site else None,
+                "notes": site.notes if site else None,
+                "preferred_scraper_type": site.preferred_scraper_type if site else None,
+                "uses_javascript": site.uses_javascript if site else None,
+                "technologies": technologies,
+                "scrape_strategy": {
+                    "scraper_engine": strategy.scraper_engine if strategy else None,
+                    "fallback_engine_chain": strategy.fallback_engine_chain if strategy else None,
+                    "content_parser": strategy.content_parser if strategy else None,
+                    "browser_automation_tool": strategy.browser_automation_tool if strategy else None,
+                    "rendering_required": strategy.rendering_required if strategy else None,
+                    "requires_proxy": strategy.requires_proxy if strategy else None,
+                    "proxy_region": strategy.proxy_region if strategy else None,
+                    "login_required": strategy.login_required if strategy else None,
+                    "auth_strategy": strategy.auth_strategy if strategy else None,
+                    "anti_bot_protection": strategy.anti_bot_protection if strategy else None,
+                    "blocking_signals": strategy.blocking_signals if strategy else None,
+                    "bypass_techniques": strategy.bypass_techniques if strategy else None,
+                    "request_headers": strategy.request_headers if strategy else None,
+                    "cookie_preset": strategy.cookie_preset if strategy else None,
+                    "rate_limit_per_minute": strategy.rate_limit_per_minute if strategy else None,
+                    "notes": strategy.notes if strategy else None,
+                },
+            },
         }
         
         return result
@@ -121,7 +195,7 @@ class JSONExporter:
     
     def _write_json(
         self,
-        data: List[Dict[str, Any]],
+        data,
         overwrite: bool
     ) -> None:
         """Write JSON data to file."""
@@ -135,6 +209,30 @@ class JSONExporter:
                 ensure_ascii=self.ensure_ascii,
                 default=str
             )
+
+    def export_run_payload(
+        self,
+        records: List[Dict[str, Any]],
+        run_metadata: Dict[str, Any],
+        overwrite: bool = True
+    ) -> int:
+        """
+        Export a structured run payload.
+
+        Output format:
+        {
+          "run_metadata": {...},
+          "record_count": N,
+          "records": [...]
+        }
+        """
+        payload = {
+            "run_metadata": run_metadata,
+            "record_count": len(records),
+            "records": records,
+        }
+        self._write_json(payload, overwrite=overwrite)
+        return len(records)
     
     def append_articles(
         self,

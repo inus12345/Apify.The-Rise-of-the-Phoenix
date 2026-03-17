@@ -232,7 +232,6 @@ class SelectorParser:
         
         # Common date patterns
         import re
-        from datetime import datetime
         
         patterns = [
             r"(\d{4}-\d{2}-\d{2})",           # YYYY-MM-DD

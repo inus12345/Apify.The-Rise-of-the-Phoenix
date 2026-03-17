@@ -1,5 +1,5 @@
 """Selenium-based fallback scraper for JavaScript-heavy sites."""
-from typing import List, Dict, Optional
+from typing import List, Optional
 import time
 
 from selenium import webdriver
@@ -13,7 +13,7 @@ class SeleniumScraper:
     """
     Selenium-based scraper for sites requiring JavaScript rendering.
     
-    Used as fallback when the HTTPX/BeautifulSoup scraper fails or
+    Used as final fallback when higher-priority backends fail or
     when a site requires dynamic content loading.
     """
     

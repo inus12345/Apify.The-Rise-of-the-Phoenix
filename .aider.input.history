@@ -1,9 +1,0 @@
-
-# 2026-03-07 17:40:29.590822
-+N
-
-# 2026-03-07 17:40:33.425599
-+D
-
-# 2026-03-07 17:43:25.615194
-+Can you look in the folder Webscraper. It is a webscraper that is used to scrape news sites. Look at it and develop a new webscraper that can scrape news websites. Make custom tweaks and settings in sqllite db that tracks the different websites it can scrape, the categories and pages of those categories. I need a mode that scrapes the latest articles and then a mode that scrapes historically. I will systematically want to add more news sites and blogs that are publically available. Please start with 10 news site and use python scraling as the basis of the scraper

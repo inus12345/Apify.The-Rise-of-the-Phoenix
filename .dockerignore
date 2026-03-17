@@ -1,0 +1,14 @@
+.git
+.gitignore
+.pytest_cache
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
+*.log
+.venv/
+venv/
+data/
+OUTPUT.json
+INPUT.json

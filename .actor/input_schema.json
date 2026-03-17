@@ -1,0 +1,162 @@
+{
+  "title": "Rise of the Phoenix Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "mode": {
+      "title": "Mode",
+      "type": "string",
+      "description": "Scrape mode.",
+      "default": "current",
+      "enum": [
+        "current",
+        "historic",
+        "historical"
+      ],
+      "editor": "select"
+    },
+    "story_batch_size": {
+      "title": "Story Batch Size",
+      "type": "integer",
+      "description": "Maximum number of stories emitted in this run.",
+      "default": 200,
+      "minimum": 1
+    },
+    "countries": {
+      "title": "Countries",
+      "type": "array",
+      "description": "Only scrape websites where country/location matches one of these values.",
+      "items": {
+        "type": "string"
+      },
+      "editor": "stringList"
+    },
+    "site_names": {
+      "title": "Site Names",
+      "type": "array",
+      "description": "Optional exact site name filters.",
+      "items": {
+        "type": "string"
+      },
+      "editor": "stringList"
+    },
+    "site_urls": {
+      "title": "Site URLs",
+      "type": "array",
+      "description": "Optional exact site URL filters.",
+      "items": {
+        "type": "string"
+      },
+      "editor": "stringList"
+    },
+    "limit": {
+      "title": "Site Limit",
+      "type": "integer",
+      "description": "Maximum number of sites to process.",
+      "minimum": 1
+    },
+    "default_site_limit": {
+      "title": "Default Site Limit",
+      "type": "integer",
+      "description": "Fallback site cap used when limit/site filters are omitted.",
+      "default": 25,
+      "minimum": 1
+    },
+    "enforce_safe_site_limit": {
+      "title": "Enforce Safe Site Limit",
+      "type": "boolean",
+      "description": "When true, actor applies default_site_limit for broad runs without filters.",
+      "default": true
+    },
+    "offset": {
+      "title": "Site Offset",
+      "type": "integer",
+      "description": "Start offset when paging through configured sites.",
+      "default": 0,
+      "minimum": 0
+    },
+    "start_page": {
+      "title": "Start Page",
+      "type": "integer",
+      "default": 1,
+      "minimum": 1
+    },
+    "end_page": {
+      "title": "End Page",
+      "type": "integer",
+      "minimum": 1
+    },
+    "max_pages": {
+      "title": "Max Pages",
+      "type": "integer",
+      "minimum": 1,
+      "description": "Per-site page budget. Historical runs are capped unless allow_deep_historical=true."
+    },
+    "chunk_id": {
+      "title": "Chunk ID",
+      "type": "string",
+      "description": "Optional external chunk identifier for run bookkeeping."
+    },
+    "cutoff_date": {
+      "title": "Cutoff Date",
+      "type": "string",
+      "description": "Optional ISO datetime or YYYY-MM-DD cutoff for historical mode."
+    },
+    "allow_deep_historical": {
+      "title": "Allow Deep Historical",
+      "type": "boolean",
+      "default": false,
+      "description": "Disable actor safety cap for historical max_pages."
+    },
+    "sync_first": {
+      "title": "Sync Catalog First",
+      "type": "boolean",
+      "default": true,
+      "description": "Upsert website catalog from YAML before scraping."
+    },
+    "rate_limit": {
+      "title": "Enable Rate Limit",
+      "type": "boolean",
+      "default": true
+    },
+    "push_to_dataset": {
+      "title": "Push to Apify Dataset",
+      "type": "boolean",
+      "default": true,
+      "description": "Push records to APIFY_DEFAULT_DATASET_ID using APIFY_TOKEN."
+    },
+    "include_records_in_output": {
+      "title": "Include Records in OUTPUT",
+      "type": "boolean",
+      "default": true,
+      "description": "When false, OUTPUT.json keeps metadata/counts but omits full records array."
+    },
+    "apify_dataset_chunk_size": {
+      "title": "Dataset Chunk Size",
+      "type": "integer",
+      "default": 100,
+      "minimum": 1
+    },
+    "apify_dataset_timeout_seconds": {
+      "title": "Dataset Timeout (seconds)",
+      "type": "integer",
+      "default": 60,
+      "minimum": 5
+    },
+    "apify_dataset_clean_start": {
+      "title": "Clean Dataset on First Push",
+      "type": "boolean",
+      "default": false
+    },
+    "output_json": {
+      "title": "Local Output JSON Path",
+      "type": "string",
+      "description": "Optional local path for run payload. OUTPUT.json is always written for actor output."
+    },
+    "config_path": {
+      "title": "Config Path",
+      "type": "string",
+      "default": "news_scraper/config/sites_config.yaml"
+    }
+  }
+}

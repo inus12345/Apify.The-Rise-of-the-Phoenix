@@ -132,7 +132,7 @@ class RateLimiter:
             if self.max_requests_per_minute is not None:
                 self._requests_minute[domain].append(now)
             
-            if self._max_requests_per_hour is not None:  # Bug fix: should be self.max_requests_per_hour
+            if self.max_requests_per_hour is not None:
                 self._requests_hour[domain].append(now)
         
         return 0.0

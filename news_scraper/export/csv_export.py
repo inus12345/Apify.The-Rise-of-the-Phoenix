@@ -1,5 +1,5 @@
 """CSV exporter for scraped article data."""
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 from pathlib import Path
 import csv
 
@@ -12,16 +12,26 @@ class CSVExporter:
     DEFAULT_FIELDS = [
         "id",
         "url",
+        "canonical_url",
         "title",
         "body",
         "authors",
+        "section",
+        "tags",
         "date_publish",
+        "scrape_date",
         "date_download",
         "description",
         "image_url",
+        "image_links",
+        "extra_links",
+        "word_count",
+        "reading_time_minutes",
+        "content_hash",
         "source_domain",
         "language",
         "scrape_status",
+        "scraper_engine_used",
     ]
     
     def __init__(
@@ -106,7 +116,8 @@ class CSVExporter:
             elif isinstance(value, list):
                 row[field] = "|".join(str(v) for v in value)
             elif isinstance(value, dict):
-                row[field] = str(value)
+                import json
+                row[field] = json.dumps(value, ensure_ascii=False)
             else:
                 row[field] = value
         

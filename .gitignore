@@ -1,0 +1,24 @@
+# OS files
+.DS_Store
+
+# Python cache/build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local envs
+.venv/
+venv/
+
+# Local tool history/state
+.aider.*
+
+# Runtime outputs
+data/exports/
+data/reports/
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/*.log
+OUTPUT.json
+INPUT.json

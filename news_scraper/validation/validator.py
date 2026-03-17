@@ -1,11 +1,12 @@
 """Site validator for health-checking configured sites."""
 from typing import List, Dict, Optional, Any
 from datetime import datetime
-import hashlib
 from dataclasses import dataclass, field
+import time
 import httpx
+from bs4 import BeautifulSoup
 
-from ..database.models import SiteConfig, ValidationRun, ScrapedArticle
+from ..database.session import get_session
 from ..core.config import settings, get_logger
 
 
@@ -46,26 +47,40 @@ class SiteValidator:
     def __init__(self):
         self.http_client: Optional[httpx.Client] = None
         self.timeout = settings.SCRAPING_TIMEOUT
-    
-    def __enter__(self):
-        """Context manager entry."""
+
+    def _build_http_client(self) -> httpx.Client:
+        """Create an HTTP client with standard scraper defaults."""
         headers = {"User-Agent": settings.USER_AGENT}
-        
-        self.http_client = httpx.Client(
+        return httpx.Client(
             headers=headers,
             timeout=self.timeout,
             follow_redirects=True,
-            verify=settings.VERIFY_SSL
+            verify=settings.VERIFY_SSL,
         )
+    
+    def __enter__(self):
+        """Context manager entry."""
+        self.http_client = self._build_http_client()
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager exit."""
         if self.http_client:
             self.http_client.close()
+            self.http_client = None
     
     def _fetch_page(self, url: str) -> Optional[str]:
         """Fetch a page with retry logic."""
+        if self.http_client is None:
+            with self._build_http_client() as temp_client:
+                try:
+                    response = temp_client.get(url)
+                    response.raise_for_status()
+                    return response.text
+                except Exception as e:
+                    logger.error(f"Failed to fetch {url}: {e}")
+                    return None
+
         try:
             response = self.http_client.get(url)
             response.raise_for_status()
@@ -92,9 +107,9 @@ class SiteValidator:
         
         return empty_fields
     
-    def _check_pagination(self, html: str, site_config: SiteConfig) -> bool:
+    def _check_pagination(self, html: str, site_config) -> bool:
         """Check if pagination indicators are present."""
-        soup = __import__("bs4", fromlist=["BeautifulSoup"]).BeautifulSoup(html, "html.parser")
+        soup = BeautifulSoup(html, "html.parser")
         
         # Check for common pagination indicators
         pagination_patterns = [
@@ -144,7 +159,7 @@ class SiteValidator:
         
         return min(score, 100)
     
-    def _suggest_selector_updates(self, failure_reason: str, site_config: SiteConfig) -> List[Dict[str, str]]:
+    def _suggest_selector_updates(self, failure_reason: str, site_config) -> List[Dict[str, str]]:
         """Generate suggestions for selector updates."""
         suggestions = []
         
@@ -174,7 +189,7 @@ class SiteValidator:
         
         return suggestions
     
-    def validate_site(self, site_config: SiteConfig) -> ValidationResult:
+    def validate_site(self, site_config) -> ValidationResult:
         """
         Validate a single site by fetching sample pages and checking extraction.
         
@@ -205,7 +220,7 @@ class SiteValidator:
                     sample_extracted_values={"error": "Page fetch failed"}
                 )
             
-            soup = __import__("bs4", fromlist=["BeautifulSoup"]).BeautifulSoup(html, "html.parser")
+            soup = BeautifulSoup(html, "html.parser")
             
             # Check for loading/placeholder content
             body_text = soup.get_text()
@@ -316,31 +331,39 @@ class SiteValidator:
         """Validate all configured sites."""
         from ..scraping.config_registry import SiteConfigRegistry
         
-        registry = SiteConfigRegistry(__import__("sqlalchemy").create_engine(settings.DATABASE_URL))
-        sites = registry.list_sites(active_only=True)
-        
-        results = []
-        for site in sites:
-            try:
-                result = self.validate_site(site)
-                results.append(result)
-                
-                # Update last_validation_time in DB if validation succeeded or needed review
-                if result.status in ["pass", "needs_review"]:
-                    __import__("sqlalchemy").sessionmaker(bind=settings.engine).query(SiteConfig).filter(
-                        SiteConfig.id == site.id
-                    ).update({"last_validation_time": datetime.now()})
-                
-            except Exception as e:
-                logger.error(f"Error validating site {site.name}: {e}")
-            
-            # Add delay between validations
-            time.sleep(1)
-        
-        return results
+        session_gen = get_session()
+        db = next(session_gen)
+
+        try:
+            registry = SiteConfigRegistry(db)
+            sites = registry.list_sites(active_only=True)
+
+            results = []
+            for site in sites:
+                try:
+                    result = self.validate_site(site)
+                    results.append(result)
+
+                    # Update last_validation_time in DB if validation succeeded or needed review
+                    if result.status in ["pass", "needs_review"]:
+                        from ..database.models import SiteConfig as SiteConfigModel
+                        db.query(SiteConfigModel).filter(
+                            SiteConfigModel.id == site.id
+                        ).update({"last_validation_time": datetime.now()})
+                        db.commit()
+
+                except Exception as e:
+                    logger.error(f"Error validating site {site.name}: {e}")
+
+                # Add delay between validations
+                time.sleep(1)
+
+            return results
+        finally:
+            db.close()
 
 
-def check_site_health(site_config: SiteConfig, enable_llm_validation: bool = False) -> Dict[str, Any]:
+def check_site_health(site_config, enable_llm_validation: bool = False) -> Dict[str, Any]:
     """
     Convenience function to check health of a single site.
     
@@ -351,39 +374,11 @@ def check_site_health(site_config: SiteConfig, enable_llm_validation: bool = Fal
     Returns:
         Dictionary with validation results
     """
-    import time
-    
     validator = SiteValidator()
     
     try:
         result = validator.validate_site(site_config)
-        
-        # Store result in DB if not already recorded today
-        session_gen = __import__("sqlalchemy").sessionmaker(bind=settings.engine)
-        db = session_gen()
-        
-        try:
-            existing = db.query(ValidationRun).filter(
-                ValidationRun.site_name == site_config.name,
-                ValidationRun.completed_at >= datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-            ).first()
-            
-            if not existing or existing.status != result.status:
-                run = ValidationRun(
-                    site_name=site_config.name,
-                    url=site_config.url,
-                    status=result.status,
-                    field_completeness_score=result.field_completeness_score,
-                    sample_extracted_values={k: v for k, v in result.sample_extracted_values.items() if isinstance(v, str)},
-                    failure_reason=result.failure_reason or None,
-                    suggested_selector_updates=str(result.suggested_selector_updates) if result.suggested_selector_updates else None,
-                )
-                db.add(run)
-                db.commit()
-                
-        finally:
-            db.close()
-        
+
         return {
             "site_name": site_config.name,
             "url": site_config.url,

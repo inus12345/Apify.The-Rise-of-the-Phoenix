@@ -1,8 +1,9 @@
 """Site configuration registry for managing website scraping settings."""
 from typing import List, Dict, Optional
-from datetime import datetime
+from urllib.parse import urlparse
 
-from ..database.models import SiteConfig
+from ..database.models import CategoryCrawlState, SiteCategory, SiteConfig, SpiderDiagram, SpiderEdge, SpiderNode
+from ..database.session import get_spider_session
 
 
 class SiteConfigRegistry:
@@ -20,10 +21,19 @@ class SiteConfigRegistry:
         self,
         name: str,
         url: str,
+        domain: Optional[str] = None,
         category_url_pattern: Optional[str] = None,
         num_pages_to_scrape: int = 1,
         active: bool = True,
         uses_javascript: bool = False,
+        country: Optional[str] = None,
+        location: Optional[str] = None,
+        language: str = "en",
+        description: Optional[str] = None,
+        server_header: Optional[str] = None,
+        server_vendor: Optional[str] = None,
+        hosting_provider: Optional[str] = None,
+        technology_stack_summary: Optional[str] = None,
     ) -> SiteConfig:
         """
         Add a new site configuration.
@@ -39,6 +49,9 @@ class SiteConfigRegistry:
         Returns:
             The created SiteConfig object
         """
+        parsed = urlparse(url)
+        resolved_domain = (domain or (parsed.netloc.lower().replace("www.", "") if parsed.netloc else None))
+
         # Check if URL already exists (deduplication)
         existing = self.db.query(SiteConfig).filter(
             SiteConfig.url == url
@@ -50,10 +63,19 @@ class SiteConfigRegistry:
         site_config = SiteConfig(
             name=name,
             url=url,
+            domain=resolved_domain,
             category_url_pattern=category_url_pattern,
             num_pages_to_scrape=num_pages_to_scrape,
             active=active,
             uses_javascript=uses_javascript,
+            country=country,
+            location=location or country,
+            language=language,
+            description=description,
+            server_header=server_header,
+            server_vendor=server_vendor,
+            hosting_provider=hosting_provider,
+            technology_stack_summary=technology_stack_summary,
         )
         
         self.db.add(site_config)
@@ -73,7 +95,7 @@ class SiteConfigRegistry:
     def list_sites(
         self,
         active_only: bool = True,
-        limit: int = 100,
+        limit: Optional[int] = None,
         offset: int = 0
     ) -> List[SiteConfig]:
         """
@@ -90,8 +112,11 @@ class SiteConfigRegistry:
         query = self.db.query(SiteConfig)
         if active_only:
             query = query.filter(SiteConfig.active == True)
-        
-        return query.offset(offset).limit(limit).all()
+
+        query = query.offset(offset)
+        if limit is not None:
+            query = query.limit(limit)
+        return query.all()
     
     def update_site(
         self,
@@ -133,10 +158,44 @@ class SiteConfigRegistry:
         site = self.get_site(site_id)
         if not site:
             return False
-        
-        self.db.delete(site)
-        self.db.commit()
-        return True
+
+        spider_session = next(get_spider_session())
+        try:
+            # Clean up spider/category planning rows in the dedicated spider DB.
+            diagram_ids = [
+                row[0]
+                for row in spider_session.query(SpiderDiagram.id)
+                .filter(SpiderDiagram.site_config_id == site_id)
+                .all()
+            ]
+            if diagram_ids:
+                spider_session.query(SpiderEdge).filter(
+                    SpiderEdge.spider_diagram_id.in_(diagram_ids)
+                ).delete(synchronize_session=False)
+                spider_session.query(SpiderNode).filter(
+                    SpiderNode.spider_diagram_id.in_(diagram_ids)
+                ).delete(synchronize_session=False)
+                spider_session.query(SpiderDiagram).filter(
+                    SpiderDiagram.id.in_(diagram_ids)
+                ).delete(synchronize_session=False)
+
+            spider_session.query(SiteCategory).filter(
+                SiteCategory.site_config_id == site_id
+            ).delete(synchronize_session=False)
+            spider_session.query(CategoryCrawlState).filter(
+                CategoryCrawlState.site_config_id == site_id
+            ).delete(synchronize_session=False)
+
+            self.db.delete(site)
+            self.db.commit()
+            spider_session.commit()
+            return True
+        except Exception:
+            self.db.rollback()
+            spider_session.rollback()
+            raise
+        finally:
+            spider_session.close()
     
     def get_all_sites(self) -> List[Dict]:
         """
@@ -155,6 +214,14 @@ class SiteConfigRegistry:
             "id": site.id,
             "name": site.name,
             "url": site.url,
+            "domain": site.domain,
+            "country": site.country or site.location,
+            "language": site.language,
+            "server_header": site.server_header,
+            "server_vendor": site.server_vendor,
+            "hosting_provider": site.hosting_provider,
+            "technology_stack_summary": site.technology_stack_summary,
+            "preferred_scraper_type": site.preferred_scraper_type,
             "category_url_pattern": site.category_url_pattern,
             "num_pages_to_scrape": site.num_pages_to_scrape,
             "active": site.active,

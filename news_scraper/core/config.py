@@ -63,13 +63,22 @@ class Settings(BaseSettings):
     # Database settings
     DATABASE_URL: str = Field(
         default="sqlite:///./data/scraping.db",
-        description="Database URL (SQLite for MVP, PostgreSQL-ready)"
+        description="Legacy default DB URL. Used as PRIMARY_DATABASE_URL when that is unset.",
+    )
+    PRIMARY_DATABASE_URL: str = Field(
+        default="",
+        description="Primary database for sites/strategy/articles/story data. Falls back to DATABASE_URL when unset.",
+    )
+    SPIDER_DATABASE_URL: str = Field(
+        default="sqlite:///./data/spider_tracking.db",
+        description="Spider planning database for categories/pages/spider diagrams.",
     )
     
     # Scraping settings
     DEFAULT_BATCH_SIZE: int = Field(default=20, ge=1, le=100)
     SCRAPING_TIMEOUT: int = Field(default=30, ge=5, le=300)
     MAX_RETRIES: int = Field(default=3, ge=0, le=10)
+    VERIFY_SSL: bool = Field(default=True)
     
     # User agent for requests
     USER_AGENT: str = Field(

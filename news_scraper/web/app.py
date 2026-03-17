@@ -1,15 +1,12 @@
 """Flask web application for The Rise of the Phoenix news scraper."""
 import os
-from datetime import datetime
+from urllib.parse import urlparse
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
-from tabulate import tabulate
 
 from ..database.session import init_db, get_session
 from ..database.models import SiteConfig, ScrapedArticle
 from ..scraping.config_registry import SiteConfigRegistry, get_default_sites
 from ..scraping.engine import ScraperEngine
-from ..extraction.selector_parser import parse_selectors
-from ..config_templates.templates import SITE_TEMPLATES, create_site_config_from_template
 
 
 def create_app():
@@ -104,6 +101,10 @@ def add_site():
             if not url:
                 flash('URL is required!', 'error')
                 return redirect(url_for('add_site'))
+
+            if not name:
+                parsed = urlparse(url)
+                name = f"{parsed.netloc.replace('www.', '').replace('.', ' ').title()} News"
             
             registry = SiteConfigRegistry(db)
             site = registry.add_site(
@@ -178,7 +179,7 @@ def edit_site(site_id):
             site.active = request.form.get('active') == 'on'
             
             db.commit()
-            flash(f'Site updated successfully!', 'success')
+            flash('Site updated successfully!', 'success')
             return redirect(url_for('view_site', site_id=site.id))
         
         return render_template('edit_site.html', site=site)
@@ -205,7 +206,7 @@ def delete_site(site_id):
         
         registry = SiteConfigRegistry(db)
         if registry.delete_site(site_id):
-            flash(f'Site deleted successfully!', 'success')
+            flash('Site deleted successfully!', 'success')
         else:
             flash('Failed to delete site.', 'error')
     except Exception as e:
@@ -235,8 +236,13 @@ def scrape_site(site_id):
         enable_rate_limiting = request.form.get('rate_limit') != 'off'
         
         with ScraperEngine(enable_rate_limiting=enable_rate_limiting) as engine:
-            stats = engine.scrape_site(site, db, export_csv, export_json,
-                                       enable_rate_limiting=enable_rate_limiting)
+            stats = engine.scrape_site(
+                site_config=site,
+                db_session=db,
+                export_csv=export_csv,
+                export_json=export_json,
+                enable_rate_limiting=enable_rate_limiting,
+            )
         
         flash(f'Scraping complete! Saved {stats["articles_saved"]} articles.', 'success')
         return redirect(url_for('view_site', site_id=site.id))
@@ -298,6 +304,13 @@ def export_sites():
             site_data = {
                 "name": site.name,
                 "url": site.url,
+                "domain": site.domain,
+                "country": site.country or site.location,
+                "language": site.language,
+                "server_header": site.server_header,
+                "server_vendor": site.server_vendor,
+                "hosting_provider": site.hosting_provider,
+                "technology_stack_summary": site.technology_stack_summary,
                 "category_url_pattern": site.category_url_pattern,
                 "num_pages_to_scrape": site.num_pages_to_scrape,
                 "active": site.active,
