@@ -1,0 +1,163 @@
+version: 1
+
+sites:
+  - name: BBC News
+    url: https://www.bbc.com/news
+    country: United Kingdom
+    language: en
+    description: Public broadcaster with broad global and local coverage.
+    active: true
+    num_pages_to_scrape: 4
+    technologies:
+      - name: Fastly
+        type: cdn
+      - name: Akamai Bot Manager
+        type: waf
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      content_parser: beautifulsoup
+      rendering_required: false
+      anti_bot_protection: akamai
+      rate_limit_per_minute: 30
+    categories:
+      - name: World
+        url: https://www.bbc.com/news/world
+        max_pages: 4
+      - name: Business
+        url: https://www.bbc.com/news/business
+        max_pages: 3
+      - name: Technology
+        url: https://www.bbc.com/news/technology
+        max_pages: 3
+
+  - name: Reuters
+    url: https://www.reuters.com/world/
+    country: United States
+    language: en
+    description: Global wire service with high publication frequency.
+    active: true
+    num_pages_to_scrape: 5
+    technologies:
+      - name: Cloudflare
+        type: cdn
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      content_parser: beautifulsoup
+      rendering_required: true
+      requires_proxy: true
+      proxy_region: us
+      anti_bot_protection: cloudflare
+      blocking_signals: ["401 shield page", "access denied challenge"]
+      bypass_techniques: ["residential_proxies", "browser_fingerprint", "session_cookies"]
+      notes: Direct requests frequently return anti-bot shield pages without residential proxying.
+      rate_limit_per_minute: 25
+    categories:
+      - name: World
+        url: https://www.reuters.com/world/
+        max_pages: 5
+      - name: Business
+        url: https://www.reuters.com/business/
+        max_pages: 4
+      - name: Technology
+        url: https://www.reuters.com/technology/
+        max_pages: 4
+
+  - name: The Guardian
+    url: https://www.theguardian.com/international
+    country: United Kingdom
+    language: en
+    description: UK publication with strong global and opinion sections.
+    active: true
+    num_pages_to_scrape: 4
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      content_parser: beautifulsoup
+      rendering_required: false
+      rate_limit_per_minute: 25
+    categories:
+      - name: World
+        url: https://www.theguardian.com/world
+        max_pages: 4
+      - name: Politics
+        url: https://www.theguardian.com/politics
+        max_pages: 3
+      - name: Technology
+        url: https://www.theguardian.com/uk/technology
+        max_pages: 3
+
+  - name: AP News
+    url: https://apnews.com/
+    country: United States
+    language: en
+    description: Major US and international wire-style reporting.
+    active: true
+    num_pages_to_scrape: 4
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      content_parser: beautifulsoup
+      rendering_required: false
+      rate_limit_per_minute: 25
+    categories:
+      - name: World
+        url: https://apnews.com/world-news
+        max_pages: 4
+      - name: Politics
+        url: https://apnews.com/politics
+        max_pages: 3
+      - name: Technology
+        url: https://apnews.com/technology
+        max_pages: 3
+
+  - name: CNN
+    url: https://edition.cnn.com/world
+    country: United States
+    language: en
+    description: Broad category coverage and frequent homepage updates.
+    active: true
+    num_pages_to_scrape: 3
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      browser_automation_tool: pydoll
+      content_parser: beautifulsoup
+      rendering_required: true
+      anti_bot_protection: moderate
+      rate_limit_per_minute: 15
+    categories:
+      - name: World
+        url: https://edition.cnn.com/world
+        max_pages: 3
+      - name: Business
+        url: https://edition.cnn.com/business
+        max_pages: 3
+
+  - name: New York Times
+    url: https://www.nytimes.com/section/world
+    country: United States
+    language: en
+    description: Premium newspaper with strong world/business/tech verticals.
+    active: true
+    num_pages_to_scrape: 3
+    scrape_strategy:
+      scraper_engine: scrapling
+      fallback_engine_chain: [pydoll, selenium]
+      browser_automation_tool: pydoll
+      content_parser: beautifulsoup
+      rendering_required: true
+      login_required: false
+      anti_bot_protection: moderate
+      rate_limit_per_minute: 12
+    categories:
+      - name: World
+        url: https://www.nytimes.com/section/world
+        max_pages: 3
+      - name: Business
+        url: https://www.nytimes.com/section/business
+        max_pages: 3
+      - name: Technology
+        url: https://www.nytimes.com/section/technology
+        max_pages: 3
