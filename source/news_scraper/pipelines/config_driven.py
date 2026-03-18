@@ -13,9 +13,7 @@ from ..config.loader import load_config
 from ..assessment.structure_tracker import capture_site_structure_snapshot
 from ..database.session import get_spider_session
 from ..database.models import (
-    ArticleUrlLedger,
     CatalogChangeLog,
-    CategoryCrawlState,
     ScrapeStrategy,
     SiteCategory,
     SiteConfig,
@@ -530,9 +528,16 @@ def run_config_scrape(
     sync_first: bool = True,
     spider_session: Optional[Session] = None,
     story_batch_size: int = 200,
+    store_in_db: bool = False,  # Default: DO NOT store scraped articles in DB - JSON output only
 ) -> Dict[str, Any]:
     """
     Execute a config-driven scrape run and persist structured JSON output.
+
+    IMPORTANT: scraped article data is stored in JSON output only, NOT in this database.
+    ETL processes should handle persistence to target databases (PostgreSQL, etc.).
+
+    Args:
+        store_in_db: If True, articles are inserted into scraped_articles table (deprecated - set to False)
     """
     started_at = datetime.now()
     normalized_mode = _normalize_mode(mode)
@@ -631,6 +636,7 @@ def run_config_scrape(
                     category_targets=category_targets or None,
                     chunk_id=chunk_id,
                     enable_rate_limiting=enable_rate_limiting,
+                    store_in_db=store_in_db,  # Only store if explicitly requested (deprecated behavior)
                     max_new_articles=remaining_records,
                 )
                 site_records = stats.get("records", [])
@@ -649,18 +655,16 @@ def run_config_scrape(
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         exporter = JSONExporter(str(output_path))
-        ledger_count = db_session.query(ArticleUrlLedger).count()
-        category_state_count = spider_session.query(CategoryCrawlState).count()
+        
         summary = {
             "sites_targeted": len(sites),
             "sites_processed": len(results),
             "sites_with_errors": sum(1 for r in results if r.get("errors")),
             "articles_found": sum(r.get("articles_found", 0) for r in results),
-            "articles_saved": sum(r.get("articles_saved", 0) for r in results),
+            "articles_saved": 0,  # NOT stored in SQLite - JSON output only (ETL handles persistence)
             "articles_skipped": sum(r.get("articles_skipped", 0) for r in results),
             "records_exported": len(records),
-            "tracked_urls_total": ledger_count,
-            "category_states_total": category_state_count,
+            "stored_in_db": False,  # Articles are JSON-only, NOT persisted to this DB
             "story_batch_size": batch_size if batch_size > 0 else None,
             "batch_limit_reached": (remaining_records is not None and remaining_records <= 0),
         }
