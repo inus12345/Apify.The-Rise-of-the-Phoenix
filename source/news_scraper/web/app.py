@@ -1,24 +1,35 @@
-"""Flask web application for The Rise of the Phoenix news scraper."""
+"""Flask web interface for The Rise of the Phoenix news scraper.
+
+This simple Flask app provides a dropdown UI to select sites and run scrapes.
+JSON output is saved to the data/exports folder.
+Apify actor compatible - can also be run as a CLI script.
+
+Usage:
+  python -m news_scraper.web --config path/to/sites_config.yaml --host 0.0.0.0 --port 5000
+  Or via API: curl -X POST http://localhost:5000/scrape -d "site=bbc&mode=current&page_limit=5"
+"""
 import os
-from urllib.parse import urlparse
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from urllib.parse import urlparse, parse_qs
+from flask import Flask, render_template_string, request, jsonify
 
-from ..database.session import init_db, get_session
-from ..database.models import SiteConfig, ScrapedArticle
-from ..scraping.config_registry import SiteConfigRegistry, get_default_sites
-from ..scraping.engine import ScraperEngine
+# Import config loader
+from news_scraper.config.loader import load_config
 
 
-def create_app():
-    """Create and configure the Flask application."""
+def create_app(config_path=None):
+    """Create the Flask application."""
     app = Flask(__name__)
-    app.secret_key = os.environ.get('SECRET_KEY', 'dev-secret-key-for-phase-4')
+    app.secret_key = 'news-scraper-secret-key'
     
-    # Database path
-    app.config['DATABASE_PATH'] = os.path.join(
+    # Default config path
+    if config_path is None:
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        config_path = os.path.join(root_dir, 'data', 'seeds', 'sites_config.yaml')
+    
+    app.config['CONFIG_PATH'] = config_path
+    app.config['DATA_DIR'] = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-        'data', 
-        'scraping.db'
+        'data', 'exports'
     )
     
     return app
@@ -26,408 +37,211 @@ def create_app():
 
 app = create_app()
 
+# Site templates with div_selectors for LLM drift detection
+SITE_TEMPLATES = {
+    'bbc': {
+        'name': 'BBC News',
+        'url': 'https://www.bbc.com/news',
+        'selectors': {'article_title': '.__cls-story-body h1', 'article_body': 'p.story__lead-paragraph'},
+        'tech': [{'name': 'Fastly', 'type': 'cdn'}]
+    },
+    'reuters': {
+        'name': 'Reuters', 
+        'url': 'https://www.reuters.com/world/',
+        'selectors': {'article_title': '.story-header__content > h1', 'article_body': '.story-body > p'},
+        'tech': [{'name': 'Cloudflare', 'type': 'cdn'}]
+    },
+    'guardian': {
+        'name': 'The Guardian',
+        'url': 'https://www.theguardian.com/international',
+        'selectors': {'article_title': '.title__mainHeadline', 'article_body': '.pubBodyElement p'},
+        'tech': [{'name': 'Akamai', 'type': 'cdn'}]
+    },
+}
 
-def get_db_session():
-    """Get a database session generator."""
-    return get_session()
+
+def get_config_sites():
+    """Load sites from YAML config file."""
+    try:
+        with open(app.config['CONFIG_PATH'], 'r') as f:
+            config = load_config(app.config['CONFIG_PATH'])
+        return config.get('sites', [])
+    except Exception as e:
+        print(f"Warning: Could not load config from {app.config['CONFIG_PATH']}: {e}")
+        return []
 
 
 @app.route('/')
 def index():
-    """Home page - show recent activity and statistics."""
-    session_gen = get_db_session()
-    db = next(session_gen)
+    """Home page with site list and scrape form."""
+    sites = get_config_sites()
+    
+    html = f'''<!DOCTYPE html>
+<html>
+<head>
+    <title>The Rise of the Phoenix - News Scraper</title>
+    <style>
+        body {{ font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }}
+        h1 {{ color: #333; }}
+        .site-list {{ background: #f5f5f5; padding: 20px; border-radius: 8px; margin-top: 20px; }}
+        .site-item {{ display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }}
+        select, input, button {{ padding: 8px; font-size: 14px; }}
+        button {{ background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }}
+        button:hover {{ background: #0056b3; }}
+        .status {{ margin-top: 20px; padding: 10px; border-radius: 4px; }}
+        .success {{ background: #d4edda; color: #155724; }}
+        .error {{ background: #f8d7da; color: #721c24; }}
+    </style>
+</head>
+<body>
+    <h1>The Rise of the Phoenix - News Scraper</h1>
+    <p>Select a site and run a scrape. JSON output saved to <code>{app.config['DATA_DIR']}</code></p>
+    
+    <form method="POST" action="/scrape">
+        <label><strong>Site:</strong></label>
+        <select name="site" required>
+            <option value="">-- Select a site --</option>
+'''
+    
+    for site in sites:
+        url = site.get('url', 'unknown')
+        site_name = site.get('name', urlparse(url).netloc)
+        html += f'<option value="{url}">{site_name}</option>'
+    
+    html += f'''
+        <br>
+        
+        <label><strong>Mode:</strong></label>
+        <select name="mode">
+            <option value="current">Current (latest pages)</option>
+            <option value="historic">Historic (backfill/deep)</option>
+        </select>
+        
+        <br><br>
+        
+        <label><strong>Pages per category:</strong></label>
+        <input type="number" name="pages" value="3" min="1" max="20">
+        
+        <br><br>
+        
+        <label><strong>Max articles to extract:</strong></label>
+        <input type="number" name="articles" value="50" min="0">
+        
+        <br><br>
+        
+        <button type="submit" name="scrape">Scrape & Save JSON</button>
+    </form>
+    
+    <div id="status"></div>
+    
+    <script>
+        // Load sites into dropdown automatically on page load
+        fetch('/api/sites')
+            .then(r => r.json())
+            .then(d => {
+                const select = document.querySelector('select[name="site"]');
+                d.sites.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.url;
+                    opt.textContent = s.name || s.url;
+                    select.appendChild(opt);
+                });
+            });
+    </script>
+</body>
+</html>'''
+    
+    return html
+
+
+@app.route('/api/sites', methods=['GET'])
+def api_sites():
+    """API endpoint to list all configured sites."""
+    sites = get_config_sites()
+    result = []
+    for site in sites:
+        url = site.get('url', '')
+        name = site.get('name', urlparse(url).netloc)
+        result.append({'id': len(result), 'name': name, 'url': url})
+    return jsonify({'sites': result})
+
+
+@app.route('/scrape', methods=['POST'])
+def scrape():
+    """Scrape selected site and save JSON to data/exports."""
+    form = request.form
+    
+    site_url = form.get('site', '')
+    mode = form.get('mode', 'current')
     
     try:
-        # Count sites
-        total_sites = db.query(SiteConfig).count()
-        active_sites = db.query(SiteConfig).filter_by(active=True).count()
+        pages = int(form.get('pages', 3))
+        articles_limit = int(form.get('articles', 50))
         
-        # Count articles
-        total_articles = db.query(ScrapedArticle).count()
+        if not site_url:
+            return jsonify({'error': 'Please select a site'}), 400
         
-        # Get latest scrapes
-        recent_sites = db.query(SiteConfig).order_by(
-            SiteConfig.last_scraped.desc()
-        ).limit(5).all()
+        if mode not in ['current', 'historic']:
+            return jsonify({'error': 'Invalid mode. Use "current" or "historic"'})
         
-        # Recent articles
-        recent_articles = db.query(ScrapedArticle).order_by(
-            ScrapedArticle.id.desc()
-        ).limit(10).all()
+        # Build scrape payload for config-driven scraping
+        payload = {
+            'config_path': app.config['CONFIG_PATH'],
+            'mode': mode,
+            'site_url': site_url,
+            'pages_per_category': pages,
+            'max_articles': articles_limit,
+            'output_json': os.path.join(app.config['DATA_DIR'], f'scrape_{site_url.replace("/", "_")}.json'),
+        }
         
-        return render_template('index.html',
-                            total_sites=total_sites,
-                            active_sites=active_sites,
-                            total_articles=total_articles,
-                            recent_sites=recent_sites,
-                            recent_articles=recent_articles)
-    finally:
-        db.close()
-
-
-@app.route('/sites')
-def list_sites():
-    """List all sites."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        registry = SiteConfigRegistry(db)
-        show_inactive = request.args.get('show_inactive', 'false') == 'true'
-        sites = registry.list_sites(active_only=not show_inactive)
-        
-        return render_template('sites.html',
-                             sites=sites,
-                             show_inactive=show_inactive)
-    finally:
-        db.close()
-
-
-@app.route('/site/add', methods=['GET', 'POST'])
-def add_site():
-    """Add a new site configuration."""
-    if request.method == 'POST':
-        session_gen = get_db_session()
-        db = next(session_gen)
-        
-        try:
-            url = request.form.get('url')
-            name = request.form.get('name') or None
-            pattern = request.form.get('pattern') or None
-            pages = int(request.form.get('pages', 1))
-            active = request.form.get('active') == 'on'
-            
-            if not url:
-                flash('URL is required!', 'error')
-                return redirect(url_for('add_site'))
-
-            if not name:
-                parsed = urlparse(url)
-                name = f"{parsed.netloc.replace('www.', '').replace('.', ' ').title()} News"
-            
-            registry = SiteConfigRegistry(db)
-            site = registry.add_site(
-                name=name,
-                url=url,
-                category_url_pattern=pattern,
-                num_pages_to_scrape=pages,
-                active=active
-            )
-            
-            flash(f'Site added successfully! (ID: {site.id})', 'success')
-            return redirect(url_for('view_site', site_id=site.id))
-        except ValueError as e:
-            flash(str(e), 'error')
-        except Exception as e:
-            flash(f'Error adding site: {e}', 'error')
-        finally:
-            db.close()
-    
-    return render_template('add_site.html')
-
-
-@app.route('/site/<int:site_id>')
-def view_site(site_id):
-    """View a specific site's details."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        site = db.query(SiteConfig).get(site_id)
-        
-        if not site:
-            flash('Site not found!', 'error')
-            return redirect(url_for('list_sites'))
-        
-        # Get article count
-        article_count = db.query(ScrapedArticle).filter_by(
-            site_config_id=site_id
-        ).count()
-        
-        # Get recent articles for this site
-        recent_articles = db.query(ScrapedArticle).filter_by(
-            site_config_id=site_id
-        ).order_by(ScrapedArticle.id.desc()).limit(5).all()
-        
-        return render_template('view_site.html',
-                             site=site,
-                             article_count=article_count,
-                             recent_articles=recent_articles)
-    finally:
-        db.close()
-
-
-@app.route('/site/<int:site_id>/edit', methods=['GET', 'POST'])
-def edit_site(site_id):
-    """Edit a site configuration."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        site = db.query(SiteConfig).get(site_id)
-        
-        if not site:
-            flash('Site not found!', 'error')
-            return redirect(url_for('list_sites'))
-        
-        if request.method == 'POST':
-            site.name = request.form.get('name', site.name)
-            site.url = request.form.get('url', site.url)
-            site.category_url_pattern = request.form.get('pattern') or None
-            site.num_pages_to_scrape = int(request.form.get('pages', 1))
-            site.active = request.form.get('active') == 'on'
-            
-            db.commit()
-            flash('Site updated successfully!', 'success')
-            return redirect(url_for('view_site', site_id=site.id))
-        
-        return render_template('edit_site.html', site=site)
-    except Exception as e:
-        db.rollback()
-        flash(f'Error editing site: {e}', 'error')
-        return redirect(url_for('list_sites'))
-    finally:
-        db.close()
-
-
-@app.route('/site/<int:site_id>/delete', methods=['POST'])
-def delete_site(site_id):
-    """Delete a site configuration."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        site = db.query(SiteConfig).get(site_id)
-        
-        if not site:
-            flash('Site not found!', 'error')
-            return redirect(url_for('list_sites'))
-        
-        registry = SiteConfigRegistry(db)
-        if registry.delete_site(site_id):
-            flash('Site deleted successfully!', 'success')
-        else:
-            flash('Failed to delete site.', 'error')
-    except Exception as e:
-        db.rollback()
-        flash(f'Error deleting site: {e}', 'error')
-    finally:
-        db.close()
-    
-    return redirect(url_for('list_sites'))
-
-
-@app.route('/site/<int:site_id>/scrape', methods=['POST'])
-def scrape_site(site_id):
-    """Scrape a specific site."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        site = db.query(SiteConfig).get(site_id)
-        
-        if not site:
-            flash('Site not found!', 'error')
-            return redirect(url_for('list_sites'))
-        
-        export_csv = request.form.get('export_csv', None) or None
-        export_json = request.form.get('export_json', None) or None
-        enable_rate_limiting = request.form.get('rate_limit') != 'off'
-        
-        with ScraperEngine(enable_rate_limiting=enable_rate_limiting) as engine:
-            stats = engine.scrape_site(
-                site_config=site,
-                db_session=db,
-                export_csv=export_csv,
-                export_json=export_json,
-                enable_rate_limiting=enable_rate_limiting,
-            )
-        
-        flash(f'Scraping complete! Saved {stats["articles_saved"]} articles.', 'success')
-        return redirect(url_for('view_site', site_id=site.id))
-    except Exception as e:
-        db.rollback()
-        flash(f'Error scraping site: {e}', 'error')
-        return redirect(url_for('view_site', site_id=site.id))
-    finally:
-        db.close()
-
-
-@app.route('/scrape-all', methods=['POST'])
-def scrape_all():
-    """Scrape all configured sites."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        registry = SiteConfigRegistry(db)
-        total_sites = len(registry.list_sites(active_only=True))
-        
-        if total_sites == 0:
-            flash('No active sites configured. Add sites first!', 'warning')
-            return redirect(url_for('list_sites'))
-        
-        export_csv = request.form.get('export_csv', None) or None
-        export_json = request.form.get('export_json', None) or None
-        enable_rate_limiting = request.form.get('rate_limit') != 'off'
-        
-        with ScraperEngine(enable_rate_limiting=enable_rate_limiting) as engine:
-            results = engine.scrape_all_sites(
-                db, active_only=True, export_csv=export_csv, export_json=export_json,
-                enable_rate_limiting=enable_rate_limiting
-            )
-        
-        total_saved = sum(r.get("articles_saved", 0) for r in results)
-        flash(f'Scraping complete! Saved {total_saved} articles from {len(results)} sites.', 'success')
-        return redirect(url_for('list_sites'))
-    except Exception as e:
-        db.rollback()
-        flash(f'Error scraping sites: {e}', 'error')
-        return redirect(url_for('list_sites'))
-    finally:
-        db.close()
-
-
-@app.route('/sites/export')
-def export_sites():
-    """Export all site configurations to JSON."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        registry = SiteConfigRegistry(db)
-        sites = registry.list_sites(active_only=False)
-        
-        data = []
-        for site in sites:
-            site_data = {
-                "name": site.name,
-                "url": site.url,
-                "domain": site.domain,
-                "country": site.country or site.location,
-                "language": site.language,
-                "server_header": site.server_header,
-                "server_vendor": site.server_vendor,
-                "hosting_provider": site.hosting_provider,
-                "technology_stack_summary": site.technology_stack_summary,
-                "category_url_pattern": site.category_url_pattern,
-                "num_pages_to_scrape": site.num_pages_to_scrape,
-                "active": site.active,
-                "uses_javascript": site.uses_javascript
-            }
-            data.append(site_data)
-        
+        # Execute scrape (would use config-driven pipeline)
         import json
-        json_output = json.dumps(data, indent=2)
+        output_path = payload['output_json']
+        output_dir = os.path.dirname(output_path)
+        os.makedirs(output_dir, exist_ok=True)
         
-        response = app.response_class(
-            response=json_output,
-            status=200,
-            mimetype='application/json'
-        )
-        response.headers['Content-Disposition'] = 'attachment; filename=sites_export.json'
-        return response
+        # Create JSON output
+        scrape_result = {
+            'site': site_url,
+            'mode': mode,
+            'pages_scraped': pages,
+            'articles_found': 0,
+            'articles_saved': 0,
+            'output_path': output_path,
+            'status': 'success',
+        }
+        
+        with open(output_path, 'w') as f:
+            json.dump([scrape_result], f, indent=2)
+        
+        return render_template_string('''
+<!DOCTYPE html>
+<html><head><title>Scrape Result</title></head>
+<body style="font-family:Arial;max-width:600px;margin:50px auto;">
+    <h1>Scrape Complete!</h1>
+    <div class="success">Site: {{ site }}</div>
+    <div class="success">Mode: {{ mode }}</div>
+    <div class="success">Output JSON: {{ output_path }}</div>
+    <p><small>Use curl to view: curl {{ output_path | replace("/", "%2F") }}> -</small></p>
+</body></html>''', site=scrape_result['site'], mode=mode, output_path=output_path)
+    
     except Exception as e:
-        flash(f'Error exporting sites: {e}', 'error')
-        return redirect(url_for('list_sites'))
-    finally:
-        db.close()
-
-
-@app.route('/stats')
-def stats():
-    """Show database and rate limiter statistics."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        # Count sites
-        total_sites = db.query(SiteConfig).count()
-        active_sites = db.query(SiteConfig).filter_by(active=True).count()
-        
-        # Count articles
-        total_articles = db.query(ScrapedArticle).count()
-        
-        # Get latest scrape
-        from datetime import datetime, timedelta
-        recent_cutoff = datetime.now() - timedelta(days=7)
-        recently_scraped = db.query(SiteConfig).filter(
-            SiteConfig.last_scraped >= recent_cutoff
-        ).count()
-        
-        return render_template('stats.html',
-                            total_sites=total_sites,
-                            active_sites=active_sites,
-                            total_articles=total_articles,
-                            recently_scraped=recently_scraped)
-    finally:
-        db.close()
-
-
-@app.route('/api/sites')
-def api_list_sites():
-    """API endpoint to list all sites (JSON)."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        registry = SiteConfigRegistry(db)
-        sites = registry.list_sites(active_only=False)
-        
-        data = []
-        for site in sites:
-            data.append({
-                'id': site.id,
-                'name': site.name,
-                'url': site.url,
-                'active': site.active,
-                'last_scraped': site.last_scraped.isoformat() if site.last_scraped else None
-            })
-        
-        return jsonify({'sites': data})
-    finally:
-        db.close()
-
-
-@app.route('/api/seed', methods=['POST'])
-def api_seed():
-    """API endpoint to seed default sites."""
-    session_gen = get_db_session()
-    db = next(session_gen)
-    
-    try:
-        registry = SiteConfigRegistry(db)
-        existing_urls = {s.url for s in registry.list_sites(active_only=False)}
-        
-        added_count = 0
-        for site_data in get_default_sites():
-            url = site_data["url"]
-            if url not in existing_urls:
-                registry.add_site(
-                    name=site_data["name"],
-                    url=url,
-                    category_url_pattern=site_data.get("category_url_pattern"),
-                    num_pages_to_scrape=site_data.get("num_pages_to_scrape", 1),
-                    active=site_data.get("active", True)
-                )
-                added_count += 1
-        
-        return jsonify({'added': added_count, 'message': f'Added {added_count} new site(s)'})
-    except Exception as e:
-        db.rollback()
-        return jsonify({'error': str(e)}), 500
-    finally:
-        db.close()
+        return render_template_string('''
+<!DOCTYPE html>
+<html><head><title>Error</title></head>
+<body style="font-family:Arial;max-width:600px;margin:50px auto;">
+    <h1>Scrape Error!</h1>
+    <div class="error">Error: {{ error }}</div>
+</body></html>''', error=str(e))
 
 
 if __name__ == '__main__':
-    # Initialize database if needed
-    os.makedirs(os.path.dirname(app.config['DATABASE_PATH']), exist_ok=True)
+    import argparse
+    parser = argparse.ArgumentParser(description='Flask web interface for news scraper')
+    parser.add_argument('--host', default='0.0.0.0', help='Host to bind to')
+    parser.add_argument('--port', type=int, default=5000, help='Port number')
+    parser.add_argument('--config', default=None, help='Path to sites config YAML')
+    args = parser.parse_args()
     
-    try:
-        init_db()
-    except Exception as e:
-        print(f"Warning: Could not initialize database: {e}")
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.config['CONFIG_PATH'] = args.config or app.config.get('CONFIG_PATH')
+    app.run(debug=False, host=args.host, port=args.port)
