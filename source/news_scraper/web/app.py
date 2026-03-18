@@ -5,15 +5,11 @@ JSON output is saved to the data/exports folder.
 Apify actor compatible - can also be run as a CLI script.
 
 Usage:
-  python -m news_scraper.web --config path/to/sites_config.yaml --host 0.0.0.0 --port 5000
-  Or via API: curl -X POST http://localhost:5000/scrape -d "site=bbc&mode=current&page_limit=5"
+  python source/news_scraper/web/app.py --host 0.0.0.0 --port 5000
 """
 import os
 from urllib.parse import urlparse, parse_qs
 from flask import Flask, render_template_string, request, jsonify
-
-# Import config loader
-from news_scraper.config.loader import load_config
 
 
 def create_app(config_path=None):
@@ -21,7 +17,7 @@ def create_app(config_path=None):
     app = Flask(__name__)
     app.secret_key = 'news-scraper-secret-key'
     
-    # Default config path
+    # Default config path - look relative to web/app.py location
     if config_path is None:
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         config_path = os.path.join(root_dir, 'data', 'seeds', 'sites_config.yaml')
@@ -37,34 +33,13 @@ def create_app(config_path=None):
 
 app = create_app()
 
-# Site templates with div_selectors for LLM drift detection
-SITE_TEMPLATES = {
-    'bbc': {
-        'name': 'BBC News',
-        'url': 'https://www.bbc.com/news',
-        'selectors': {'article_title': '.__cls-story-body h1', 'article_body': 'p.story__lead-paragraph'},
-        'tech': [{'name': 'Fastly', 'type': 'cdn'}]
-    },
-    'reuters': {
-        'name': 'Reuters', 
-        'url': 'https://www.reuters.com/world/',
-        'selectors': {'article_title': '.story-header__content > h1', 'article_body': '.story-body > p'},
-        'tech': [{'name': 'Cloudflare', 'type': 'cdn'}]
-    },
-    'guardian': {
-        'name': 'The Guardian',
-        'url': 'https://www.theguardian.com/international',
-        'selectors': {'article_title': '.title__mainHeadline', 'article_body': '.pubBodyElement p'},
-        'tech': [{'name': 'Akamai', 'type': 'cdn'}]
-    },
-}
-
 
 def get_config_sites():
     """Load sites from YAML config file."""
     try:
         with open(app.config['CONFIG_PATH'], 'r') as f:
-            config = load_config(app.config['CONFIG_PATH'])
+            import yaml
+            config = yaml.safe_load(f)
         return config.get('sites', [])
     except Exception as e:
         print(f"Warning: Could not load config from {app.config['CONFIG_PATH']}: {e}")
@@ -76,39 +51,30 @@ def index():
     """Home page with site list and scrape form."""
     sites = get_config_sites()
     
-    html = f'''<!DOCTYPE html>
+    # Build HTML template with proper escaping
+    html_template = r'''<!DOCTYPE html>
 <html>
 <head>
     <title>The Rise of the Phoenix - News Scraper</title>
     <style>
-        body {{ font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }}
-        h1 {{ color: #333; }}
-        .site-list {{ background: #f5f5f5; padding: 20px; border-radius: 8px; margin-top: 20px; }}
-        .site-item {{ display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #ddd; }}
-        select, input, button {{ padding: 8px; font-size: 14px; }}
-        button {{ background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }}
-        button:hover {{ background: #0056b3; }}
-        .status {{ margin-top: 20px; padding: 10px; border-radius: 4px; }}
-        .success {{ background: #d4edda; color: #155724; }}
-        .error {{ background: #f8d7da; color: #721c24; }}
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }
+        h1 { color: #333; }
+        .site-list { background: #f5f5f5; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        select, input, button { padding: 8px; font-size: 14px; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
     <h1>The Rise of the Phoenix - News Scraper</h1>
-    <p>Select a site and run a scrape. JSON output saved to <code>{app.config['DATA_DIR']}</code></p>
+    <p>Select a site and run a scrape. JSON output saved to <code>{data_dir}</code></p>
     
     <form method="POST" action="/scrape">
         <label><strong>Site:</strong></label>
         <select name="site" required>
-            <option value="">-- Select a site --</option>
-'''
-    
-    for site in sites:
-        url = site.get('url', 'unknown')
-        site_name = site.get('name', urlparse(url).netloc)
-        html += f'<option value="{url}">{site_name}</option>'
-    
-    html += f'''
+            {site_options}
+        </select>
+        
         <br>
         
         <label><strong>Mode:</strong></label>
@@ -150,8 +116,20 @@ def index():
     </script>
 </body>
 </html>'''
+
+    # Build site options HTML with proper escaping for URLs in values
+    site_options = []
+    for site in sites:
+        url = site.get('url', '')
+        name = site.get('name', urlparse(url).netloc)
+        # Escape URL for use in HTML value attribute
+        escaped_url = f"{url.replace('&', '&').replace('<', '<').replace('>', '>')}"
+        site_options.append(f'<option value="{escaped_url}">{name}</option>')
     
-    return html
+    html_html = html_template.format(data_dir=app.config['DATA_DIR'], 
+                                     site_options=''.join(site_options))
+    
+    return html_html
 
 
 @app.route('/api/sites', methods=['GET'])
@@ -184,23 +162,12 @@ def scrape():
         if mode not in ['current', 'historic']:
             return jsonify({'error': 'Invalid mode. Use "current" or "historic"'})
         
-        # Build scrape payload for config-driven scraping
-        payload = {
-            'config_path': app.config['CONFIG_PATH'],
-            'mode': mode,
-            'site_url': site_url,
-            'pages_per_category': pages,
-            'max_articles': articles_limit,
-            'output_json': os.path.join(app.config['DATA_DIR'], f'scrape_{site_url.replace("/", "_")}.json'),
-        }
+        # Build scrape output path
+        safe_site_name = site_url.replace('/', '_')
+        output_path = os.path.join(app.config['DATA_DIR'], f'scrape_{safe_site_name}.json')
         
-        # Execute scrape (would use config-driven pipeline)
+        # Create JSON output with dummy result (use config-driven scraping for real data)
         import json
-        output_path = payload['output_json']
-        output_dir = os.path.dirname(output_path)
-        os.makedirs(output_dir, exist_ok=True)
-        
-        # Create JSON output
         scrape_result = {
             'site': site_url,
             'mode': mode,
@@ -214,25 +181,23 @@ def scrape():
         with open(output_path, 'w') as f:
             json.dump([scrape_result], f, indent=2)
         
-        return render_template_string('''
-<!DOCTYPE html>
-<html><head><title>Scrape Result</title></head>
+        # Show success page
+        return f'''<!DOCTYPE html>
+<html><head><title>Scrape Complete</title></head>
 <body style="font-family:Arial;max-width:600px;margin:50px auto;">
     <h1>Scrape Complete!</h1>
-    <div class="success">Site: {{ site }}</div>
-    <div class="success">Mode: {{ mode }}</div>
-    <div class="success">Output JSON: {{ output_path }}</div>
-    <p><small>Use curl to view: curl {{ output_path | replace("/", "%2F") }}> -</small></p>
-</body></html>''', site=scrape_result['site'], mode=mode, output_path=output_path)
+    <div style="background:#d4edda;padding:10px;color:#155724;border-radius:4px;">Site: {site_url}</div>
+    <div style="background:#d4edda;padding:10px;color:#155724;border-radius:4px;">Mode: {mode}</div>
+    <div style="background:#d4edda;padding:10px;color:#155724;border-radius:4px;">Output: {output_path}</div>
+</body></html>'''
     
     except Exception as e:
-        return render_template_string('''
-<!DOCTYPE html>
+        return f'''<!DOCTYPE html>
 <html><head><title>Error</title></head>
 <body style="font-family:Arial;max-width:600px;margin:50px auto;">
     <h1>Scrape Error!</h1>
-    <div class="error">Error: {{ error }}</div>
-</body></html>''', error=str(e))
+    <div style="background:#f8d7da;padding:10px;color:#721c24;border-radius:4px;">Error: {str(e)}</div>
+</body></html>'''
 
 
 if __name__ == '__main__':
