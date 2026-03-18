@@ -2,8 +2,7 @@
 from typing import List, Dict, Optional
 from urllib.parse import urlparse
 
-from ..database.models import CategoryCrawlState, SiteCategory, SiteConfig, SpiderDiagram, SpiderEdge, SpiderNode
-from ..database.session import get_spider_session
+from ..database.models import SiteConfig, SiteCategory
 
 
 class SiteConfigRegistry:
@@ -159,43 +158,9 @@ class SiteConfigRegistry:
         if not site:
             return False
 
-        spider_session = next(get_spider_session())
-        try:
-            # Clean up spider/category planning rows in the dedicated spider DB.
-            diagram_ids = [
-                row[0]
-                for row in spider_session.query(SpiderDiagram.id)
-                .filter(SpiderDiagram.site_config_id == site_id)
-                .all()
-            ]
-            if diagram_ids:
-                spider_session.query(SpiderEdge).filter(
-                    SpiderEdge.spider_diagram_id.in_(diagram_ids)
-                ).delete(synchronize_session=False)
-                spider_session.query(SpiderNode).filter(
-                    SpiderNode.spider_diagram_id.in_(diagram_ids)
-                ).delete(synchronize_session=False)
-                spider_session.query(SpiderDiagram).filter(
-                    SpiderDiagram.id.in_(diagram_ids)
-                ).delete(synchronize_session=False)
-
-            spider_session.query(SiteCategory).filter(
-                SiteCategory.site_config_id == site_id
-            ).delete(synchronize_session=False)
-            spider_session.query(CategoryCrawlState).filter(
-                CategoryCrawlState.site_config_id == site_id
-            ).delete(synchronize_session=False)
-
-            self.db.delete(site)
-            self.db.commit()
-            spider_session.commit()
-            return True
-        except Exception:
-            self.db.rollback()
-            spider_session.rollback()
-            raise
-        finally:
-            spider_session.close()
+        self.db.delete(site)
+        self.db.commit()
+        return True
     
     def get_all_sites(self) -> List[Dict]:
         """

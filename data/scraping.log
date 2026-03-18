@@ -6693,3 +6693,13 @@ ValueError: Failed to parse APIFY_INPUT: Expecting value: line 1 column 1 (char 
 2026-03-12 04:02:26,097 - news_scraper.scraping.engine - INFO - [engine.py:1567] - Scraping complete for BBC News (incremental): 1 pages, 1 new articles
 2026-03-12 04:02:48,950 - news_scraper.scraping.engine - INFO - [engine.py:1567] - Scraping complete for BBC News (incremental): 1 pages, 1 new articles
 2026-03-12 04:03:17,404 - news_scraper.scraping.engine - INFO - [engine.py:1567] - Scraping complete for BBC News (incremental): 1 pages, 3 new articles
+2026-03-18 12:15:15,057 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 12:15:15] "POST /scrape HTTP/1.1" 200 -
+2026-03-18 12:15:38,204 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 12:15:38] "GET / HTTP/1.1" 200 -
+2026-03-18 12:21:47,578 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 12:21:47] "POST /scrape HTTP/1.1" 200 -
+2026-03-18 12:24:06,062 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 12:24:06] "POST /scrape HTTP/1.1" 200 -
+2026-03-18 18:11:03,947 - scrapling - WARNING - [custom.py:164] - This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure()` instead before fetching
+2026-03-18 18:11:07,807 - scrapling - INFO - [custom.py:63] - Fetched (200) <GET https://abcnews.com/International> (referer: https://www.google.com/search?q=go)
+2026-03-18 18:11:26,046 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 18:11:26] "POST /scrape HTTP/1.1" 200 -
+2026-03-18 18:24:02,455 - scrapling - WARNING - [custom.py:164] - This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure()` instead before fetching
+2026-03-18 18:24:04,107 - scrapling - INFO - [custom.py:63] - Fetched (200) <GET https://abcnews.com/International> (referer: https://www.google.com/search?q=go)
+2026-03-18 18:24:15,277 - werkzeug - INFO - [_internal.py:97] - 127.0.0.1 - - [18/Mar/2026 18:24:15] "POST /scrape HTTP/1.1" 200 -
