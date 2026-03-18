@@ -12,14 +12,15 @@ pymysql>=1.1.0              # MySQL driver (spider/category DB)
 httpx>=0.24.0               # HTTP client (fallback/static requests)
 beautifulsoup4>=4.12.0      # HTML parsing
 lxml>=4.9.0                 # BS4 parser backend (faster than html.parser)
-pyyaml>=6.0                 # YAML config file parsing (REQUIRED for sites_config.yaml)
-python-dateutil>=2.8.0      # Flexible date parsing
+pyyaml>=6.0                  # YAML config file parsing (REQUIRED for sites_config.yaml)
+python-dateutil>=2.8.0       # Flexible date parsing
+pydantic-settings>=2.0.0     # Settings with environment variables (from pydantic)
 
 # Preferred scraping stack (priority order)
-scrapling>=0.2.0            # Primary scraping backend
-pydoll>=0.1.0               # Secondary scraping backend
-selenium>=4.10.0            # Final fallback backend for dynamic sites
-webdriver-manager>=4.0.0    # Automatic WebDriver management
+scrapling>=0.2.0           # Primary scraping backend (headless browser automation)
+playwright>=1.35.0         # Secondary scraping backend (alternative to scrapling)
+selenium>=4.10.0           # Final fallback backend for dynamic sites
+webdriver-manager>=4.0.0   # Automatic WebDriver management
 
 # =============================================================================
 # Web Interface (Phase 4 - Flask)

@@ -1,0 +1,271 @@
+# Extended news websites collection with detailed scraping selectors
+# Each site includes LLM-ready spider graph metadata for structure drift detection
+
+sites:
+  # BBC News extensions
+  - name: "BBC Sport"
+    url: "https://www.bbc.com/sport"
+    category_url_pattern: "{url}/{category}?page={page}"
+    num_pages_to_scrape: 5
+    active: true
+    uses_javascript: false
+    country: "United Kingdom"
+    language: "English"
+    description: "BBC Sport covering sports news and results"
+    metadata:
+      sport_categories:
+        - football
+        - cricket
+        - rugby
+        - tennis
+        - golf
+      div_selectors:
+        article_title: ".__cls-story-body h1, .__article__content-headline a span"
+        article_body: "p.story__lead-paragraph:not(:first-of-type)"
+        publish_date: ".__published-datetime"
+        author: "._author"
+        image: "img.story-image"
+
+  # Reuters extensions
+  - name: "Reuters Business"
+    url: "https://www.reuters.com/business/"
+    category_url_pattern: "{url}/{category}?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "Global"
+    language: "English"
+    description: "Reuters Business news and market coverage"
+    metadata:
+      div_selectors:
+        article_title: ".story-header__content > h1, .article-title-link"
+        article_body: ".story-body > p, .article-body-content p"
+        publish_date: "._published-date, ._updated-date"
+        author: "._author, ._contributor"
+        image: "div.article-hero-image img"
+
+  # Guardian extensions
+  - name: "Guardian Technology"
+    url: "https://www.theguardian.com/technology"
+    category_url_pattern: "{url}/{category}?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "United Kingdom"
+    language: "English"
+    description: "Technology news and reviews"
+    metadata:
+      div_selectors:
+        article_title: ".title__mainHeadline, ._headlineText"
+        article_body: ".pubBodyElement p:not(:first-of-type)"
+        publish_date: "._published-meta span, ._updated-meta span"
+        author: "._contributor"
+        image: "img.gu-template-image"
+
+  # AP News extensions
+  - name: "AP International"
+    url: "https://apnews.com/international"
+    category_url_pattern: "{url}/international?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "Global"
+    language: "English"
+    description: "Associated Press international news"
+    metadata:
+      div_selectors:
+        article_title: "h2.story-body__main-headline, h1.story-title"
+        article_body: ".story-body p:not(:first-of-type)"
+        publish_date: ".byline-date span"
+        author: ".byline .author-name"
+        image: "div.story-image img"
+
+  # CNN extensions
+  - name: "CNN Politics"
+    url: "https://edition.cnn.com/politics"
+    category_url_pattern: "{url}/politics?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: true
+    country: "United States"
+    language: "English"
+    description: "CNN political news and analysis"
+    metadata:
+      div_selectors:
+        article_title: ".__headline, ._content-headline__full"
+        article_body: ".article-body__content p:not(:first-of-type)"
+        publish_date: "._published-date-time span"
+        author: ".__author-list"
+        image: ".hero-image img"
+
+  # New York Times extensions
+  - name: "NYT Science"
+    url: "https://www.nytimes.com/section/science"
+    category_url_pattern: "{url}/science?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "United States"
+    language: "English"
+    description: "Science news and research coverage"
+    metadata:
+      div_selectors:
+        article_title: ".KbdTitle, ._article-headline"
+        article_body: "_main-story-content p:not(:first-of-type)"
+        publish_date: ".KbdDate"
+        author: ".KbdByline"
+        image: ".KbdPhoto img"
+
+  # Additional international sites
+  - name: "Al Jazeera English"
+    url: "https://www.aljazeera.com/news/"
+    category_url_pattern: "{url}/news?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "Qatar"
+    language: "English"
+    description: "Middle East and international news"
+    metadata:
+      div_selectors:
+        article_title: "h2.article-title, ._headline-text"
+        article_body: "article.article-body-content p:not(:first-of-type)"
+        publish_date: "._time-date span"
+        author: ".author-name"
+        image: "figure.media-image img"
+
+  - name: "Deutsche Welle English"
+    url: "https://www.dw.com/en/section/world"
+    category_url_pattern: "{url}/world?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "Germany"
+    language: "English"
+    description: "German international news"
+    metadata:
+      div_selectors:
+        article_title: "h2._headline-text, ._title-headline__text"
+        article_body: "div._article-content p:not(:first-of-type)"
+        publish_date: ".date-text span"
+        author: ".author-name"
+        image: "img.figure-image"
+
+  - name: "Le Monde English"
+    url: "https://www.lemonde.fr/en/"
+    category_url_pattern: "{url}/en/{category}?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "France"
+    language: "English"
+    description: "French newspaper international edition"
+    metadata:
+      div_selectors:
+        article_title: ".title-headline__title, h2._headline-title"
+        article_body: "_article-content p:not(:first-of-type)"
+        publish_date: ".date-text span"
+        author: "author-name"
+        image: "figure.image img"
+
+  - name: "South China Morning Post"
+    url: "https://www.scmp.com/news/world"
+    category_url_pattern: "{url}/world?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "Hong Kong"
+    language: "English"
+    description: "Asian perspective on global affairs"
+    metadata:
+      div_selectors:
+        article_title: "h2.article-title__headline, ._main-headline"
+        article_body: "div.article-body-content p:not(:first-of-type)"
+        publish_date: ".date span"
+        author: "meta[name='author']"
+        image: "figure.image img"
+
+  - name: "Times of India"
+    url: "https://timesofindia.indiatimes.com/world"
+    category_url_pattern: "{url}/world?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "India"
+    language: "English"
+    description: "Indian perspective on world news"
+    metadata:
+      div_selectors:
+        article_title: "h2.item-headline, ._headline-text"
+        article_body: ".item-body-content p:not(:first-of-type)"
+        publish_date: "span.item-meta__datetime"
+        author: "._author-name"
+        image: "figure.image-item img"
+
+  - name: "The Guardian Australia"
+    url: "https://www.theguardian.com/au/news"
+    category_url_pattern: "{url}/au/news?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "Australia"
+    language: "English"
+    description: "Australian news and politics"
+    metadata:
+      div_selectors:
+        article_title: ".title__mainHeadline, ._headlineText"
+        article_body: ".pubBodyElement p:not(:first-of-type)"
+        publish_date: ".__date-time"
+        author: ".author span"
+        image: "img.gu-template-image"
+
+  - name: "DW Afrikaans"
+    url: "https://www.dw.com/afrikaans"
+    category_url_pattern: "{url}/news?page={page}"
+    num_pages_to_scrape: 3
+    active: true
+    uses_javascript: false
+    country: "South Africa"
+    language: "Afrikaans"
+    description: "International news in Afrikaans"
+    metadata:
+      div_selectors:
+        article_title: "h2._headline-text, ._title-headline__text"
+        article_body: "div._article-content p:not(:first-of-type)"
+        publish_date: ".date-text span"
+        author: ".author-name"
+        image: "img.figure-image"
+
+  - name: "NHK World Japan"
+    url: "https://www3.nhk.or.jp/nhkworld/en/"
+    category_url_pattern: "{url}/news?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "Japan"
+    language: "English"
+    description: "Japanese perspective on world events"
+    metadata:
+      div_selectors:
+        article_title: "div.item-headline h2"
+        article_body: "div.item-body p:not(:first-of-type)"
+        publish_date: ".item-date span"
+        author: ".item-author"
+        image: "img.item-image"
+
+  - name: "Euronews English"
+    url: "https://www.euronews.com/next"
+    category_url_pattern: "{url}/next?page={page}"
+    num_pages_to_scrape: 4
+    active: true
+    uses_javascript: false
+    country: "Europe"
+    language: "English"
+    description: "European Union perspective on news"
+    metadata:
+      div_selectors:
+        article_title: "h2._headline-title, .title-headline__title"
+        article_body: "_article-content p:not(:first-of-type)"
+        publish_date: ".date-text span"
+        author: ".author-name"
+        image: "figure.image img"

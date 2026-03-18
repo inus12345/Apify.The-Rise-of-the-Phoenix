@@ -41,20 +41,6 @@ sites:
       publish_date: ".__published-datetime"
       author: "._author"
       image: "img.story-image"
-      # Additional useful selectors (may need manual inspection for each site)
-      meta_description: "meta[name='description']"
-      reading_time: ".reading-time, .read-duration"
-      tags: ".article-tags, span.tag-list"
-    categories:
-      - name: World
-        url: https://www.bbc.com/news/world
-        max_pages: 4
-      - name: Business
-        url: https://www.bbc.com/news/business
-        max_pages: 3
-      - name: Technology
-        url: https://www.bbc.com/news/technology
-        max_pages: 3
 
   - name: BBC Sport
     url: https://www.bbc.com/sport
