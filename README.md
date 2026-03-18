@@ -1,13 +1,14 @@
 # The Rise of the Phoenix - News Scraper
 
-A scalable news scraping system designed to handle 100s of websites with LLM-ready spider graph metadata for structure drift detection.
+A scalable news scraping system designed for 100s of websites with LLM-ready spider graph metadata for structure drift detection. JSON output only (ETL-friendly) - no SQLite storage for scraped articles.
 
 ## Features
 
-- **LLM-Ready Spider Graph Metadata**: Each site has extraction div selectors (title, body, date, author, images) stored in the database for automated structure verification
-- **Batch Scalability**: YAML-based configuration makes adding new sites straightforward
+- **LLM-Ready Spider Graph Metadata**: Each site has extraction div selectors (title, body, date, author, images) stored for automated structure verification
+- **Batch Scalability**: YAML-based configuration makes adding new sites straightforward  
 - **Multi-Engine Scraping**: Supports scrapling, pydoll, and selenium with automatic fallback
 - **Anti-Bot Handling**: Cloudflare, Akamai, and other anti-bot protection strategies configured per site
+- **ETL-Friendly**: Only JSON output - scraped articles stored externally (PostgreSQL, BigQuery, etc.)
 
 ## Quick Start
 
@@ -15,100 +16,62 @@ A scalable news scraping system designed to handle 100s of websites with LLM-rea
 # Install dependencies
 pip install -r requirements.txt
 
-# Seed database with 16 sites (BBC News, Reuters, Guardian, CNN, NYT, etc.)
+# Seed database with 16 news sites (BBC, Reuters, Guardian, CNN, NYT, etc.)
 PYTHONPATH=. python source/scripts/seed_from_yaml.py
 
-# Run scraper
-python -m news_scraper --help
+# Run Flask web interface:
+python -m news_scraper.web --host 0.0.0.0 --port 5000
+
+# Or use CLI:
+python -m news_scraper scrape-config --config=data/seeds/sites_config.yaml --mode=current --output-json=./data/exports/scrape.json
 ```
 
 ## Project Structure
 
 ```
-├── data/                        # Database and exports
-│   ├── scraping.db             # Main SQLite database (single file)
-│   └── seeds/                  # Site configurations (YAML)
-│       └── sites_config.yaml    # 16 news sites with full metadata
-├── source/                     # Source code
-│   ├── news_scraper/           # Main scraper package
-│   │   ├── cli/                # CLI commands
-│   │   ├── core/               # Core configuration and settings
-│   │   ├── scraping/           # Scraping engine with fallback chain
-│   │   ├── extraction/         # Article content extraction
-│   │   ├── validation/         # LLM-assisted validation
-│   │   └── export/             # JSON/CSV exports
-│   └── scripts/                # Utility scripts
-├── database/models.py          # Simplified SQLAlchemy models (4 core tables)
-└── requirements.txt            # Python dependencies
+├── data/                              # Database and exports folder
+│   ├── scraping.db                    # SQLite site configuration DB only
+│   ├── seeds/                         # Site configurations (YAML)
+│   │   └── sites_config.yaml          # 16 news sites with div_selectors
+│   └── exports/                       # JSON scrape output files
+├── source/                            # Source code
+│   ├── news_scraper/                  # Main scraper package
+│   │   ├── cli/                       # CLI commands  
+│   │   ├── scraping/                  # Scraping engine with fallback chain
+│   │   ├── extraction/                # Article content extraction
+│   │   └── web/                       # Flask web interface
+│   └── scripts/
+├── database/models.py                 # SQLAlchemy models (4 core tables)  
+├── requirements.txt                   # Python dependencies
+└── README.md                         # This file
 ```
 
-## Database Schema (Simplified - 4 Core Tables)
+## Database Schema (Simplified - 4 Core Tables Only)
 
-### sites
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| name | TEXT | Site name (BBC News, Reuters, etc.) |
-| url | TEXT | Base URL |
-| country | TEXT | Country of origin |
-| language | TEXT | ISO 639-1 code (en, de, fr) |
-| description | TEXT | Brief description |
-| article_title_selector | TEXT | CSS selector for article title |
-| article_body_selector | TEXT | CSS selector for article body |
-| publish_date_selector | TEXT | CSS selector for date |
-| author_selector | TEXT | CSS selector for author |
-| image_selector | TEXT | CSS selector for images |
-| active | BOOLEAN | Whether site should be scraped |
-
-### technologies
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| site_name | TEXT | Foreign key to sites.name |
-| technology_name | TEXT | CDN/WAF name (Cloudflare, Fastly) |
-| technology_type | TEXT | Category (cdn, waf, analytics) |
-
-### categories  
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| site_name | TEXT | Foreign key to sites.name |
-| category_name | TEXT | Category name (World, Business) |
-| url | TEXT | Category URL |
-| max_pages | INTEGER | Max pages for this category |
-
-### scraped_articles
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| site_name | TEXT | Foreign key to sites.name |
-| title | TEXT | Article title |
-| url | TEXT | Full article URL |
-| excerpt | TEXT | Article summary |
-| article_body | TEXT | Main article content |
-| publish_date | TIMESTAMP | Publication date |
-| author | TEXT | Author name(s) |
-| featured_image_url | TEXT | Featured image URL |
-| word_count | INTEGER | Estimated word count |
-| reading_time_minutes | INTEGER | Reading time estimate |
+| Table | Purpose |
+|-------|---------|
+| **sites** | Site configs with div_selectors for LLM drift detection |
+| **technologies** | CDN/WAF stack per site |
+| **categories** | Category pages with pagination settings |
+| **scraped_articles** | Extracted content (deprecated - JSON-only now) |
 
 ## Adding a New Site (Scale to 100s of Sites)
 
-1. **Edit YAML config** (`data/seeds/sites_config.yaml`):
+**Step 1:** Edit `data/seeds/sites_config.yaml`:
+
 ```yaml
 sites:
   - name: Your News Site
     url: https://yournews.com/
     country: Country
     language: en
-    description: Site description
+    description: Brief site description
     num_pages_to_scrape: 5
     
-    # Extraction selectors (LLM drift detection)
-    div_selectors:
+    div_selectors:  # Required for LLM drift detection
       article_title: "h1.article-title"
       article_body: ".article-content p:not(:first-of-type)"
-      publish_date: ".published-date"
+      publish_date: ".published-date" 
       author: ".author-name"
       
     technologies:
@@ -121,39 +84,87 @@ sites:
         max_pages: 4
 ```
 
-2. **Run seed script**:
+**Step 2:** Run seed script:
 ```bash
 PYTHONPATH=. python source/scripts/seed_from_yaml.py
 ```
 
-3. **Scraper automatically discovers** the new site when run.
+**Step 3:** Scraper automatically discovers the new site when run.
 
-## Configuration
+## Running Scrapes
 
-Edit `source/news_scraper/config/scraper_config.yaml` for global settings:
+### Via Flask Web Interface
 
-- Rate limiting and delays
-- Export paths (CSV, JSON)
-- Validation settings  
-- Database archival thresholds
-- Logging level
+1. Start the web server:
+   ```bash
+   python -m news_scraper.web --host 0.0.0.0 --port 5000
+   ```
+
+2. Open browser to http://localhost:5000
+3. Select site from dropdown, choose mode (current/historic), set limits
+4. Click "Scrape & Save JSON"
+5. Check `data/exports/` for output
+
+### Via CLI
+
+```bash
+# Current pages only
+python -m news_scraper scrape-config \
+    --config=data/seeds/sites_config.yaml \
+    --mode=current \
+    --output-json=./data/exports/test_current.json
+
+# Historic (deep backfill)  
+python -m news_scraper scrape-config \
+    --config=data/seeds/sites_config.yaml \
+    --mode=historic \
+    --cutoff-date 2024-01-01 \
+    --max-pages 20 \
+    --output-json=./data/exports/backfill.json
+```
+
+## JSON Output Structure
+
+Each scraped article includes:
+```json
+{
+  "article": {
+    "title": "Breaking News",
+    "body": "Full article content...",
+    "url": "https://example.com/article",
+    "publish_date": "2026-03-18T10:00:00"
+  },
+  "scrape": {
+    "engine_used": "scrapling", 
+    "scrape_date": "2026-03-18T10:05:00"
+  }
+}
+```
+
+## ETL Integration
+
+JSON output can be piped to any ETL process:
+
+```bash
+# Export to PostgreSQL via COPY command
+python -m news_scraper scrape-config \
+    --config=data/seeds/sites_config.yaml \
+    --mode=current \
+    --output-json=./data/exports/articles.json
+```
+
+Then in your SQL:
+```sql
+COPY articles (title, body, url) FROM '/path/to/articles.json' WITH (FORMAT JSON);
+```
 
 ## LLM Structure Drift Detection
 
-Each site stores CSS selectors used for extraction. Periodically:
-
-1. Scrape a sample article from each site
+Each site stores CSS selectors used for extraction. The system can periodically:
+1. Scrape a sample article from each site  
 2. Check if selectors still work (structure unchanged)
 3. Detect changes in site HTML structure
-4. Update selectors or flag for manual review
-
-## API Endpoints (Flask Web UI)
-
-The scraper includes a Flask web interface at `source/news_scraper/web/`:
-
-- `/sites` - List all configured sites
-- `/sites/<name>/stats` - Scrape statistics per site
-- `/stats/summary` - Overall scraping summary
+4. Flag sites needing selector updates
 
 ## License
 
