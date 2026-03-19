@@ -370,6 +370,256 @@
           "avg_response_time_ms": 4907,
           "block_detected": false,
           "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:02.296825Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 11,
+          "avg_response_time_ms": 4945,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:07.561804Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 12,
+          "avg_response_time_ms": 4948,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:12.793655Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 13,
+          "avg_response_time_ms": 4948,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:17.762976Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 14,
+          "avg_response_time_ms": 4928,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:22.744390Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 15,
+          "avg_response_time_ms": 4929,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:28.209912Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 16,
+          "avg_response_time_ms": 4959,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:33.271279Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 17,
+          "avg_response_time_ms": 4933,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:40.397768Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 18,
+          "avg_response_time_ms": 5050,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:45.514451Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 19,
+          "avg_response_time_ms": 4945,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:52.623321Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 20,
+          "avg_response_time_ms": 5044,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:37:58.077683Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 21,
+          "avg_response_time_ms": 4965,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:03.406428Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 22,
+          "avg_response_time_ms": 4958,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:08.338816Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 23,
+          "avg_response_time_ms": 4943,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:14.458830Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 24,
+          "avg_response_time_ms": 4992,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:21.187138Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 25,
+          "avg_response_time_ms": 5016,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:26.232908Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 4951,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:32.041575Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 27,
+          "avg_response_time_ms": 4978,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:37.194413Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 28,
+          "avg_response_time_ms": 4956,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:42.127945Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 29,
+          "avg_response_time_ms": 4949,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:47.141750Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 30,
+          "avg_response_time_ms": 4951,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:52.294457Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 31,
+          "avg_response_time_ms": 4956,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:38:57.680828Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 32,
+          "avg_response_time_ms": 4962,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:39:02.875716Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 33,
+          "avg_response_time_ms": 4957,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:39:08.135371Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 34,
+          "avg_response_time_ms": 4959,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-19T17:39:13.648303Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 35,
+          "avg_response_time_ms": 4966,
+          "block_detected": false,
+          "error_type": null
         }
       ],
       "notes": "Bootstrapped from legacy SQLite config",
