@@ -1,494 +1,1141 @@
-"""Core scraper engine with prioritized backend fallback for Apify-style scraping."""
+"""Config-driven scraping engine with backend fallback and JSON outputs."""
 
-import hashlib
+from __future__ import annotations
+
 import json
-import uuid
-from datetime import datetime, timezone
-from typing import List, Dict, Optional, Any, Tuple
-from urllib.parse import urljoin, urlparse, urlunparse
+import logging
+import os
+import time
+from dataclasses import dataclass, field
+from datetime import UTC, datetime
+from email.utils import parsedate_to_datetime
+from pathlib import Path
+from typing import Any
+from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
 import httpx
 from bs4 import BeautifulSoup
+from dateutil import parser as date_parser
+from lxml import html as lxml_html
+from zoneinfo import ZoneInfo
 
-from ..validation.output_schema import ArticleData, ErrorLogEntry, ScrapingResult
+from news_scraper.config import (
+    CategoryPaginationTracker,
+    CategoryState,
+    ErrorDatasetItem,
+    ExecutionMode,
+    InputConfig,
+    ProxyConfig,
+    RunDatasets,
+    ScrapingHistoryEntry,
+    ScrapingTool,
+    SelectorMap,
+    SelectorStrategy,
+    SelectorType,
+    SiteCatalog,
+    SiteCatalogEntry,
+    SiteCategoryTracker,
+    SiteSelectorConfig,
+    SiteVerificationResult,
+    SuccessDatasetItem,
+    VerificationReport,
+    ensure_utc,
+    load_json_model,
+    md5_url,
+    normalize_url,
+    save_json_data,
+    save_json_model,
+    utc_now,
+)
 
 
-class ScraplingScraper:
-    """Primary scraper using Scrapling library for fast static content extraction."""
-    
-    def __init__(self, timeout: int = 30):
+LOGGER = logging.getLogger("news_scraper")
+
+if not LOGGER.handlers:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s %(message)s",
+        handlers=[
+            logging.FileHandler("news_scraper/scraping.log"),
+            logging.StreamHandler(),
+        ],
+    )
+
+
+class ScraperError(Exception):
+    """Base exception for scraper failures."""
+
+
+class FetchError(ScraperError):
+    """Raised when a page cannot be fetched or is blocked."""
+
+    def __init__(self, message: str, attempts: list["FetchAttempt"] | None = None) -> None:
+        super().__init__(message)
+        self.attempts = attempts or []
+
+
+class ExtractionError(ScraperError):
+    """Raised when selector-based extraction fails."""
+
+
+@dataclass(slots=True)
+class FetchAttempt:
+    """Telemetry for one tool attempt."""
+
+    tool: ScrapingTool
+    success: bool
+    elapsed_ms: int
+    error_type: str | None = None
+    message: str | None = None
+    block_detected: bool = False
+
+
+@dataclass(slots=True)
+class FetchResult:
+    """Successful fetch plus preceding attempts."""
+
+    url: str
+    html: str
+    tool: ScrapingTool
+    elapsed_ms: int
+    attempts: list[FetchAttempt] = field(default_factory=list)
+
+
+@dataclass(slots=True)
+class RuntimeConfig:
+    """Resolved filesystem configuration for a run."""
+
+    catalog_path: Path
+    selectors_path: Path
+    tracker_path: Path
+    output_dir: Path
+
+
+class BackendFetcher:
+    """Base backend wrapper."""
+
+    tool: ScrapingTool
+
+    def __init__(self, timeout: int) -> None:
         self.timeout = timeout
-        self.headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+
+    def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
+        raise NotImplementedError
+
+    @property
+    def headers(self) -> dict[str, str]:
+        return {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0 Safari/537.36"
+            ),
             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "Accept-Language": "en-US,en;q=0.9",
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
-            "DNT": "1",
         }
-    
-    def fetch(self, url: str) -> Optional[str]:
-        """Fetch page using Scrapling's optimized static scraping."""
+
+
+class ScraplingFetcher(BackendFetcher):
+    """Primary scraping backend."""
+
+    tool = ScrapingTool.SCRAPLING
+
+    def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         try:
             import scrapling
-            fetcher = scrapling.Fetcher()
-            response = fetcher.get(url, headers=self.headers, timeout=self.timeout)
-            return self._coerce_html_from_response(response)
         except ImportError:
-            # Fallback to httpx if Scrapling not available
-            client = httpx.Client(headers=self.headers, timeout=self.timeout)
-            try:
-                response = client.get(url)
-                return response.text
-            finally:
-                client.close()
-    
-    def _coerce_html_from_response(self, response) -> Optional[str]:
-        """Extract HTML text from various response types."""
-        if response is None:
-            return None
-        if isinstance(response, str):
-            return response
-        if isinstance(response, (bytes, bytearray)):
-            return response.decode("utf-8", errors="ignore")
-        
-        for attr in ("text", "content", "body", "html"):
-            if not hasattr(response, attr):
-                continue
-            value = getattr(response, attr)
-            if value is None:
-                continue
-            if isinstance(value, str):
-                return value.strip() if value.strip() else None
-            if isinstance(value, (bytes, bytearray)):
-                decoded = value.decode("utf-8", errors="ignore")
-                return decoded.strip() if decoded.strip() else None
-        
-        return None
+            return self._httpx_fetch(url, proxy_url)
+
+        fetcher = scrapling.Fetcher()
+        response = fetcher.get(url, headers=self.headers, timeout=self.timeout)
+        return coerce_html(response)
+
+    def _httpx_fetch(self, url: str, proxy_url: str | None) -> str | None:
+        kwargs: dict[str, Any] = {
+            "headers": self.headers,
+            "timeout": self.timeout,
+            "follow_redirects": True,
+        }
+        if proxy_url:
+            kwargs["proxy"] = proxy_url
+        with httpx.Client(**kwargs) as client:
+            response = client.get(url)
+            response.raise_for_status()
+            return response.text
 
 
-class PydollScraper:
-    """Backup scraper using Pydoll for JavaScript-heavy sites."""
-    
-    def __init__(self, timeout: int = 60):
-        self.timeout = timeout
-    
-    def fetch(self, url: str) -> Optional[str]:
-        """Fetch page using Pydoll browser automation."""
+class PydollFetcher(BackendFetcher):
+    """Secondary scraping backend."""
+
+    tool = ScrapingTool.PYDOLL
+
+    def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         try:
             import pydoll
-            browser = pydoll.Browser(headless=True)
-            page = browser.new_page()
-            page.goto(url, timeout=self.timeout * 1000)
-            content = page.content()
-            if hasattr(browser, "close"):
-                browser.close()
-            return content if isinstance(content, str) else None
         except ImportError:
             return None
-        except Exception as e:
-            print(f"Pydoll fetch failed for {url}: {e}")
-            return None
+
+        browser = None
+        try:
+            browser_kwargs: dict[str, Any] = {"headless": True}
+            if proxy_url:
+                browser_kwargs["proxy"] = proxy_url
+            browser = pydoll.Browser(**browser_kwargs)
+            page = browser.new_page()
+            page.goto(url, timeout=self.timeout * 1000)
+            page.wait_for_load_state("networkidle")
+            return page.content()
+        finally:
+            if browser and hasattr(browser, "close"):
+                browser.close()
 
 
-class SeleniumScraper:
-    """Fallback scraper using Selenium for heavily blocked sites."""
-    
-    def __init__(self, headless: bool = True, timeout: int = 120):
-        self.headless = headless
-        self.timeout = timeout
-    
-    def fetch(self, url: str) -> Optional[str]:
-        """Fetch page using Selenium as last resort."""
+class SeleniumFetcher(BackendFetcher):
+    """Last-resort browser backend."""
+
+    tool = ScrapingTool.SELENIUM
+
+    def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         try:
             from selenium import webdriver
             from selenium.webdriver.chrome.options import Options
-            from selenium.webdriver.common.by import By
-            
-            options = Options()
-            options.add_argument("--headless")
-            options.add_argument("--no-sandbox")
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--disable-blink-features=AutomationControlled")
-            options.add_experimental_option("excludeSwitches", ["enable-automation"])
-            options.add_experimental_option("useAutomationExtension", False)
-            
-            driver = webdriver.Chrome(options=options)
-            try:
-                driver.get(url)
-                return driver.page_source
-            finally:
-                driver.quit()
         except ImportError:
             return None
-        except Exception as e:
-            print(f"Selenium fetch failed for {url}: {e}")
+
+        options = Options()
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        if proxy_url:
+            options.add_argument(f"--proxy-server={proxy_url}")
+
+        driver = webdriver.Chrome(options=options)
+        driver.set_page_load_timeout(self.timeout)
+        try:
+            driver.get(url)
+            return driver.page_source
+        finally:
+            driver.quit()
+
+
+def coerce_html(response: Any) -> str | None:
+    """Extract HTML content from different response object shapes."""
+
+    if response is None:
+        return None
+    if isinstance(response, str):
+        return response
+    if isinstance(response, (bytes, bytearray)):
+        return response.decode("utf-8", errors="ignore")
+
+    for attribute in ("text", "content", "body", "html"):
+        if not hasattr(response, attribute):
+            continue
+        value = getattr(response, attribute)
+        if callable(value):
+            value = value()
+        if value is None:
+            continue
+        if isinstance(value, str):
+            return value
+        if isinstance(value, (bytes, bytearray)):
+            return value.decode("utf-8", errors="ignore")
+    return None
+
+
+class ArticleExtractor:
+    """Selector-aware article extraction utilities."""
+
+    def extract_listing_links(self, html: str, base_url: str, selectors: list[SelectorStrategy]) -> list[str]:
+        """Extract article URLs from a listing page."""
+
+        links: list[str] = []
+        soup = BeautifulSoup(html, "lxml")
+        document = lxml_html.fromstring(html)
+
+        for selector in selectors:
+            raw_values = self._run_selector(selector, soup, document)
+            for raw_value in raw_values:
+                if not raw_value:
+                    continue
+                resolved = urljoin(base_url, raw_value)
+                if resolved.startswith("http"):
+                    links.append(normalize_url(resolved))
+
+        seen: set[str] = set()
+        deduped: list[str] = []
+        for link in links:
+            if link in seen:
+                continue
+            seen.add(link)
+            deduped.append(link)
+        return deduped
+
+    def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
+        """Extract normalized article fields from an article page."""
+
+        soup = BeautifulSoup(html, "lxml")
+        document = lxml_html.fromstring(html)
+
+        fields = site_selectors.fields
+        extracted: dict[str, Any] = {}
+        extracted["article_title"] = self._extract_field(fields.article_title, soup, document)
+        extracted["author"] = self._extract_field(fields.author, soup, document)
+        extracted["article_body"] = self._extract_field(fields.article_body, soup, document)
+        extracted["tags"] = self._extract_field(fields.tags, soup, document)
+        extracted["date_published"] = self._extract_date(fields.date_published, soup, document)
+        extracted["article_url"] = self._extract_url(
+            fields.article_url,
+            soup,
+            document,
+            base_url=url,
+        ) or url
+        extracted["url_hash"] = md5_url(extracted["article_url"])
+        extracted["main_image_url"] = self._extract_url(fields.main_image_url, soup, document, base_url=url)
+        extracted["seo_description"] = self._extract_field(fields.seo_description, soup, document)
+        extracted["source_html_lang"] = soup.html.get("lang") if soup.html else None
+        self._validate_required_fields(extracted, fields)
+        return extracted
+
+    def _validate_required_fields(self, extracted: dict[str, Any], fields: Any) -> None:
+        required_fields = {
+            "article_title": fields.article_title.required,
+            "article_body": fields.article_body.required,
+            "date_published": fields.date_published.required,
+            "article_url": fields.article_url.required,
+            "main_image_url": fields.main_image_url.required,
+            "seo_description": fields.seo_description.required,
+        }
+        missing = [field for field, required in required_fields.items() if required and not extracted.get(field)]
+        if missing:
+            raise ExtractionError(f"Required selectors returned no data: {', '.join(missing)}")
+
+    def _extract_field(self, field_rule: Any, soup: BeautifulSoup, document: Any) -> Any:
+        values: list[Any] = []
+        for selector in field_rule.selectors:
+            values.extend(self._run_selector(selector, soup, document))
+            if values:
+                break
+
+        if not values:
+            return field_rule.default
+
+        processed = [self._apply_postprocess(value, field_rule.postprocess) for value in values]
+        cleaned = [value for value in processed if value not in (None, "", [])]
+        if not cleaned:
+            return field_rule.default
+        deduped: list[Any] = []
+        seen: set[str] = set()
+        for item in cleaned:
+            key = json.dumps(item, sort_keys=True) if not isinstance(item, str) else item
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(item)
+        if len(deduped) == 1:
+            return deduped[0]
+        if "dedupe_list" in field_rule.postprocess:
+            cleaned = deduped
+        return cleaned
+
+    def _extract_date(self, date_rule: Any, soup: BeautifulSoup, document: Any) -> datetime | None:
+        raw_value = self._extract_field(date_rule, soup, document)
+        if raw_value in (None, ""):
             return None
+
+        if isinstance(raw_value, list):
+            raw_value = raw_value[0]
+
+        for fmt in date_rule.input_formats:
+            try:
+                parsed = datetime.strptime(raw_value, fmt)
+                return self._apply_timezone(parsed, date_rule.timezone)
+            except ValueError:
+                continue
+
+        parsed = self._parse_date(raw_value)
+        if parsed is None:
+            raise ExtractionError(f"Unable to parse date value '{raw_value}'")
+        return self._apply_timezone(parsed, date_rule.timezone)
+
+    def _extract_url(self, url_rule: Any, soup: BeautifulSoup, document: Any, base_url: str) -> str | None:
+        raw_value = self._extract_field(url_rule, soup, document)
+        if not raw_value:
+            return None
+
+        if isinstance(raw_value, list):
+            raw_value = raw_value[0]
+
+        resolved = urljoin(base_url, str(raw_value))
+        return normalize_url(resolved) if url_rule.normalize_to_canonical else resolved
+
+    def _run_selector(self, selector: SelectorStrategy, soup: BeautifulSoup, document: Any) -> list[Any]:
+        if selector.type == SelectorType.CSS:
+            if selector.multiple:
+                elements = soup.select(selector.value)
+            else:
+                single = soup.select_one(selector.value)
+                elements = [single] if single else []
+            return [extract_element_value(element, selector.attribute) for element in elements if element]
+
+        if selector.type == SelectorType.META:
+            candidates = [
+                soup.find("meta", attrs={"name": selector.value}),
+                soup.find("meta", attrs={"property": selector.value}),
+                soup.find("meta", attrs={"itemprop": selector.value}),
+            ]
+            values = []
+            for candidate in candidates:
+                if not candidate:
+                    continue
+                values.append(candidate.get(selector.attribute or "content"))
+            return [value for value in values if value]
+
+        if selector.type == SelectorType.XPATH:
+            values = document.xpath(selector.value)
+            normalized: list[Any] = []
+            for value in values:
+                if hasattr(value, "text_content"):
+                    normalized.append(value.get(selector.attribute) if selector.attribute else value.text_content())
+                else:
+                    normalized.append(str(value))
+            return normalized
+
+        if selector.type == SelectorType.JSON_LD:
+            return self._extract_json_ld(soup, selector.value)
+
+        return []
+
+    def _extract_json_ld(self, soup: BeautifulSoup, dotted_path: str) -> list[Any]:
+        results: list[Any] = []
+        for tag in soup.find_all("script", attrs={"type": "application/ld+json"}):
+            content = tag.string or tag.get_text()
+            if not content:
+                continue
+            try:
+                payload = json.loads(content)
+            except json.JSONDecodeError:
+                continue
+            for candidate in iterate_json_ld_nodes(payload):
+                value = dotted_lookup(candidate, dotted_path)
+                if value in (None, ""):
+                    continue
+                if isinstance(value, list):
+                    results.extend(value)
+                else:
+                    results.append(value)
+        return results
+
+    def _parse_date(self, value: str) -> datetime | None:
+        value = value.strip()
+        try:
+            return parsedate_to_datetime(value)
+        except (TypeError, ValueError):
+            pass
+        try:
+            return date_parser.parse(value)
+        except (TypeError, ValueError, OverflowError):
+            return None
+
+    def _apply_timezone(self, value: datetime, timezone_name: str | None) -> datetime:
+        if value.tzinfo is None:
+            if timezone_name:
+                return value.replace(tzinfo=ZoneInfo(timezone_name)).astimezone(UTC)
+            return value.replace(tzinfo=UTC)
+        return value.astimezone(UTC)
+
+    def _apply_postprocess(self, value: Any, steps: list[str]) -> Any:
+        result = value
+        if hasattr(result, "get_text"):
+            result = result.get_text(" ", strip=True)
+
+        if isinstance(result, list):
+            processed = [self._apply_postprocess(item, [step for step in steps if step != "dedupe_list"]) for item in result]
+            if "dedupe_list" in steps:
+                deduped: list[Any] = []
+                seen: set[str] = set()
+                for item in processed:
+                    key = json.dumps(item, sort_keys=True) if not isinstance(item, str) else item
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    deduped.append(item)
+                return deduped
+            return processed
+
+        if result is None:
+            return None
+
+        if not isinstance(result, str):
+            result = str(result)
+
+        for step in steps:
+            if step == "strip":
+                result = result.strip()
+            elif step == "normalize_whitespace":
+                result = " ".join(result.split())
+            elif step == "trim_trailing_slash":
+                result = result.rstrip("/")
+            elif step == "join_paragraphs":
+                parts = [part.strip() for part in result.splitlines() if part.strip()]
+                result = "\n\n".join(parts)
+            elif step == "html_to_text":
+                result = BeautifulSoup(result, "lxml").get_text(" ", strip=True)
+        return result
 
 
 class ScraperEngine:
-    """
-    Core scraper engine with deterministic backend priority.
-    
-    Fallback order: Scrapling → Pydoll → Selenium
-    Tracks which tool successfully extracted data and updates site catalog.
-    """
-    
-    def __init__(self, timeout: int = 30):
+    """Low-level fetch and extraction engine."""
+
+    strict_order = [
+        ScrapingTool.SCRAPLING,
+        ScrapingTool.PYDOLL,
+        ScrapingTool.SELENIUM,
+    ]
+
+    def __init__(self, timeout: int = 30) -> None:
         self.timeout = timeout
-        self.scrapling_scraper = ScraplingScraper(timeout=timeout)
-        self.pydoll_scraper = PydollScraper(timeout=timeout * 2)
-        self.selenium_scraper = SeleniumScraper(headless=True, timeout=timeout * 4)
-    
-    def fetch_with_fallback(self, url: str) -> Tuple[Optional[str], Optional[str]]:
-        """
-        Fetch page using fallback pipeline.
-        
-        Returns:
-            Tuple of (html_content, successful_tool_name)
-        """
-        # Try Scrapling first (fastest, best for standard bypasses)
-        html = self.scrapling_scraper.fetch(url)
-        if html and self._is_valid_html(html):
-            return html, "Scrapling"
-        
-        # Backup 1: Pydoll (for Cloudflare and other bot-mitigation)
-        html = self.pydoll_scraper.fetch(url)
-        if html and self._is_valid_html(html):
-            return html, "Pydoll"
-        
-        # Fallback: Selenium (last resort, fully headed or heavily stealthed)
-        html = self.selenium_scraper.fetch(url)
-        if html and self._is_valid_html(html):
-            return html, "Selenium"
-        
-        return None, None
-    
-    def _is_valid_html(self, html: str) -> bool:
-        """Check if HTML content appears valid."""
-        if not html or not html.strip():
-            return False
-        
-        soup = BeautifulSoup(html, "html.parser")
-        text = soup.get_text(" ", strip=True)
-        
-        # Very short responses are usually placeholders or blocks
-        if len(text) < 100:
-            return False
-        
-        # Check for common block indicators
-        lower_text = text.lower()
-        block_indicators = [
-            "captcha", "access denied", "forbidden", "under construction",
-            "coming soon", "maintenance", "attention required"
-        ]
-        if any(indicator in lower_text for indicator in block_indicators):
-            return False
-        
-        return True
-    
-    def compute_url_hash(self, url: str) -> str:
-        """Generate MD5 hash of URL for deduplication."""
-        return hashlib.md5(url.encode("utf-8")).hexdigest()
-    
-    def create_article_data(
-        self,
-        raw_data: dict,
-        site_name: str,
-        scraping_tool: str = "Scrapling",
-        fallback_chain: List[str] = None,
-        category: Optional[str] = None
-    ) -> ArticleData:
-        """Create ArticleData from raw scraped data."""
-        if fallback_chain is None:
-            fallback_chain = []
-        
-        url_hash = self.compute_url_hash(raw_data.get("article_url", ""))
-        
-        return ArticleData(
-            article_id=str(uuid.uuid4()),
-            scraped_at=datetime.now(timezone.utc).isoformat(),
-            site_name=site_name,
-            url_hash=url_hash,
-            article_url=raw_data.get("article_url", ""),
-            article_title=raw_data.get("article_title", ""),
-            author=raw_data.get("author"),
-            date_published=raw_data.get("date_published"),
-            tags=raw_data.get("tags"),
-            main_image_url=raw_data.get("main_image_url"),
-            seo_description=raw_data.get("seo_description"),
-            scraping_tool=scraping_tool,
-            fallback_chain=fallback_chain,
-            category=category
-        )
-    
-    def create_error_log(
-        self,
-        site_name: str,
-        url_hash: str,
-        article_url: str,
-        error_type: str,
-        error_message: str,
-        fallback_attempts: List[dict] = None,
-        final_tool_used: Optional[str] = None,
-        retry_count: int = 0
-    ) -> ErrorLogEntry:
-        """Create ErrorLogEntry for failed scraping attempts."""
-        if fallback_attempts is None:
-            fallback_attempts = []
-        
-        return ErrorLogEntry(
-            logged_at=datetime.now(timezone.utc).isoformat(),
-            site_name=site_name,
-            url_hash=url_hash,
-            article_url=article_url,
-            error_type=error_type,
-            error_message=error_message,
-            fallback_attempts=fallback_attempts,
-            final_tool_used=final_tool_used,
-            retry_count=retry_count
-        )
-    
-    def scrape_article(
+        self.extractor = ArticleExtractor()
+        self.backends: dict[ScrapingTool, BackendFetcher] = {
+            ScrapingTool.SCRAPLING: ScraplingFetcher(timeout=timeout),
+            ScrapingTool.PYDOLL: PydollFetcher(timeout=timeout * 2),
+            ScrapingTool.SELENIUM: SeleniumFetcher(timeout=timeout * 4),
+        }
+
+    def fetch_with_fallback(
         self,
         url: str,
-        site_name: str,
-        selectors: dict,
-        historic_cutoff_date: Optional[datetime] = None
-    ) -> ScrapingResult:
-        """
-        Scrape a single article with fallback pipeline.
-        
-        Args:
-            url: Article URL to scrape
-            site_name: Name of the site for catalog tracking
-            selectors: SelectorMap configuration for this site
-            historic_cutoff_date: Optional date cutoff for historic scraping
-            
-        Returns:
-            ScrapingResult containing either success data or error log
-        """
-        fallback_chain = []
-        fallback_attempts = []
-        
-        # Fetch page with fallback pipeline
-        html, tool_used = self.fetch_with_fallback(url)
-        
-        if not html:
-            # All tools failed - create error log
-            url_hash = self.compute_url_hash(url)
-            error_entry = self.create_error_log(
-                site_name=site_name,
-                url_hash=url_hash,
-                article_url=url,
-                error_type="Timeout",
-                error_message="All scraping tools failed to fetch page",
-                fallback_attempts=fallback_attempts,
-                final_tool_used=None,
-                retry_count=len(fallback_chain)
-            )
-            return ScrapingResult.error_result(error_entry)
-        
-        # Extract article data using selectors
-        try:
-            article_data = {
-                "article_url": url,
-                "article_title": self._extract_text(selectors.get("article_title", {}), html),
-                "author": self._extract_text(selectors.get("author", {}), html) if selectors.get("author") else None,
-                "date_published": self._extract_date(selectors.get("date_published", {}), html),
-                "tags": self._extract_tags(selectors.get("tags", {}), html) if selectors.get("tags") else None,
-                "main_image_url": self._extract_text(selectors.get("main_image_url", {}), html) if selectors.get("main_image_url") else None,
-                "seo_description": self._extract_seo_description(html),
-            }
-            
-            # Normalize date to ISO 8601 if present
-            if article_data["date_published"]:
-                article_data["date_published"] = self._normalize_date_to_iso8601(
-                    article_data["date_published"],
-                    historic_cutoff_date
-                )
-            
-            # Check for historic cutoff
-            if historic_cutoff_date and article_data["date_published"]:
-                from datetime import datetime as dt
-                parsed_date = dt.fromisoformat(article_data["date_published"].replace("Z", "+00:00"))
-                if parsed_date.replace(tzinfo=None) < historic_cutoff_date.replace(tzinfo=timezone.utc):
-                    # Article is too old, skip it
-                    url_hash = self.compute_url_hash(url)
-                    error_entry = self.create_error_log(
-                        site_name=site_name,
-                        url_hash=url_hash,
-                        article_url=url,
-                        error_type="HistoricCutoff",
-                        error_message=f"Article date {article_data['date_published']} is before cutoff {historic_cutoff_date}",
-                        fallback_attempts=fallback_attempts,
-                        final_tool_used=tool_used,
-                        retry_count=len(fallback_chain)
+        preferred_tool: ScrapingTool | None = None,
+        proxy_config: ProxyConfig | None = None,
+    ) -> FetchResult:
+        """Fetch a page using the preferred tool, then strict fallback order."""
+
+        attempts: list[FetchAttempt] = []
+        proxy_url = resolve_proxy_url(proxy_config)
+        ordered_tools = order_tools(preferred_tool, self.strict_order)
+
+        for tool in ordered_tools:
+            backend = self.backends[tool]
+            start = time.perf_counter()
+            try:
+                html = backend.fetch(url, proxy_url=proxy_url)
+                elapsed_ms = int((time.perf_counter() - start) * 1000)
+                if not html:
+                    attempts.append(
+                        FetchAttempt(
+                            tool=tool,
+                            success=False,
+                            elapsed_ms=elapsed_ms,
+                            error_type="EmptyResponse",
+                            message="Fetcher returned no HTML",
+                        )
                     )
-                    return ScrapingResult.error_result(error_entry)
-            
-            # Create success result
-            article_data["scraped_at"] = datetime.now(timezone.utc).isoformat()
-            fallback_chain.append(tool_used)
-            
-            result = self.create_article_data(
-                raw_data=article_data,
-                site_name=site_name,
-                scraping_tool=tool_used,
-                fallback_chain=fallback_chain
-            )
-            
-            return ScrapingResult.success_result(result)
-            
-        except Exception as e:
-            # Extraction failed - log error
-            url_hash = self.compute_url_hash(url)
-            error_entry = self.create_error_log(
-                site_name=site_name,
-                url_hash=url_hash,
-                article_url=url,
-                error_type="SelectorMissing",
-                error_message=f"Failed to extract article data: {str(e)}",
-                fallback_attempts=fallback_attempts,
-                final_tool_used=tool_used,
-                retry_count=len(fallback_chain)
-            )
-            return ScrapingResult.error_result(error_entry)
-    
-    def _extract_text(self, selector_config: dict, html: str) -> Optional[str]:
-        """Extract text using CSS selector."""
-        try:
-            soup = BeautifulSoup(html, "html.parser")
-            selector = selector_config.get("selector", "")
-            
-            element = soup.select_one(selector)
-            if element:
-                return element.get_text(strip=True)
-            
-            # Try XPath alternative
-            xpath = selector_config.get("xpath_alternative", "")
-            if xpath:
-                elements = soup.select(xpath)
-                if elements:
-                    return elements[0].get_text(strip=True)
-            
-            # Try fallback selector
-            fallback = selector_config.get("fallback_selector", "")
-            if fallback:
-                element = soup.select_one(fallback)
-                if element:
-                    return element.get_text(strip=True)
-            
-            return None
-        except Exception:
-            return None
-    
-    def _extract_date(self, selector_config: dict, html: str) -> Optional[str]:
-        """Extract and parse date from article."""
-        try:
-            soup = BeautifulSoup(html, "html.parser")
-            selector = selector_config.get("selector", "")
-            
-            element = soup.select_one(selector)
-            if not element:
-                return None
-            
-            # Check for datetime attribute
-            if element.has_attr("datetime"):
-                return element["datetime"]
-            
-            # Try to parse text content
-            text = element.get_text(strip=True)
-            if not text:
-                return None
-            
-            # Try common date formats
-            from datetime import datetime as dt
-            from dateutil import parser
-            
-            for fmt in ["%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y", "%b %d, %Y", "%B %d, %Y"]:
-                try:
-                    parsed = dt.strptime(text.strip(), fmt)
-                    return parsed.isoformat()
-                except ValueError:
                     continue
-            
-            # Try dateutil parser as last resort
-            try:
-                parsed = parser.parse(text.strip(), fuzzy=True)
-                return parsed.isoformat()
-            except Exception:
-                pass
-            
-            return None
-        except Exception:
-            return None
-    
-    def _extract_tags(self, selector_config: dict, html: str) -> Optional[List[str]]:
-        """Extract tags from article."""
-        try:
-            soup = BeautifulSoup(html, "html.parser")
-            selector = selector_config.get("selector", "")
-            
-            elements = soup.select(selector)
-            if not elements:
-                return None
-            
-            tags = []
-            for element in elements:
-                text = element.get_text(strip=True)
-                if text:
-                    tags.append(text)
-            
-            return tags[:10]  # Limit to 10 tags
-        except Exception:
-            return None
-    
-    def _extract_seo_description(self, html: str) -> Optional[str]:
-        """Extract SEO description from meta tags."""
-        try:
-            soup = BeautifulSoup(html, "html.parser")
-            
-            # Try meta description first
-            meta_desc = soup.find("meta", attrs={"name": "description"})
-            if meta_desc and meta_desc.get("content"):
-                return meta_desc["content"]
-            
-            # Try og:description
-            og_desc = soup.find("meta", attrs={"property": "og:description"})
-            if og_desc and og_desc.get("content"):
-                return og_desc["content"]
-            
-            # Try twitter:description
-            tw_desc = soup.find("meta", attrs={"name": "twitter:description"})
-            if tw_desc and tw_desc.get("content"):
-                return tw_desc["content"]
-            
-            return None
-        except Exception:
-            return None
-    
-    def _normalize_date_to_iso8601(self, date_str: str, cutoff_date: Optional[datetime] = None) -> Optional[str]:
-        """Normalize date string to ISO 8601 format."""
-        try:
-            from datetime import datetime as dt
-            from dateutil import parser
-            
-            # Try parsing with various formats
-            for fmt in ["%Y-%m-%d", "%Y/%m/%d", "%d-%m-%Y", "%d/%m/%Y", "%b %d, %Y", "%B %d, %Y"]:
-                try:
-                    parsed = dt.strptime(date_str.strip(), fmt)
-                    return parsed.isoformat()
-                except ValueError:
+                blocked = self._looks_blocked(html)
+                if blocked or not self._is_valid_html(html):
+                    attempts.append(
+                        FetchAttempt(
+                            tool=tool,
+                            success=False,
+                            elapsed_ms=elapsed_ms,
+                            error_type="Blocked" if blocked else "InvalidHtml",
+                            message="Response looks blocked or malformed",
+                            block_detected=blocked,
+                        )
+                    )
                     continue
-            
-            # Try dateutil parser
+
+                attempts.append(FetchAttempt(tool=tool, success=True, elapsed_ms=elapsed_ms))
+                return FetchResult(url=url, html=html, tool=tool, elapsed_ms=elapsed_ms, attempts=attempts)
+            except Exception as exc:
+                elapsed_ms = int((time.perf_counter() - start) * 1000)
+                attempts.append(
+                    FetchAttempt(
+                        tool=tool,
+                        success=False,
+                        elapsed_ms=elapsed_ms,
+                        error_type=exc.__class__.__name__,
+                        message=str(exc),
+                    )
+                )
+
+        raise FetchError(f"All scraping tools failed for {url}", attempts=attempts)
+
+    def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
+        """Extract article fields using configured selectors."""
+
+        return self.extractor.extract_article(html, url, site_selectors)
+
+    def extract_listing_links(self, html: str, base_url: str, site_selectors: SiteSelectorConfig) -> list[str]:
+        """Extract article links from a category or home page."""
+
+        return self.extractor.extract_listing_links(html, base_url, site_selectors.article_link_selectors)
+
+    def _is_valid_html(self, html: str) -> bool:
+        text = BeautifulSoup(html, "lxml").get_text(" ", strip=True)
+        return len(text) >= 120
+
+    def _looks_blocked(self, html: str) -> bool:
+        lower_text = BeautifulSoup(html, "lxml").get_text(" ", strip=True).lower()
+        indicators = [
+            "captcha",
+            "attention required",
+            "access denied",
+            "verify you are human",
+            "forbidden",
+            "enable javascript and cookies",
+            "bot verification",
+            "cloudflare",
+        ]
+        return any(indicator in lower_text for indicator in indicators)
+
+
+class ScraperRunner:
+    """High-level orchestrator for config-driven scraping runs."""
+
+    def __init__(self, runtime_config: RuntimeConfig, timeout: int = 30) -> None:
+        self.runtime_config = runtime_config
+        self.engine = ScraperEngine(timeout=timeout)
+
+    def run(self, input_config: InputConfig) -> RunDatasets:
+        """Execute a full scrape and persist state/datasets."""
+
+        catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
+        selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
+        tracker = self._load_tracker()
+
+        catalog_sites = self._select_sites(catalog, input_config)
+        selector_by_name = {site.site_name: site for site in selector_map.sites}
+        datasets = RunDatasets()
+
+        for site in catalog_sites:
+            if site.site_name not in selector_by_name:
+                datasets.error_log_dataset.append(
+                    ErrorDatasetItem(
+                        logged_at=utc_now(),
+                        site_name=site.site_name,
+                        failed_url=str(site.base_url),
+                        url_hash=md5_url(str(site.base_url)),
+                        error_type="MissingSelectorMap",
+                        error_message="No selector configuration found for site",
+                        execution_mode=input_config.execution_mode,
+                    )
+                )
+                continue
+
+            site_selectors = selector_by_name[site.site_name]
+            self._scrape_site(site, site_selectors, tracker, input_config, datasets)
+
+        save_json_model(self.runtime_config.catalog_path, catalog)
+        save_json_model(self.runtime_config.tracker_path, tracker)
+        self._write_datasets(datasets)
+        return datasets
+
+    def verify_sites(self, sites_to_verify: list[str] | None = None) -> VerificationReport:
+        """Verify that each site's selectors still return valid data."""
+
+        catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
+        selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
+        selector_by_name = {site.site_name: site for site in selector_map.sites}
+        results: list[SiteVerificationResult] = []
+
+        catalog_sites = [site for site in catalog.sites if site.active]
+        if sites_to_verify:
+            wanted = set(sites_to_verify)
+            catalog_sites = [site for site in catalog_sites if site.site_name in wanted]
+
+        for site in catalog_sites:
+            issues: list[str] = []
+            tool_used: ScrapingTool | None = None
             try:
-                parsed = parser.parse(date_str.strip(), fuzzy=True)
-                return parsed.isoformat()
-            except Exception:
-                pass
-            
+                selector_config = selector_by_name.get(site.site_name)
+                if selector_config is None:
+                    issues.append("Missing selector map")
+                    raise ExtractionError("Missing selector map")
+
+                listing = self.engine.fetch_with_fallback(
+                    str(site.base_url),
+                    preferred_tool=site.preferred_scraping_tool,
+                )
+                tool_used = listing.tool
+                links = self.engine.extract_listing_links(listing.html, str(site.base_url), selector_config)
+                if not links:
+                    issues.append("No article links discovered on listing page")
+                    raise ExtractionError("No article links discovered")
+
+                article_url = links[0]
+                article_fetch = self.engine.fetch_with_fallback(
+                    article_url,
+                    preferred_tool=site.preferred_scraping_tool,
+                )
+                tool_used = article_fetch.tool
+                extracted = self.engine.extract_article(article_fetch.html, article_url, selector_config)
+
+                for required_key in ("article_title", "article_body", "date_published", "article_url"):
+                    if not extracted.get(required_key):
+                        issues.append(f"Required field empty: {required_key}")
+            except Exception as exc:
+                if not issues:
+                    issues.append(str(exc))
+                results.append(
+                    SiteVerificationResult(
+                        site_name=site.site_name,
+                        fetched_url=str(site.base_url),
+                        success=False,
+                        tool_used=tool_used,
+                        issues=issues,
+                        verified_at=utc_now(),
+                    )
+                )
+                continue
+
+            site.last_verified_at = utc_now()
+            results.append(
+                SiteVerificationResult(
+                    site_name=site.site_name,
+                    fetched_url=str(site.base_url),
+                    success=not issues,
+                    tool_used=tool_used,
+                    issues=issues,
+                    verified_at=utc_now(),
+                )
+            )
+
+        save_json_model(self.runtime_config.catalog_path, catalog)
+        return VerificationReport(generated_at=utc_now(), results=results)
+
+    def _scrape_site(
+        self,
+        site: SiteCatalogEntry,
+        site_selectors: SiteSelectorConfig,
+        tracker: CategoryPaginationTracker,
+        input_config: InputConfig,
+        datasets: RunDatasets,
+    ) -> None:
+        site_tracker = get_or_create_site_tracker(tracker, site.site_name)
+        targets = self._build_targets(site, site_tracker, input_config.execution_mode)
+        seen_urls = {str(item.article_url) for item in datasets.success_dataset}
+        max_items = input_config.max_items_per_site
+        collected = 0
+
+        for category_root_url, page_url, page_index in targets:
+            if collected >= max_items:
+                break
+
+            try:
+                listing_fetch = self.engine.fetch_with_fallback(
+                    page_url,
+                    preferred_tool=site.preferred_scraping_tool,
+                    proxy_config=input_config.proxy_config,
+                )
+                self._record_site_attempt(site, listing_fetch.attempts)
+                links = self.engine.extract_listing_links(listing_fetch.html, page_url, site_selectors)
+                if not links:
+                    raise ExtractionError("No article links found on listing page")
+
+                category_state = upsert_category_state(site_tracker, category_root_url, page_index)
+                category_state.total_known_pages = max(category_state.total_known_pages, page_index)
+                category_state.last_scraped_page_index = max(category_state.last_scraped_page_index, page_index)
+
+                for article_url in links:
+                    if collected >= max_items:
+                        break
+                    if article_url in seen_urls:
+                        continue
+
+                    success_item, error_item = self._scrape_article(
+                        site,
+                        article_url,
+                        category_root_url,
+                        site_selectors,
+                        input_config.execution_mode,
+                        input_config.historic_cutoff_date,
+                        input_config.proxy_config,
+                    )
+                    if error_item is not None:
+                        datasets.error_log_dataset.append(error_item)
+                    if success_item is None:
+                        continue
+                    datasets.success_dataset.append(success_item)
+                    seen_urls.add(str(success_item.article_url))
+                    collected += 1
+            except Exception as exc:
+                fallback_tool_failed = exc.attempts[-1].tool if isinstance(exc, FetchError) and exc.attempts else None
+                datasets.error_log_dataset.append(
+                    ErrorDatasetItem(
+                        logged_at=utc_now(),
+                        site_name=site.site_name,
+                        failed_url=page_url,
+                        url_hash=md5_url(page_url),
+                        error_type=exc.__class__.__name__,
+                        error_message=str(exc),
+                        fallback_tool_failed=fallback_tool_failed,
+                        execution_mode=input_config.execution_mode,
+                    )
+                )
+
+        if site.scraping_history:
+            site.preferred_scraping_tool = choose_preferred_tool(site.scraping_history)
+
+    def _scrape_article(
+        self,
+        site: SiteCatalogEntry,
+        article_url: str,
+        category_url: str,
+        site_selectors: SiteSelectorConfig,
+        mode: ExecutionMode,
+        cutoff_date: datetime | None,
+        proxy_config: ProxyConfig,
+    ) -> tuple[SuccessDatasetItem | None, ErrorDatasetItem | None]:
+        try:
+            fetch = self.engine.fetch_with_fallback(
+                article_url,
+                preferred_tool=site.preferred_scraping_tool,
+                proxy_config=proxy_config,
+            )
+            self._record_site_attempt(site, fetch.attempts)
+            article = self.engine.extract_article(fetch.html, article_url, site_selectors)
+
+            published = ensure_utc(article["date_published"])
+            if cutoff_date and published < ensure_utc(cutoff_date):
+                return None, None
+
+            self._record_success(site, fetch.tool, fetch.elapsed_ms)
+            return SuccessDatasetItem(
+                site_name=site.site_name,
+                country=site.country,
+                region=site.region,
+                language=site.language,
+                article_title=article["article_title"],
+                author=coerce_scalar(article.get("author")),
+                article_body=coerce_body(article["article_body"]),
+                tags=coerce_tags(article.get("tags")),
+                date_published=published,
+                article_url=article["article_url"],
+                url_hash=article["url_hash"],
+                main_image_url=article.get("main_image_url"),
+                seo_description=coerce_scalar(article.get("seo_description")),
+                scraped_at=utc_now(),
+                scraping_tool=fetch.tool,
+                execution_mode=mode,
+                category_url=category_url,
+                source_html_lang=coerce_scalar(article.get("source_html_lang")),
+            ), None
+        except Exception as exc:
+            self._record_failure(site, exc)
+            fallback_tool_failed = exc.attempts[-1].tool if isinstance(exc, FetchError) and exc.attempts else None
+            return None, ErrorDatasetItem(
+                logged_at=utc_now(),
+                site_name=site.site_name,
+                failed_url=article_url,
+                url_hash=md5_url(article_url),
+                error_type=exc.__class__.__name__,
+                error_message=str(exc),
+                fallback_tool_failed=fallback_tool_failed,
+                execution_mode=mode,
+            )
+
+    def _record_site_attempt(self, site: SiteCatalogEntry, attempts: list[FetchAttempt]) -> None:
+        for attempt in attempts:
+            if attempt.success:
+                continue
+            self._append_history(
+                site,
+                attempt.tool,
+                success=False,
+                elapsed_ms=attempt.elapsed_ms,
+                block_detected=attempt.block_detected,
+                error_type=attempt.error_type,
+            )
+
+    def _record_success(self, site: SiteCatalogEntry, tool: ScrapingTool, elapsed_ms: int) -> None:
+        self._append_history(site, tool, success=True, elapsed_ms=elapsed_ms, block_detected=False, error_type=None)
+        site.preferred_scraping_tool = choose_preferred_tool(site.scraping_history)
+
+    def _record_failure(self, site: SiteCatalogEntry, exc: Exception) -> None:
+        site.preferred_scraping_tool = choose_preferred_tool(site.scraping_history or [])
+        LOGGER.warning("Article scrape failed for %s: %s", site.site_name, exc)
+
+    def _append_history(
+        self,
+        site: SiteCatalogEntry,
+        tool: ScrapingTool,
+        success: bool,
+        elapsed_ms: int,
+        block_detected: bool,
+        error_type: str | None,
+    ) -> None:
+        prior = [entry for entry in site.scraping_history if entry.tool == tool]
+        sample_size = len(prior) + 1
+        successes = sum(1 for entry in prior if entry.success) + int(success)
+        success_rate = successes / sample_size
+        avg_times = [entry.avg_response_time_ms for entry in prior if entry.avg_response_time_ms is not None]
+        avg_response_time_ms = int((sum(avg_times) + elapsed_ms) / (len(avg_times) + 1)) if elapsed_ms else None
+        site.scraping_history.append(
+            ScrapingHistoryEntry(
+                timestamp=utc_now(),
+                tool=tool,
+                success=success,
+                success_rate=success_rate,
+                sample_size=sample_size,
+                avg_response_time_ms=avg_response_time_ms,
+                block_detected=block_detected,
+                error_type=error_type,
+            )
+        )
+
+    def _build_targets(
+        self,
+        site: SiteCatalogEntry,
+        site_tracker: SiteCategoryTracker,
+        mode: ExecutionMode,
+    ) -> list[tuple[str, str, int]]:
+        if not site_tracker.categories:
+            site_tracker.categories.append(
+                CategoryState(
+                    category_name="front_page",
+                    category_url=str(site.base_url),
+                    total_known_pages=2 if mode == ExecutionMode.CURRENT else 50,
+                    last_scraped_page_index=0,
+                )
+            )
+
+        targets: list[tuple[str, str, int]] = []
+        for category in site_tracker.categories:
+            if mode == ExecutionMode.CURRENT:
+                max_page = min(category.total_known_pages, 2)
+                for page_index in range(1, max_page + 1):
+                    targets.append(
+                        (str(category.category_url), build_page_url(str(category.category_url), page_index), page_index)
+                    )
+            else:
+                start_page = max(category.last_scraped_page_index + 1, 1)
+                end_page = max(category.total_known_pages, start_page)
+                for page_index in range(start_page, end_page + 1):
+                    targets.append(
+                        (str(category.category_url), build_page_url(str(category.category_url), page_index), page_index)
+                    )
+        return targets
+
+    def _select_sites(self, catalog: SiteCatalog, input_config: InputConfig) -> list[SiteCatalogEntry]:
+        sites = [site for site in catalog.sites if site.active]
+        if input_config.sites_to_scrape:
+            allowed = set(input_config.sites_to_scrape)
+            sites = [site for site in sites if site.site_name in allowed]
+        return sites
+
+    def _load_tracker(self) -> CategoryPaginationTracker:
+        if self.runtime_config.tracker_path.exists():
+            return load_json_model(self.runtime_config.tracker_path, CategoryPaginationTracker)
+        tracker = CategoryPaginationTracker(schema_version="1.0.0", sites=[])
+        save_json_model(self.runtime_config.tracker_path, tracker)
+        return tracker
+
+    def _write_datasets(self, datasets: RunDatasets) -> None:
+        self.runtime_config.output_dir.mkdir(parents=True, exist_ok=True)
+        save_json_data(
+            self.runtime_config.output_dir / "success_dataset.json",
+            [item.model_dump(mode="json") for item in datasets.success_dataset],
+        )
+        save_json_data(
+            self.runtime_config.output_dir / "error_log_dataset.json",
+            [item.model_dump(mode="json") for item in datasets.error_log_dataset],
+        )
+
+
+def resolve_proxy_url(proxy_config: ProxyConfig | None) -> str | None:
+    """Resolve a proxy URL from runtime config and environment."""
+
+    if proxy_config and proxy_config.useApifyProxy:
+        return os.getenv("APIFY_PROXY_URL") or os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+    return os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
+
+
+def extract_element_value(element: Any, attribute: str | None) -> Any:
+    """Extract either text or an attribute value from a parsed element."""
+
+    if attribute:
+        if hasattr(element, "get"):
+            return element.get(attribute)
+        return None
+    if hasattr(element, "decode_contents"):
+        return element.decode_contents() if element.name in {"script", "style"} else element.get_text(" ", strip=True)
+    if hasattr(element, "text_content"):
+        return element.text_content()
+    return str(element)
+
+
+def iterate_json_ld_nodes(payload: Any) -> list[dict[str, Any]]:
+    """Flatten JSON-LD values into a list of dict nodes."""
+
+    if isinstance(payload, list):
+        nodes: list[dict[str, Any]] = []
+        for item in payload:
+            nodes.extend(iterate_json_ld_nodes(item))
+        return nodes
+    if isinstance(payload, dict):
+        if "@graph" in payload and isinstance(payload["@graph"], list):
+            nodes = [payload]
+            nodes.extend(iterate_json_ld_nodes(payload["@graph"]))
+            return nodes
+        return [payload]
+    return []
+
+
+def dotted_lookup(payload: dict[str, Any], dotted_path: str) -> Any:
+    """Resolve a dotted key path inside a dict."""
+
+    current: Any = payload
+    for part in dotted_path.split("."):
+        if isinstance(current, list):
+            collected = []
+            for item in current:
+                if isinstance(item, dict) and part in item:
+                    collected.append(item[part])
+            current = collected
+            continue
+        if not isinstance(current, dict) or part not in current:
             return None
-        except Exception:
+        current = current[part]
+    return current
+
+
+def order_tools(preferred_tool: ScrapingTool | None, order: list[ScrapingTool]) -> list[ScrapingTool]:
+    """Move the preferred tool to the front without changing fallback order."""
+
+    if preferred_tool is None:
+        return order[:]
+    return [preferred_tool] + [tool for tool in order if tool != preferred_tool]
+
+
+def choose_preferred_tool(history: list[ScrapingHistoryEntry]) -> ScrapingTool:
+    """Pick the tool with the best success rate, then highest sample size."""
+
+    if not history:
+        return ScrapingTool.SCRAPLING
+
+    ranked = sorted(
+        history,
+        key=lambda entry: (
+            entry.success_rate,
+            entry.sample_size,
+            -1 * (entry.avg_response_time_ms or 10**9),
+        ),
+        reverse=True,
+    )
+    return ranked[0].tool
+
+
+def get_or_create_site_tracker(tracker: CategoryPaginationTracker, site_name: str) -> SiteCategoryTracker:
+    """Return tracker entry for a site."""
+
+    for site_tracker in tracker.sites:
+        if site_tracker.site_name == site_name:
+            return site_tracker
+    site_tracker = SiteCategoryTracker(site_name=site_name, categories=[])
+    tracker.sites.append(site_tracker)
+    return site_tracker
+
+
+def upsert_category_state(site_tracker: SiteCategoryTracker, category_url: str, page_index: int) -> CategoryState:
+    """Return or create a category state record."""
+
+    normalized = normalize_url(category_url)
+    for category in site_tracker.categories:
+        if normalize_url(str(category.category_url)) == normalized:
+            return category
+    category = CategoryState(
+        category_name=derive_category_name(normalized),
+        category_url=normalized,
+        total_known_pages=max(page_index, 1),
+        last_scraped_page_index=max(page_index - 1, 0),
+    )
+    site_tracker.categories.append(category)
+    return category
+
+
+def derive_category_name(category_url: str) -> str:
+    """Create a readable category name from a URL path."""
+
+    path = urlsplit(category_url).path.strip("/")
+    if not path:
+        return "front_page"
+    return path.replace("/", "_")
+
+
+def build_page_url(category_url: str, page_index: int) -> str:
+    """Create a page URL from a configured category URL."""
+
+    if page_index <= 1:
+        return normalize_url(category_url.replace("{page}", "1"))
+
+    if "{page}" in category_url:
+        return normalize_url(category_url.format(page=page_index))
+
+    parsed = urlsplit(category_url)
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    if "page" in query:
+        query["page"] = str(page_index)
+        return normalize_url(urlunsplit((parsed.scheme, parsed.netloc, parsed.path, urlencode(query), "")))
+
+    if parsed.path.endswith("/"):
+        new_path = f"{parsed.path}page/{page_index}/"
+    else:
+        new_path = f"{parsed.path}/page/{page_index}/"
+    return normalize_url(urlunsplit((parsed.scheme, parsed.netloc, new_path, parsed.query, "")))
+
+
+def coerce_scalar(value: Any) -> str | None:
+    """Convert extracted values to a scalar string."""
+
+    if value is None:
+        return None
+    if isinstance(value, list):
+        parts = [str(item).strip() for item in value if str(item).strip()]
+        if not parts:
             return None
+        deduped: list[str] = []
+        seen: set[str] = set()
+        for part in parts:
+            if part in seen:
+                continue
+            seen.add(part)
+            deduped.append(part)
+        return ", ".join(deduped)
+    text = str(value).strip()
+    return text or None
+
+
+def coerce_body(value: Any) -> str:
+    """Normalize article body output."""
+
+    if isinstance(value, list):
+        parts = [str(part).strip() for part in value if str(part).strip()]
+        return "\n\n".join(parts)
+    return str(value).strip()
+
+
+def coerce_tags(value: Any) -> list[str]:
+    """Normalize tags into a list of strings."""
+
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [str(item).strip() for item in value if str(item).strip()]
+    return [tag.strip() for tag in str(value).split(",") if tag.strip()]
+
+
+def default_runtime_config(base_dir: str | Path | None = None) -> RuntimeConfig:
+    """Resolve standard JSON config locations."""
+
+    root = Path(base_dir or Path.cwd())
+    return RuntimeConfig(
+        catalog_path=root / "news_scraper" / "data" / "catalog" / "site_catalog.json",
+        selectors_path=root / "news_scraper" / "data" / "catalog" / "selector_map.json",
+        tracker_path=root / "news_scraper" / "data" / "catalog" / "category_pagination_tracker.json",
+        output_dir=root / "news_scraper" / "data" / "exports",
+    )

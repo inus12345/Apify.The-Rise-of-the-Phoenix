@@ -6,4 +6,4 @@ RUN python -m pip install --upgrade pip \
 
 COPY . ./
 
-CMD ["python", "-m", "news_scraper.apify_actor"]
+CMD ["python", "-m", "news_scraper"]

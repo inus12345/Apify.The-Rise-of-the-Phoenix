@@ -1,20 +1,5 @@
-"""Database package for The Rise of the Phoenix news scraper."""
-from .session import (
-    get_session,
-    get_primary_session,
-    get_spider_session,
-    init_db,
-    reset_db,
-    test_connection,
-    engine,
-)
+"""The Rise of the Phoenix news scraper."""
 
-__all__ = [
-    "get_session",
-    "get_primary_session", 
-    "get_spider_session",
-    "init_db",
-    "reset_db",
-    "test_connection",
-    "engine",
-]
+__all__ = ["__version__"]
+
+__version__ = "2.0.0"

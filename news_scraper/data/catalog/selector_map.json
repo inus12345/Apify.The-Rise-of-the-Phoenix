@@ -1,0 +1,5812 @@
+{
+  "schema_version": "1.0.0",
+  "sites": [
+    {
+      "site_name": "ABC News",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "h2 a[href*=\"abcnews.com/International/\"][href*=\"story?id=\"], h2 a[href*=\"abcnews.com/International/wireStory/\"], h2 a[href*=\"abcnews.com/International/live-updates/\"], a[href*=\"abcnews.com/International/\"][href*=\"story?id=\"], a[href*=\"abcnews.com/International/wireStory/\"], a[href*=\"abcnews.com/International/live-updates/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "[data-testid=\"prism-byline\"]",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "[data-testid=\"prism-article-body\"]",
+              "attribute": null,
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": "[data-testid] p",
+              "attribute": null,
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": ".ScrollSpy_container",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "AP News",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href^=\"/article/\"], a[href*=\"apnews.com/article/\"], a[href^=\"/live/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "main p",
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": "article p",
+              "multiple": true
+            },
+            {
+              "type": "json_ld",
+              "value": "articleBody",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Al Jazeera English",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"www.aljazeera.com/news/\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href^=\"/news/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": ".wysiwyg p",
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": "main p",
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "BBC News",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "BBC Sport",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "CNN",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href^=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"cnn.com/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "CNN Business",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href^=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"cnn.com/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "CNN Politics",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href^=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"cnn.com/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Deutsche Welle English",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"/en/\"][href*=\"/a-\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"/en/\"][href*=\"/live-\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Euronews English",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Le Monde English",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "main a[href*=\"/article/\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"lemonde.fr/en/\"][href*=\"/article/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": ".article__content p",
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": "article p",
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "NHK World Japan",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"/nhkworld/en/news/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "New York Times",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href^=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"nytimes.com/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href^=\"/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href*=\"nytimes.com/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Reuters",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Reuters Business",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Reuters Technology",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "South China Morning Post",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"/article/\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechCrunch",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"techcrunch.com/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "a[href^=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": ".entry-content p",
+              "multiple": true
+            },
+            {
+              "type": "css",
+              "value": "main p",
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar Australia",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar Canada",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar India",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar UK",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "TechRadar US",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "article a[href], h2 a[href], h3 a[href]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "The Guardian",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "main a[href*=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "main a[href*=\"/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "The Guardian Australia",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "main a[href*=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "main a[href*=\"/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "The Guardian UK",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "main a[href*=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "main a[href*=\"/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "The Guardian US",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "main a[href*=\"/20\"]",
+          "attribute": "href",
+          "multiple": true
+        },
+        {
+          "type": "css",
+          "value": "main a[href*=\"/live/20\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "article p",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    },
+    {
+      "site_name": "Times of India",
+      "article_link_selectors": [
+        {
+          "type": "css",
+          "value": "a[href*=\"articleshow\"]",
+          "attribute": "href",
+          "multiple": true
+        }
+      ],
+      "canonical_url_selector": {
+        "type": "meta",
+        "value": "og:url",
+        "attribute": "content",
+        "multiple": false
+      },
+      "fields": {
+        "article_title": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "h1",
+              "attribute": null,
+              "multiple": false
+            },
+            {
+              "type": "json_ld",
+              "value": "headline",
+              "attribute": null,
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "author": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "author.name",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "author",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_body": {
+          "selectors": [
+            {
+              "type": "css",
+              "value": "div[data-articlebody=\"1\"]",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "._s30J.clearfix",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "join_paragraphs"
+          ],
+          "default": null
+        },
+        "tags": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "news_keywords",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "a[rel='tag'], .tags a",
+              "attribute": null,
+              "multiple": true
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "dedupe_list"
+          ],
+          "default": []
+        },
+        "date_published": {
+          "selectors": [
+            {
+              "type": "json_ld",
+              "value": "datePublished",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "article:published_time",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "css",
+              "value": "time[datetime]",
+              "attribute": "datetime",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "input_formats": [],
+          "timezone": "UTC",
+          "output_format": "iso8601",
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        },
+        "article_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:url",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": true,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "url_hash": {
+          "source_field": "article_url",
+          "algorithm": "md5"
+        },
+        "main_image_url": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "og:image",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "normalize_to_canonical": true,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace",
+            "trim_trailing_slash"
+          ],
+          "default": null
+        },
+        "seo_description": {
+          "selectors": [
+            {
+              "type": "meta",
+              "value": "description",
+              "attribute": "content",
+              "multiple": false
+            },
+            {
+              "type": "meta",
+              "value": "og:description",
+              "attribute": "content",
+              "multiple": false
+            }
+          ],
+          "required": false,
+          "postprocess": [
+            "strip",
+            "normalize_whitespace"
+          ],
+          "default": null
+        }
+      }
+    }
+  ]
+}

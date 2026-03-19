@@ -6,37 +6,25 @@
 # =============================================================================
 # Core Dependencies
 # =============================================================================
-sqlalchemy>=2.0.0           # Database ORM
-psycopg2-binary>=2.9.9      # PostgreSQL driver (primary DB)
-pymysql>=1.1.0              # MySQL driver (spider/category DB)
 httpx>=0.24.0               # HTTP client (fallback/static requests)
 beautifulsoup4>=4.12.0      # HTML parsing
 lxml>=4.9.0                 # BS4 parser backend (faster than html.parser)
-pyyaml>=6.0                  # YAML config file parsing (REQUIRED for sites_config.yaml)
+pydantic>=2.7.0             # Typed runtime models and JSON validation
 python-dateutil>=2.8.0       # Flexible date parsing
-pydantic-settings>=2.0.0     # Settings with environment variables (from pydantic)
 
 # Preferred scraping stack (priority order)
 scrapling>=0.2.0           # Primary scraping backend (headless browser automation)
-playwright>=1.35.0         # Secondary scraping backend (alternative to scrapling)
+pydoll-python>=2.2.0       # Secondary scraping backend (CDP browser automation)
 selenium>=4.10.0           # Final fallback backend for dynamic sites
-webdriver-manager>=4.0.0   # Automatic WebDriver management
 
 # =============================================================================
 # Web Interface (Phase 4 - Flask)
 # =============================================================================
 flask>=3.0.0                # Web framework
-tabulate>=0.9.0             # Table formatting for CLI output
-
-# =============================================================================
-# Configuration System
-# =============================================================================
-python-dotenv>=1.0.0        # Environment variable loading from .env files
 
 # =============================================================================
 # Command Line Interface
 # =============================================================================
-click>=8.1.0                # CLI framework
 
 # =============================================================================
 # Concurrency (optional - for multi-process scraping)

@@ -20,5 +20,8 @@ data/*.db
 data/*.sqlite
 data/*.sqlite3
 data/*.log
+news_scraper/data/exports/
+news_scraper/*.log
+.pytest_cache/
 OUTPUT.json
 INPUT.json

@@ -1,0 +1,324 @@
+{
+  "schema_version": "1.0.0",
+  "sites": [
+    {
+      "site_name": "ABC News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://abcnews.go.com/International",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 2
+        }
+      ]
+    },
+    {
+      "site_name": "AP News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://apnews.com/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Al Jazeera English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.aljazeera.com/news/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "BBC News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.bbc.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "BBC Sport",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.bbc.com/sport",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CNN",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://edition.cnn.com/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CNN Business",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://edition.cnn.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CNN Politics",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://edition.cnn.com/politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Deutsche Welle English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.dw.com/en/section/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Euronews English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.euronews.com/next",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Le Monde English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.lemonde.fr/en/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "NHK World Japan",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www3.nhk.or.jp/nhkworld/en/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "New York Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.nytimes.com/section/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Reuters",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.reuters.com/world/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Reuters Business",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.reuters.com/business/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Reuters Technology",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.reuters.com/technology/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "South China Morning Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.scmp.com/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechCrunch",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://techcrunch.com/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar Australia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/au",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar Canada",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/ca",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar India",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/in",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/uk",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TechRadar US",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.techradar.com/us",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Guardian",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theguardian.com/international",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Guardian Australia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theguardian.com/au/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Guardian UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theguardian.com/uk/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Guardian US",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theguardian.com/us/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Times of India",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://timesofindia.indiatimes.com/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    }
+  ]
+}
