@@ -11,6 +11,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
+from html import unescape
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
@@ -53,6 +54,10 @@ from news_scraper.config import (
 
 LOGGER = logging.getLogger("news_scraper")
 ProgressCallback = Callable[[dict[str, Any]], None]
+SCRIPT_STYLE_RE = re.compile(r"(?is)<(script|style)\b.*?>.*?</\1>")
+TAG_RE = re.compile(r"(?is)<[^>]+>")
+WHITESPACE_RE = re.compile(r"\s+")
+SCRAPING_HISTORY_LIMIT_PER_TOOL = max(1, int(os.getenv("NEWS_SCRAPER_HISTORY_LIMIT_PER_TOOL", "25")))
 
 if not LOGGER.handlers:
     logging.basicConfig(
@@ -114,6 +119,27 @@ class RuntimeConfig:
     output_dir: Path
 
 
+@dataclass(slots=True)
+class ParsedHtml:
+    """Lazy HTML parsers so we only pay for the representations we actually use."""
+
+    raw_html: str
+    _soup: BeautifulSoup | None = None
+    _document: Any | None = None
+
+    @property
+    def soup(self) -> BeautifulSoup:
+        if self._soup is None:
+            self._soup = BeautifulSoup(self.raw_html, "lxml")
+        return self._soup
+
+    @property
+    def document(self) -> Any:
+        if self._document is None:
+            self._document = lxml_html.fromstring(self.raw_html)
+        return self._document
+
+
 class BackendFetcher:
     """Base backend wrapper."""
 
@@ -121,9 +147,18 @@ class BackendFetcher:
 
     def __init__(self, timeout: int) -> None:
         self.timeout = timeout
+        self._http_clients: dict[str | None, httpx.Client] = {}
 
     def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         raise NotImplementedError
+
+    def close(self) -> None:
+        for client in self._http_clients.values():
+            try:
+                client.close()
+            except Exception:
+                continue
+        self._http_clients.clear()
 
     @property
     def headers(self) -> dict[str, str]:
@@ -137,6 +172,20 @@ class BackendFetcher:
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
         }
+
+    def _get_http_client(self, proxy_url: str | None) -> httpx.Client:
+        client = self._http_clients.get(proxy_url)
+        if client is None:
+            kwargs: dict[str, Any] = {
+                "headers": self.headers,
+                "timeout": self.timeout,
+                "follow_redirects": True,
+            }
+            if proxy_url:
+                kwargs["proxy"] = proxy_url
+            client = httpx.Client(**kwargs)
+            self._http_clients[proxy_url] = client
+        return client
 
 
 class ScraplingFetcher(BackendFetcher):
@@ -166,17 +215,10 @@ class ScraplingFetcher(BackendFetcher):
         return self._httpx_fetch(url, proxy_url)
 
     def _httpx_fetch(self, url: str, proxy_url: str | None) -> str | None:
-        kwargs: dict[str, Any] = {
-            "headers": self.headers,
-            "timeout": self.timeout,
-            "follow_redirects": True,
-        }
-        if proxy_url:
-            kwargs["proxy"] = proxy_url
-        with httpx.Client(**kwargs) as client:
-            response = client.get(url)
-            response.raise_for_status()
-            return response.text
+        client = self._get_http_client(proxy_url)
+        response = client.get(url)
+        response.raise_for_status()
+        return response.text
 
 
 class PydollFetcher(BackendFetcher):
@@ -216,28 +258,27 @@ class SeleniumFetcher(BackendFetcher):
 
     tool = ScrapingTool.SELENIUM
 
+    def __init__(self, timeout: int) -> None:
+        super().__init__(timeout)
+        self._driver: Any | None = None
+        self._driver_proxy_url: str | None = None
+
+    def close(self) -> None:
+        self._reset_driver()
+        super().close()
+
     def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         try:
             from selenium import webdriver
+            from selenium.common.exceptions import WebDriverException
             from selenium.webdriver.chrome.options import Options
             from selenium.webdriver.common.by import By
             from selenium.webdriver.support.ui import WebDriverWait
         except ImportError:
             return None
 
-        options = Options()
-        options.add_argument("--headless=new")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option("useAutomationExtension", False)
-        if proxy_url:
-            options.add_argument(f"--proxy-server={proxy_url}")
-
-        driver = webdriver.Chrome(options=options)
-        driver.set_page_load_timeout(self.timeout)
         try:
+            driver = self._get_driver(webdriver, Options, proxy_url)
             driver.get(url)
             wait_seconds = max(5, min(self.timeout, 20))
             try:
@@ -257,10 +298,41 @@ class SeleniumFetcher(BackendFetcher):
                     break
                 except Exception:
                     continue
-            time.sleep(0.8)
+            time.sleep(0.25)
             return driver.page_source
-        finally:
-            driver.quit()
+        except WebDriverException:
+            self._reset_driver()
+            raise
+
+    def _get_driver(self, webdriver: Any, options_cls: Any, proxy_url: str | None) -> Any:
+        if self._driver is not None and self._driver_proxy_url == proxy_url:
+            return self._driver
+
+        self._reset_driver()
+        options = options_cls()
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
+        if proxy_url:
+            options.add_argument(f"--proxy-server={proxy_url}")
+
+        driver = webdriver.Chrome(options=options)
+        driver.set_page_load_timeout(self.timeout)
+        self._driver = driver
+        self._driver_proxy_url = proxy_url
+        return driver
+
+    def _reset_driver(self) -> None:
+        if self._driver is not None:
+            try:
+                self._driver.quit()
+            except Exception:
+                pass
+        self._driver = None
+        self._driver_proxy_url = None
 
 
 def coerce_html(response: Any) -> str | None:
@@ -295,13 +367,12 @@ class ArticleExtractor:
         """Extract article URLs from a listing page."""
 
         links: list[str] = []
-        soup = BeautifulSoup(html, "lxml")
-        document = lxml_html.fromstring(html)
+        parsed = ParsedHtml(html)
         base_parts = urlsplit(base_url)
         base_host = base_parts.netloc.lower().removeprefix("www.")
 
         for selector in selectors:
-            raw_values = self._run_selector(selector, soup, document)
+            raw_values = self._run_selector(selector, parsed)
             for raw_value in raw_values:
                 if not raw_value:
                     continue
@@ -322,7 +393,7 @@ class ArticleExtractor:
             deduped.append(link)
 
         if not deduped:
-            deduped = self._extract_fallback_listing_links(soup, html, base_url, base_host)
+            deduped = self._extract_fallback_listing_links(parsed.soup, html, base_url, base_host)
         return self._prioritize_article_links(deduped)
 
     def _extract_fallback_listing_links(
@@ -462,25 +533,24 @@ class ArticleExtractor:
     def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
         """Extract normalized article fields from an article page."""
 
-        soup = BeautifulSoup(html, "lxml")
-        document = lxml_html.fromstring(html)
+        parsed = ParsedHtml(html)
+        soup = parsed.soup
 
         fields = site_selectors.fields
         extracted: dict[str, Any] = {}
-        extracted["article_title"] = self._extract_field(fields.article_title, soup, document)
-        extracted["author"] = self._extract_field(fields.author, soup, document)
-        extracted["article_body"] = self._extract_field(fields.article_body, soup, document)
-        extracted["tags"] = self._extract_field(fields.tags, soup, document)
-        extracted["date_published"] = self._extract_date(fields.date_published, soup, document)
+        extracted["article_title"] = self._extract_field(fields.article_title, parsed)
+        extracted["author"] = self._extract_field(fields.author, parsed)
+        extracted["article_body"] = self._extract_field(fields.article_body, parsed)
+        extracted["tags"] = self._extract_field(fields.tags, parsed)
+        extracted["date_published"] = self._extract_date(fields.date_published, parsed)
         extracted["article_url"] = self._extract_url(
             fields.article_url,
-            soup,
-            document,
+            parsed,
             base_url=url,
         ) or url
         extracted["url_hash"] = md5_url(extracted["article_url"])
-        extracted["main_image_url"] = self._extract_url(fields.main_image_url, soup, document, base_url=url)
-        extracted["seo_description"] = self._extract_field(fields.seo_description, soup, document)
+        extracted["main_image_url"] = self._extract_url(fields.main_image_url, parsed, base_url=url)
+        extracted["seo_description"] = self._extract_field(fields.seo_description, parsed)
         extracted["source_html_lang"] = soup.html.get("lang") if soup.html else None
         self._apply_extraction_fallbacks(extracted, soup, url)
         self._validate_required_fields(extracted, fields)
@@ -515,10 +585,10 @@ class ArticleExtractor:
         if missing:
             raise ExtractionError(f"Required selectors returned no data: {', '.join(missing)}")
 
-    def _extract_field(self, field_rule: Any, soup: BeautifulSoup, document: Any) -> Any:
+    def _extract_field(self, field_rule: Any, parsed: ParsedHtml) -> Any:
         values: list[Any] = []
         for selector in field_rule.selectors:
-            values.extend(self._run_selector(selector, soup, document))
+            values.extend(self._run_selector(selector, parsed))
             if values:
                 break
 
@@ -543,8 +613,8 @@ class ArticleExtractor:
             cleaned = deduped
         return cleaned
 
-    def _extract_date(self, date_rule: Any, soup: BeautifulSoup, document: Any) -> datetime | None:
-        raw_value = self._extract_field(date_rule, soup, document)
+    def _extract_date(self, date_rule: Any, parsed: ParsedHtml) -> datetime | None:
+        raw_value = self._extract_field(date_rule, parsed)
         if raw_value in (None, ""):
             return None
 
@@ -842,8 +912,8 @@ class ArticleExtractor:
 
         return (score, False)
 
-    def _extract_url(self, url_rule: Any, soup: BeautifulSoup, document: Any, base_url: str) -> str | None:
-        raw_value = self._extract_field(url_rule, soup, document)
+    def _extract_url(self, url_rule: Any, parsed: ParsedHtml, base_url: str) -> str | None:
+        raw_value = self._extract_field(url_rule, parsed)
         if not raw_value:
             return None
 
@@ -853,8 +923,9 @@ class ArticleExtractor:
         resolved = urljoin(base_url, str(raw_value))
         return normalize_url(resolved) if url_rule.normalize_to_canonical else resolved
 
-    def _run_selector(self, selector: SelectorStrategy, soup: BeautifulSoup, document: Any) -> list[Any]:
+    def _run_selector(self, selector: SelectorStrategy, parsed: ParsedHtml) -> list[Any]:
         if selector.type == SelectorType.CSS:
+            soup = parsed.soup
             if selector.multiple:
                 elements = soup.select(selector.value)
             else:
@@ -863,6 +934,7 @@ class ArticleExtractor:
             return [extract_element_value(element, selector.attribute) for element in elements if element]
 
         if selector.type == SelectorType.META:
+            soup = parsed.soup
             candidates = [
                 soup.find("meta", attrs={"name": selector.value}),
                 soup.find("meta", attrs={"property": selector.value}),
@@ -876,7 +948,7 @@ class ArticleExtractor:
             return [value for value in values if value]
 
         if selector.type == SelectorType.XPATH:
-            values = document.xpath(selector.value)
+            values = parsed.document.xpath(selector.value)
             normalized: list[Any] = []
             for value in values:
                 if hasattr(value, "text_content"):
@@ -886,7 +958,7 @@ class ArticleExtractor:
             return normalized
 
         if selector.type == SelectorType.JSON_LD:
-            return self._extract_json_ld(soup, selector.value)
+            return self._extract_json_ld(parsed.soup, selector.value)
 
         return []
 
@@ -990,6 +1062,13 @@ class ScraperEngine:
             "Available scraping backends: %s",
             [tool.value for tool in self.available_tools] or ["none"],
         )
+
+    def close(self) -> None:
+        for backend in self.backends.values():
+            try:
+                backend.close()
+            except Exception:
+                continue
 
     def fetch_with_fallback(
         self,
@@ -1119,8 +1198,9 @@ class ScraperEngine:
                     message="Fetcher returned no HTML",
                 )
 
-            blocked = self._looks_blocked(html)
-            if blocked or not self._is_valid_html(html):
+            text = self._extract_visible_text(html)
+            blocked = self._looks_blocked(text)
+            if blocked or not self._is_valid_html(text):
                 return None, FetchAttempt(
                     tool=tool,
                     success=False,
@@ -1141,12 +1221,11 @@ class ScraperEngine:
                 message=str(exc),
             )
 
-    def _is_valid_html(self, html: str) -> bool:
-        text = BeautifulSoup(html, "lxml").get_text(" ", strip=True)
+    def _is_valid_html(self, text: str) -> bool:
         return len(text) >= 120
 
-    def _looks_blocked(self, html: str) -> bool:
-        lower_text = BeautifulSoup(html, "lxml").get_text(" ", strip=True).lower()
+    def _looks_blocked(self, text: str) -> bool:
+        lower_text = text.lower()
         hard_indicators = [
             "attention required",
             "access denied",
@@ -1178,6 +1257,12 @@ class ScraperEngine:
         ]
         return any(signal in lower_text for signal in cloudflare_challenge_signals)
 
+    def _extract_visible_text(self, html: str) -> str:
+        cleaned = SCRIPT_STYLE_RE.sub(" ", html)
+        cleaned = TAG_RE.sub(" ", cleaned)
+        cleaned = unescape(cleaned)
+        return WHITESPACE_RE.sub(" ", cleaned).strip()
+
 
 class ScraperRunner:
     """High-level orchestrator for config-driven scraping runs."""
@@ -1185,233 +1270,244 @@ class ScraperRunner:
     def __init__(self, runtime_config: RuntimeConfig, timeout: int = 30) -> None:
         self.runtime_config = runtime_config
         self.engine = ScraperEngine(timeout=timeout)
+        self._feed_cache: dict[str, list[str]] = {}
 
     def run(self, input_config: InputConfig, progress_callback: ProgressCallback | None = None) -> RunDatasets:
         """Execute a full scrape and persist state/datasets."""
 
-        catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
-        selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
-        tracker = self._load_tracker()
+        self._feed_cache.clear()
+        try:
+            catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
+            selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
+            tracker = self._load_tracker()
 
-        catalog_sites = self._select_sites(catalog, input_config)
-        selector_by_name = {site.site_name: site for site in selector_map.sites}
-        datasets = RunDatasets()
-        total_targets = 0
-        planned_targets_by_site: dict[str, int] = {}
-        LOGGER.info(
-            "Run config execution_mode=%s sites=%s max_items_per_site=%s category_filter_sites=%d",
-            input_config.execution_mode.value,
-            input_config.sites_to_scrape or "all-active",
-            input_config.max_items_per_site,
-            len(input_config.category_filters),
-        )
-
-        for site in catalog_sites:
-            site_tracker = get_or_create_site_tracker(tracker, site.site_name)
-            selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
-            targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
-            planned_targets_by_site[site.site_name] = len(targets)
-            total_targets += len(targets)
+            catalog_sites = self._select_sites(catalog, input_config)
+            selector_by_name = {site.site_name: site for site in selector_map.sites}
+            datasets = RunDatasets()
+            total_targets = 0
+            planned_targets_by_site: dict[str, int] = {}
             LOGGER.info(
-                "Planned targets site=%s targets=%d selected_categories=%d",
-                site.site_name,
-                len(targets),
-                len(selected_categories or set()),
+                "Run config execution_mode=%s sites=%s max_items_per_site=%s category_filter_sites=%d",
+                input_config.execution_mode.value,
+                input_config.sites_to_scrape or "all-active",
+                input_config.max_items_per_site,
+                len(input_config.category_filters),
             )
 
-        self._emit_progress(
-            progress_callback,
-            event="run_started",
-            mode=input_config.execution_mode.value,
-            total_sites=len(catalog_sites),
-            total_targets=total_targets,
-            completed_targets=0,
-            success_items=0,
-            error_items=0,
-        )
-
-        completed_targets = 0
-
-        for site_index, site in enumerate(catalog_sites, start=1):
-            if site.site_name not in selector_by_name:
-                datasets.error_log_dataset.append(
-                    ErrorDatasetItem(
-                        logged_at=utc_now(),
-                        site_name=site.site_name,
-                        failed_url=str(site.base_url),
-                        url_hash=md5_url(str(site.base_url)),
-                        error_type="MissingSelectorMap",
-                        error_message="No selector configuration found for site",
-                        execution_mode=input_config.execution_mode,
-                    )
+            for site in catalog_sites:
+                site_tracker = get_or_create_site_tracker(tracker, site.site_name)
+                selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
+                targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
+                planned_targets_by_site[site.site_name] = len(targets)
+                total_targets += len(targets)
+                LOGGER.info(
+                    "Planned targets site=%s targets=%d selected_categories=%d",
+                    site.site_name,
+                    len(targets),
+                    len(selected_categories or set()),
                 )
-                completed_targets += planned_targets_by_site.get(site.site_name, 0)
+
+            self._emit_progress(
+                progress_callback,
+                event="run_started",
+                mode=input_config.execution_mode.value,
+                total_sites=len(catalog_sites),
+                total_targets=total_targets,
+                completed_targets=0,
+                success_items=0,
+                error_items=0,
+            )
+
+            completed_targets = 0
+
+            for site_index, site in enumerate(catalog_sites, start=1):
+                if site.site_name not in selector_by_name:
+                    datasets.error_log_dataset.append(
+                        ErrorDatasetItem(
+                            logged_at=utc_now(),
+                            site_name=site.site_name,
+                            failed_url=str(site.base_url),
+                            url_hash=md5_url(str(site.base_url)),
+                            error_type="MissingSelectorMap",
+                            error_message="No selector configuration found for site",
+                            execution_mode=input_config.execution_mode,
+                        )
+                    )
+                    completed_targets += planned_targets_by_site.get(site.site_name, 0)
+                    self._emit_progress(
+                        progress_callback,
+                        event="site_missing_selectors",
+                        site_name=site.site_name,
+                        site_index=site_index,
+                        total_sites=len(catalog_sites),
+                        total_targets=total_targets,
+                        completed_targets=completed_targets,
+                        success_items=len(datasets.success_dataset),
+                        error_items=len(datasets.error_log_dataset),
+                        percent=progress_percent(completed_targets, total_targets),
+                    )
+                    continue
+
+                site_selectors = selector_by_name[site.site_name]
+                site_tracker = get_or_create_site_tracker(tracker, site.site_name)
+                site_target_total = planned_targets_by_site.get(site.site_name, 0)
+                selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
+
                 self._emit_progress(
                     progress_callback,
-                    event="site_missing_selectors",
+                    event="site_started",
                     site_name=site.site_name,
                     site_index=site_index,
                     total_sites=len(catalog_sites),
+                    site_total_targets=site_target_total,
+                    site_processed_targets=0,
                     total_targets=total_targets,
                     completed_targets=completed_targets,
                     success_items=len(datasets.success_dataset),
                     error_items=len(datasets.error_log_dataset),
                     percent=progress_percent(completed_targets, total_targets),
                 )
-                continue
 
-            site_selectors = selector_by_name[site.site_name]
-            site_tracker = get_or_create_site_tracker(tracker, site.site_name)
-            site_target_total = planned_targets_by_site.get(site.site_name, 0)
-            selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
+                base_completed_targets = completed_targets
 
-            self._emit_progress(
-                progress_callback,
-                event="site_started",
-                site_name=site.site_name,
-                site_index=site_index,
-                total_sites=len(catalog_sites),
-                site_total_targets=site_target_total,
-                site_processed_targets=0,
-                total_targets=total_targets,
-                completed_targets=completed_targets,
-                success_items=len(datasets.success_dataset),
-                error_items=len(datasets.error_log_dataset),
-                percent=progress_percent(completed_targets, total_targets),
-            )
+                def site_progress(payload: dict[str, Any]) -> None:
+                    site_processed_targets = int(payload.get("site_processed_targets", 0))
+                    overall_completed = min(base_completed_targets + site_processed_targets, total_targets)
+                    self._emit_progress(
+                        progress_callback,
+                        **payload,
+                        site_name=site.site_name,
+                        site_index=site_index,
+                        total_sites=len(catalog_sites),
+                        total_targets=total_targets,
+                        completed_targets=overall_completed,
+                        success_items=len(datasets.success_dataset),
+                        error_items=len(datasets.error_log_dataset),
+                        percent=progress_percent(overall_completed, total_targets),
+                    )
 
-            base_completed_targets = completed_targets
-
-            def site_progress(payload: dict[str, Any]) -> None:
-                site_processed_targets = int(payload.get("site_processed_targets", 0))
-                overall_completed = min(base_completed_targets + site_processed_targets, total_targets)
+                site_summary = self._scrape_site(
+                    site,
+                    site_selectors,
+                    site_tracker,
+                    input_config,
+                    datasets,
+                    selected_categories=selected_categories,
+                    progress_callback=site_progress,
+                )
+                completed_targets += site_summary["planned_targets"]
                 self._emit_progress(
                     progress_callback,
-                    **payload,
+                    event="site_completed",
                     site_name=site.site_name,
                     site_index=site_index,
                     total_sites=len(catalog_sites),
+                    site_total_targets=site_summary["planned_targets"],
+                    site_processed_targets=site_summary["processed_targets"],
+                    site_collected_items=site_summary["collected_items"],
                     total_targets=total_targets,
-                    completed_targets=overall_completed,
+                    completed_targets=completed_targets,
                     success_items=len(datasets.success_dataset),
                     error_items=len(datasets.error_log_dataset),
-                    percent=progress_percent(overall_completed, total_targets),
+                    percent=progress_percent(completed_targets, total_targets),
                 )
 
-            site_summary = self._scrape_site(
-                site,
-                site_selectors,
-                site_tracker,
-                input_config,
-                datasets,
-                selected_categories=selected_categories,
-                progress_callback=site_progress,
-            )
-            completed_targets += site_summary["planned_targets"]
+            save_json_model(self.runtime_config.catalog_path, catalog)
+            save_json_model(self.runtime_config.tracker_path, tracker)
+            self._write_datasets(datasets)
             self._emit_progress(
                 progress_callback,
-                event="site_completed",
-                site_name=site.site_name,
-                site_index=site_index,
+                event="run_completed",
+                mode=input_config.execution_mode.value,
                 total_sites=len(catalog_sites),
-                site_total_targets=site_summary["planned_targets"],
-                site_processed_targets=site_summary["processed_targets"],
-                site_collected_items=site_summary["collected_items"],
                 total_targets=total_targets,
-                completed_targets=completed_targets,
+                completed_targets=total_targets,
                 success_items=len(datasets.success_dataset),
                 error_items=len(datasets.error_log_dataset),
-                percent=progress_percent(completed_targets, total_targets),
+                percent=100,
             )
-
-        save_json_model(self.runtime_config.catalog_path, catalog)
-        save_json_model(self.runtime_config.tracker_path, tracker)
-        self._write_datasets(datasets)
-        self._emit_progress(
-            progress_callback,
-            event="run_completed",
-            mode=input_config.execution_mode.value,
-            total_sites=len(catalog_sites),
-            total_targets=total_targets,
-            completed_targets=total_targets,
-            success_items=len(datasets.success_dataset),
-            error_items=len(datasets.error_log_dataset),
-            percent=100,
-        )
-        return datasets
+            return datasets
+        finally:
+            self.engine.close()
+            self._feed_cache.clear()
 
     def verify_sites(self, sites_to_verify: list[str] | None = None) -> VerificationReport:
         """Verify that each site's selectors still return valid data."""
 
-        catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
-        selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
-        selector_by_name = {site.site_name: site for site in selector_map.sites}
-        results: list[SiteVerificationResult] = []
+        self._feed_cache.clear()
+        try:
+            catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
+            selector_map = load_json_model(self.runtime_config.selectors_path, SelectorMap)
+            selector_by_name = {site.site_name: site for site in selector_map.sites}
+            results: list[SiteVerificationResult] = []
 
-        catalog_sites = [site for site in catalog.sites if site.active]
-        if sites_to_verify:
-            wanted = set(sites_to_verify)
-            catalog_sites = [site for site in catalog_sites if site.site_name in wanted]
+            catalog_sites = [site for site in catalog.sites if site.active]
+            if sites_to_verify:
+                wanted = set(sites_to_verify)
+                catalog_sites = [site for site in catalog_sites if site.site_name in wanted]
 
-        for site in catalog_sites:
-            issues: list[str] = []
-            tool_used: ScrapingTool | None = None
-            try:
-                selector_config = selector_by_name.get(site.site_name)
-                if selector_config is None:
-                    issues.append("Missing selector map")
-                    raise ExtractionError("Missing selector map")
+            for site in catalog_sites:
+                issues: list[str] = []
+                tool_used: ScrapingTool | None = None
+                try:
+                    selector_config = selector_by_name.get(site.site_name)
+                    if selector_config is None:
+                        issues.append("Missing selector map")
+                        raise ExtractionError("Missing selector map")
 
-                listing = self.engine.fetch_with_fallback(
-                    str(site.base_url),
-                    preferred_tool=site.preferred_scraping_tool,
-                )
-                tool_used = listing.tool
-                links = self.engine.extract_listing_links(listing.html, str(site.base_url), selector_config)
-                if not links:
-                    issues.append("No article links discovered on listing page")
-                    raise ExtractionError("No article links discovered")
+                    listing = self.engine.fetch_with_fallback(
+                        str(site.base_url),
+                        preferred_tool=site.preferred_scraping_tool,
+                    )
+                    tool_used = listing.tool
+                    links = self.engine.extract_listing_links(listing.html, str(site.base_url), selector_config)
+                    if not links:
+                        issues.append("No article links discovered on listing page")
+                        raise ExtractionError("No article links discovered")
 
-                article_url = links[0]
-                article_fetch = self.engine.fetch_with_fallback(
-                    article_url,
-                    preferred_tool=site.preferred_scraping_tool,
-                )
-                tool_used = article_fetch.tool
-                extracted = self.engine.extract_article(article_fetch.html, article_url, selector_config)
+                    article_url = links[0]
+                    article_fetch = self.engine.fetch_with_fallback(
+                        article_url,
+                        preferred_tool=site.preferred_scraping_tool,
+                    )
+                    tool_used = article_fetch.tool
+                    extracted = self.engine.extract_article(article_fetch.html, article_url, selector_config)
 
-                for required_key in ("article_title", "article_body", "date_published", "article_url"):
-                    if not extracted.get(required_key):
-                        issues.append(f"Required field empty: {required_key}")
-            except Exception as exc:
-                if not issues:
-                    issues.append(str(exc))
+                    for required_key in ("article_title", "article_body", "date_published", "article_url"):
+                        if not extracted.get(required_key):
+                            issues.append(f"Required field empty: {required_key}")
+                except Exception as exc:
+                    if not issues:
+                        issues.append(str(exc))
+                    results.append(
+                        SiteVerificationResult(
+                            site_name=site.site_name,
+                            fetched_url=str(site.base_url),
+                            success=False,
+                            tool_used=tool_used,
+                            issues=issues,
+                            verified_at=utc_now(),
+                        )
+                    )
+                    continue
+
+                site.last_verified_at = utc_now()
                 results.append(
                     SiteVerificationResult(
                         site_name=site.site_name,
                         fetched_url=str(site.base_url),
-                        success=False,
+                        success=not issues,
                         tool_used=tool_used,
                         issues=issues,
                         verified_at=utc_now(),
                     )
                 )
-                continue
 
-            site.last_verified_at = utc_now()
-            results.append(
-                SiteVerificationResult(
-                    site_name=site.site_name,
-                    fetched_url=str(site.base_url),
-                    success=not issues,
-                    tool_used=tool_used,
-                    issues=issues,
-                    verified_at=utc_now(),
-                )
-            )
-
-        save_json_model(self.runtime_config.catalog_path, catalog)
-        return VerificationReport(generated_at=utc_now(), results=results)
+            save_json_model(self.runtime_config.catalog_path, catalog)
+            return VerificationReport(generated_at=utc_now(), results=results)
+        finally:
+            self.engine.close()
+            self._feed_cache.clear()
 
     def _scrape_site(
         self,
@@ -1668,14 +1764,25 @@ class ScraperRunner:
         site: SiteCatalogEntry,
         proxy_config: ProxyConfig,
     ) -> list[str]:
+        cache_key = normalize_url(page_url)
+        if cache_key in self._feed_cache:
+            return self._feed_cache[cache_key]
+
         feed_urls = self._build_feed_candidates(page_url)
         article_links: list[str] = []
         seen: set[str] = set()
+        preferred_feed_tool = (
+            ScrapingTool.SCRAPLING
+            if ScrapingTool.SCRAPLING in self.engine.available_tools
+            else self.engine.available_tools[0] if self.engine.available_tools else None
+        )
         for feed_url in feed_urls:
             try:
-                fetch = self.engine.fetch_with_fallback(
+                if preferred_feed_tool is None:
+                    break
+                fetch = self.engine.fetch_with_tool(
                     feed_url,
-                    preferred_tool=site.preferred_scraping_tool,
+                    tool=preferred_feed_tool,
                     proxy_config=proxy_config,
                 )
                 self._record_site_attempt(site, fetch.attempts)
@@ -1687,6 +1794,7 @@ class ScraperRunner:
                     article_links.append(link)
             except Exception:
                 continue
+        self._feed_cache[cache_key] = article_links
         return article_links
 
     def _build_feed_candidates(self, page_url: str) -> list[str]:
@@ -1804,6 +1912,19 @@ class ScraperRunner:
                 error_type=error_type,
             )
         )
+        site.scraping_history = self._trim_scraping_history(site.scraping_history)
+
+    def _trim_scraping_history(self, history: list[ScrapingHistoryEntry]) -> list[ScrapingHistoryEntry]:
+        counts: dict[ScrapingTool, int] = {}
+        trimmed: list[ScrapingHistoryEntry] = []
+        for entry in reversed(history):
+            count = counts.get(entry.tool, 0)
+            if count >= SCRAPING_HISTORY_LIMIT_PER_TOOL:
+                continue
+            counts[entry.tool] = count + 1
+            trimmed.append(entry)
+        trimmed.reverse()
+        return trimmed
 
     def _build_targets(
         self,

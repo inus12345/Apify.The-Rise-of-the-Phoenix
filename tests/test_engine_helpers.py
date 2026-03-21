@@ -16,6 +16,7 @@ from news_scraper.config import (
 )
 from news_scraper.apify_actor import normalize_actor_input
 from news_scraper.scraping.engine import (
+    SCRAPING_HISTORY_LIMIT_PER_TOOL,
     FetchResult,
     RuntimeConfig,
     ScraperEngine,
@@ -61,6 +62,45 @@ def test_choose_preferred_tool_uses_success_rate_then_sample_size() -> None:
     ]
 
     assert choose_preferred_tool(history) == ScrapingTool.PYDOLL
+
+
+def test_append_history_trims_to_recent_entries_per_tool() -> None:
+    runner = ScraperRunner(
+        RuntimeConfig(
+            catalog_path="catalog.json",
+            selectors_path="selectors.json",
+            tracker_path="tracker.json",
+            output_dir="exports",
+        )
+    )
+    site = SiteCatalogEntry(
+        site_name="Example News",
+        base_url="https://example.com",
+        country="United States",
+        region="North America",
+        language="en",
+        underlying_tech="WordPress",
+        active=True,
+        preferred_scraping_tool=ScrapingTool.SCRAPLING,
+        scraping_history=[],
+        notes=None,
+        last_verified_at=None,
+    )
+
+    total_entries = SCRAPING_HISTORY_LIMIT_PER_TOOL + 5
+    for index in range(total_entries):
+        runner._append_history(
+            site,
+            ScrapingTool.SCRAPLING,
+            success=index % 2 == 0,
+            elapsed_ms=100 + index,
+            block_detected=False,
+            error_type=None,
+        )
+
+    scrapling_entries = [entry for entry in site.scraping_history if entry.tool == ScrapingTool.SCRAPLING]
+    assert len(scrapling_entries) == SCRAPING_HISTORY_LIMIT_PER_TOOL
+    assert scrapling_entries[-1].sample_size == SCRAPING_HISTORY_LIMIT_PER_TOOL + 1
 
 
 def test_build_page_url_uses_query_or_path_conventions() -> None:
