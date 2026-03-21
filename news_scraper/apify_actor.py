@@ -16,13 +16,29 @@ from news_scraper.config import InputConfig, ProxyConfig
 from news_scraper.scraping import ScraperRunner, default_runtime_config
 
 ERROR_DATASET_NAME = "error-log"
+CATEGORY_OPTION_DELIMITER = "|||"
+
+
+def _coerce_bool(value: Any) -> bool:
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return bool(value)
+    if isinstance(value, str):
+        return value.strip().lower() in {"1", "true", "yes", "on"}
+    return False
 
 
 def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
     """Normalize Actor input into the runtime InputConfig."""
 
     payload = dict(raw_input or {})
+    mode = str(payload.get("execution_mode", "") or "").strip().lower()
+    no_items_limit = _coerce_bool(payload.pop("no_items_limit", False))
+    selected_sites = [str(site).strip() for site in payload.get("sites_to_scrape", []) or [] if str(site).strip()]
+
     site_category_filters = payload.pop("site_category_filters", []) or []
+    categories_to_scrape = payload.pop("categories_to_scrape", []) or []
     category_filters = dict(payload.get("category_filters") or {})
 
     for item in site_category_filters:
@@ -36,11 +52,56 @@ def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
         if cleaned_urls:
             category_filters[site_name] = cleaned_urls
 
+    for value in categories_to_scrape:
+        if not isinstance(value, str):
+            continue
+        raw_pair = value.strip()
+        if not raw_pair or CATEGORY_OPTION_DELIMITER not in raw_pair:
+            continue
+        site_name, category_url = raw_pair.split(CATEGORY_OPTION_DELIMITER, 1)
+        site_name = site_name.strip()
+        category_url = category_url.strip()
+        if not site_name or not category_url:
+            continue
+        category_filters.setdefault(site_name, []).append(category_url)
+
+    for site_name, urls in list(category_filters.items()):
+        deduped = sorted({str(url).strip() for url in urls if str(url).strip()})
+        if deduped:
+            category_filters[site_name] = deduped
+        else:
+            category_filters.pop(site_name, None)
+
+    if selected_sites:
+        selected_set = set(selected_sites)
+        category_filters = {
+            site_name: urls
+            for site_name, urls in category_filters.items()
+            if site_name in selected_set
+        }
+
+    payload["sites_to_scrape"] = selected_sites
     payload["category_filters"] = category_filters
 
     cutoff = payload.get("historic_cutoff_date")
     if cutoff == "":
         payload["historic_cutoff_date"] = None
+
+    if mode in {"current", "historic"}:
+        payload["execution_mode"] = mode
+    elif payload.get("historic_cutoff_date") is not None:
+        payload["execution_mode"] = "historic"
+    else:
+        payload["execution_mode"] = "current"
+
+    if payload["execution_mode"] == "current":
+        payload["historic_cutoff_date"] = None
+
+    payload["no_items_limit"] = no_items_limit
+    if no_items_limit:
+        payload["max_items_per_site"] = None
+    elif payload.get("max_items_per_site") == "":
+        payload["max_items_per_site"] = None
 
     payload.setdefault("sites_to_scrape", [])
     payload.setdefault("max_items_per_site", 50)

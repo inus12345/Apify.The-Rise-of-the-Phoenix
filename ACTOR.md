@@ -12,9 +12,12 @@ Configuration-driven news and blog scraper prepared for Apify Actor deployment.
 
 ## Input notes
 
-- Leave `sites_to_scrape` empty to scrape all active sites in the catalog
-- `historic_cutoff_date` switches the run into historic mode
-- `site_category_filters` is optional and lets you limit individual sites to specific tracked category URLs
+- `sites_to_scrape` is a dropdown-backed multi-select of active catalog sites; leave it empty to scrape all active sites
+- `categories_to_scrape` is a dropdown-backed multi-select of tracked categories (scoped to site)
+- `execution_mode` explicitly selects `current` or `historic`
+- `historic_cutoff_date` is required for historic mode
+- `no_items_limit` disables `max_items_per_site` when you want unlimited article collection
+- `site_category_filters` is still supported as an advanced legacy override
 - `proxy_config` uses Apify's proxy input editor and also accepts custom proxy URLs
 
 ## Output

@@ -244,13 +244,29 @@ class InputConfig(BaseModel):
 
     sites_to_scrape: list[str] = Field(default_factory=list)
     category_filters: dict[str, list[str]] = Field(default_factory=dict)
-    max_items_per_site: int = Field(default=50, ge=1)
+    max_items_per_site: int | None = Field(default=50, ge=1)
+    no_items_limit: bool = False
+    execution_mode: ExecutionMode | None = None
     historic_cutoff_date: datetime | None = None
     proxy_config: ProxyConfig = Field(default_factory=ProxyConfig)
 
-    @property
-    def execution_mode(self) -> ExecutionMode:
-        return ExecutionMode.HISTORIC if self.historic_cutoff_date else ExecutionMode.CURRENT
+    @model_validator(mode="after")
+    def _normalize_execution(self) -> "InputConfig":
+        if self.no_items_limit:
+            self.max_items_per_site = None
+        elif self.max_items_per_site is None:
+            self.max_items_per_site = 50
+
+        if self.execution_mode is None:
+            self.execution_mode = ExecutionMode.HISTORIC if self.historic_cutoff_date else ExecutionMode.CURRENT
+
+        if self.execution_mode == ExecutionMode.CURRENT:
+            self.historic_cutoff_date = None
+            return self
+
+        if self.historic_cutoff_date is None:
+            raise ValueError("historic_cutoff_date is required when execution_mode is 'historic'.")
+        return self
 
 
 class SuccessDatasetItem(BaseModel):

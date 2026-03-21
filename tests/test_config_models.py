@@ -2,6 +2,8 @@
 
 from datetime import UTC, datetime
 
+import pytest
+
 from news_scraper.config import InputConfig, SuccessDatasetItem, md5_url, normalize_url
 
 
@@ -64,6 +66,38 @@ def test_input_config_accepts_proxy_urls() -> None:
     )
 
     assert config.proxy_config.proxyUrls == ["http://user:pass@proxy.example:8000"]
+
+
+def test_input_config_disables_limit_when_no_items_limit_true() -> None:
+    config = InputConfig.model_validate(
+        {
+            "sites_to_scrape": ["Example News"],
+            "max_items_per_site": 25,
+            "no_items_limit": True,
+            "proxy_config": {
+                "useApifyProxy": False,
+                "apifyProxyGroups": [],
+                "countryCode": None,
+            },
+        }
+    )
+
+    assert config.max_items_per_site is None
+
+
+def test_input_config_requires_cutoff_for_explicit_historic_mode() -> None:
+    with pytest.raises(ValueError):
+        InputConfig.model_validate(
+            {
+                "sites_to_scrape": ["Example News"],
+                "execution_mode": "historic",
+                "proxy_config": {
+                    "useApifyProxy": False,
+                    "apifyProxyGroups": [],
+                    "countryCode": None,
+                },
+            }
+        )
 
 
 def test_success_item_normalizes_urls_and_datetimes() -> None:

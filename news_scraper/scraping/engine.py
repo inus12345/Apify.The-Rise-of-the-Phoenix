@@ -1171,7 +1171,7 @@ class ScraperRunner:
         total_targets = len(targets)
 
         for category_root_url, page_url, page_index in targets:
-            if collected >= max_items:
+            if max_items is not None and collected >= max_items:
                 break
 
             page_status = "ok"
@@ -1191,7 +1191,7 @@ class ScraperRunner:
                 category_state.last_scraped_page_index = max(category_state.last_scraped_page_index, page_index)
 
                 for article_url in links:
-                    if collected >= max_items:
+                    if max_items is not None and collected >= max_items:
                         break
                     if article_url in seen_urls:
                         continue

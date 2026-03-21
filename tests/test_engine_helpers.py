@@ -291,7 +291,34 @@ def test_normalize_actor_input_merges_site_category_filters() -> None:
 
     assert config.category_filters == {
         "Example News": [
-            "https://example.com/world",
             "https://example.com/politics",
+            "https://example.com/world",
+        ]
+    }
+
+
+def test_normalize_actor_input_parses_dropdown_category_pairs_and_unlimited_mode() -> None:
+    config = normalize_actor_input(
+        {
+            "sites_to_scrape": ["Example News"],
+            "categories_to_scrape": [
+                "Example News|||https://example.com/world",
+                "Example News|||https://example.com/politics",
+            ],
+            "execution_mode": "current",
+            "no_items_limit": True,
+            "proxy_config": {
+                "useApifyProxy": True,
+                "apifyProxyGroups": ["RESIDENTIAL"],
+            },
+        }
+    )
+
+    assert config.execution_mode == ExecutionMode.CURRENT
+    assert config.max_items_per_site is None
+    assert config.category_filters == {
+        "Example News": [
+            "https://example.com/politics",
+            "https://example.com/world",
         ]
     }
