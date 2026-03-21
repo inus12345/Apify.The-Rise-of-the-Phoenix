@@ -6,6 +6,8 @@ import json
 import logging
 import os
 import time
+import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
@@ -50,6 +52,7 @@ from news_scraper.config import (
 
 
 LOGGER = logging.getLogger("news_scraper")
+ProgressCallback = Callable[[dict[str, Any]], None]
 
 if not LOGGER.handlers:
     logging.basicConfig(
@@ -142,6 +145,9 @@ class ScraplingFetcher(BackendFetcher):
     tool = ScrapingTool.SCRAPLING
 
     def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
+        force_httpx = os.getenv("NEWS_SCRAPER_FORCE_HTTPX_FETCH", "").strip().lower() in {"1", "true", "yes"}
+        if force_httpx:
+            return self._httpx_fetch(url, proxy_url)
         try:
             import scrapling
         except ImportError:
@@ -256,6 +262,8 @@ class ArticleExtractor:
         links: list[str] = []
         soup = BeautifulSoup(html, "lxml")
         document = lxml_html.fromstring(html)
+        base_parts = urlsplit(base_url)
+        base_host = base_parts.netloc.lower().removeprefix("www.")
 
         for selector in selectors:
             raw_values = self._run_selector(selector, soup, document)
@@ -263,7 +271,46 @@ class ArticleExtractor:
                 if not raw_value:
                     continue
                 resolved = urljoin(base_url, raw_value)
-                if resolved.startswith("http"):
+                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
+                    links.append(normalize_url(resolved))
+
+        seen: set[str] = set()
+        deduped: list[str] = []
+        for link in links:
+            if link in seen:
+                continue
+            seen.add(link)
+            deduped.append(link)
+
+        if not deduped:
+            deduped = self._extract_fallback_listing_links(soup, base_url, base_host)
+        return self._prioritize_article_links(deduped)
+
+    def _extract_fallback_listing_links(self, soup: BeautifulSoup, base_url: str, base_host: str) -> list[str]:
+        fallback_selectors = [
+            "main a[href]",
+            "article a[href]",
+            "h1 a[href], h2 a[href], h3 a[href]",
+            "[class*='title'] a[href], [class*='headline'] a[href]",
+            "a[href*='/article/'], a[href*='/news/'], a[href*='/story/'], a[href*='/202']",
+        ]
+        links: list[str] = []
+        for selector in fallback_selectors:
+            for anchor in soup.select(selector):
+                href = anchor.get("href")
+                if not href:
+                    continue
+                resolved = urljoin(base_url, href)
+                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
+                    links.append(normalize_url(resolved))
+
+        if not links:
+            for anchor in soup.select("a[href]"):
+                href = anchor.get("href")
+                if not href:
+                    continue
+                resolved = urljoin(base_url, href)
+                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
                     links.append(normalize_url(resolved))
 
         seen: set[str] = set()
@@ -274,6 +321,10 @@ class ArticleExtractor:
             seen.add(link)
             deduped.append(link)
         return deduped
+
+    def _is_same_domain(self, candidate_url: str, base_host: str) -> bool:
+        candidate_host = urlsplit(candidate_url).netloc.lower().removeprefix("www.")
+        return candidate_host == base_host or candidate_host.endswith(f".{base_host}")
 
     def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
         """Extract normalized article fields from an article page."""
@@ -298,8 +349,25 @@ class ArticleExtractor:
         extracted["main_image_url"] = self._extract_url(fields.main_image_url, soup, document, base_url=url)
         extracted["seo_description"] = self._extract_field(fields.seo_description, soup, document)
         extracted["source_html_lang"] = soup.html.get("lang") if soup.html else None
+        self._apply_extraction_fallbacks(extracted, soup, url)
         self._validate_required_fields(extracted, fields)
         return extracted
+
+    def _apply_extraction_fallbacks(self, extracted: dict[str, Any], soup: BeautifulSoup, url: str) -> None:
+        if not extracted.get("article_title"):
+            fallback_title = self._fallback_title(soup)
+            if fallback_title:
+                extracted["article_title"] = fallback_title
+
+        if not extracted.get("article_body"):
+            fallback_body = self._fallback_body(soup)
+            if fallback_body:
+                extracted["article_body"] = fallback_body
+
+        if not extracted.get("date_published"):
+            fallback_date = self._fallback_date(soup, url)
+            if fallback_date:
+                extracted["date_published"] = fallback_date
 
     def _validate_required_fields(self, extracted: dict[str, Any], fields: Any) -> None:
         required_fields = {
@@ -347,20 +415,271 @@ class ArticleExtractor:
         if raw_value in (None, ""):
             return None
 
-        if isinstance(raw_value, list):
-            raw_value = raw_value[0]
+        candidates = raw_value if isinstance(raw_value, list) else [raw_value]
+        first_candidate = candidates[0]
 
-        for fmt in date_rule.input_formats:
-            try:
-                parsed = datetime.strptime(raw_value, fmt)
+        for candidate in candidates:
+            candidate_text = str(candidate)
+            for fmt in date_rule.input_formats:
+                try:
+                    parsed = datetime.strptime(candidate_text, fmt)
+                    return self._apply_timezone(parsed, date_rule.timezone)
+                except ValueError:
+                    continue
+
+            parsed = self._parse_date(candidate_text)
+            if parsed is not None:
                 return self._apply_timezone(parsed, date_rule.timezone)
+
+        raise ExtractionError(f"Unable to parse date value '{first_candidate}'")
+
+    def _fallback_title(self, soup: BeautifulSoup) -> str | None:
+        h1 = soup.select_one("h1")
+        if h1:
+            text = " ".join(h1.get_text(" ", strip=True).split())
+            if text:
+                return text
+
+        if soup.title:
+            text = " ".join(soup.title.get_text(" ", strip=True).split())
+            if text:
+                return text
+        return None
+
+    def _fallback_body(self, soup: BeautifulSoup) -> str | None:
+        containers = [
+            soup.select_one("[itemprop='articleBody']"),
+            soup.select_one("article"),
+            soup.select_one("[class*='story-content'], [class*='story_content']"),
+            soup.select_one("[class*='article-content'], [class*='article_content']"),
+            soup.select_one("[class*='content']"),
+            soup.select_one("main"),
+            soup.select_one(".post-content"),
+            soup.select_one(".entry-content"),
+            soup.select_one(".article-content"),
+            soup.select_one(".article-body"),
+        ]
+        for container in containers:
+            if not container:
+                continue
+            paragraphs = [
+                " ".join(p.get_text(" ", strip=True).split())
+                for p in container.select("p")
+            ]
+            paragraphs = [p for p in paragraphs if len(p) >= 40]
+            if paragraphs:
+                return "\n\n".join(paragraphs)
+
+            # Some templates render rich text in generic divs/spans instead of <p>.
+            lines = [
+                " ".join(line.split())
+                for line in container.get_text("\n", strip=True).splitlines()
+            ]
+            lines = [line for line in lines if len(line) >= 40]
+            if len(lines) >= 2:
+                return "\n\n".join(lines[:40])
+
+        # Final safety net for layouts where article text lives in generic wrappers.
+        paragraphs = [
+            " ".join(p.get_text(" ", strip=True).split())
+            for p in soup.select("p")
+        ]
+        paragraphs = [p for p in paragraphs if len(p) >= 40]
+        if len(paragraphs) >= 3:
+            return "\n\n".join(paragraphs[:40])
+        return None
+
+    def _fallback_date(self, soup: BeautifulSoup, url: str) -> datetime | None:
+        for tag in soup.select("meta[content]"):
+            name = (
+                (tag.get("name") or "")
+                + " "
+                + (tag.get("property") or "")
+                + " "
+                + (tag.get("itemprop") or "")
+            ).lower()
+            if "date" not in name and "publish" not in name and "time" not in name:
+                continue
+            content = (tag.get("content") or "").strip()
+            if not content:
+                continue
+            parsed = self._parse_date(content)
+            if parsed:
+                return self._apply_timezone(parsed, "UTC")
+
+        for element in soup.select("[datetime]"):
+            value = (element.get("datetime") or "").strip()
+            if not value:
+                continue
+            parsed = self._parse_date(value)
+            if parsed:
+                return self._apply_timezone(parsed, "UTC")
+
+        # Many themes expose publication date in plain text without datetime/meta fields.
+        text_sources: list[str] = []
+        for selector in (
+            "article",
+            "main",
+            "header",
+            "[class*='post-info']",
+            "[class*='meta']",
+            "[class*='date']",
+            "time",
+        ):
+            for node in soup.select(selector):
+                text = " ".join(node.get_text(" ", strip=True).split())
+                if text:
+                    text_sources.append(text)
+
+        text_sources.append(" ".join(soup.get_text(" ", strip=True).split()))
+        for source in text_sources:
+            parsed_from_text = self._parse_date_from_text(source)
+            if parsed_from_text:
+                return self._apply_timezone(parsed_from_text, "UTC")
+
+        for script in soup.find_all("script"):
+            content = (script.string or script.get_text() or "").strip()
+            if "datePublished" not in content:
+                continue
+            matches = re.findall(r'"datePublished"\s*:\s*"([^"]+)"', content)
+            for value in matches:
+                parsed = self._parse_date(value)
+                if parsed:
+                    return self._apply_timezone(parsed, "UTC")
+
+        return self._extract_date_from_url(url)
+
+    def _parse_date_from_text(self, text: str) -> datetime | None:
+        date_patterns = [
+            r"\b\d{2}/\d{2}/\d{4}(?:\s*[-–]\s*\d{1,2}:\d{2})?\b",
+            r"\b\d{4}-\d{2}-\d{2}(?:[T\s]\d{1,2}:\d{2}(?::\d{2})?)?\b",
+            r"\b(?:january|february|march|april|may|june|july|august|"
+            r"september|october|november|december)\s+\d{1,2},\s+\d{4}\b",
+            r"\b\d{1,2}\s+(?:january|february|march|april|may|june|july|"
+            r"august|september|october|november|december)\s+\d{4}\b",
+        ]
+        lower_text = text.lower()
+        for pattern in date_patterns:
+            for match in re.findall(pattern, lower_text, flags=re.IGNORECASE):
+                candidate = match.strip()
+                parsed = self._parse_date(candidate)
+                if parsed:
+                    return parsed
+        return None
+
+    def _extract_date_from_url(self, url: str) -> datetime | None:
+        path = urlsplit(url).path
+        patterns = [
+            r"/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})(?:/|$)",
+            r"/(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})(?:/|$)",
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, path)
+            if not match:
+                continue
+            year = int(match.group("year"))
+            month = int(match.group("month"))
+            day = int(match.group("day"))
+            try:
+                return datetime(year, month, day, tzinfo=UTC)
             except ValueError:
                 continue
+        return None
 
-        parsed = self._parse_date(raw_value)
-        if parsed is None:
-            raise ExtractionError(f"Unable to parse date value '{raw_value}'")
-        return self._apply_timezone(parsed, date_rule.timezone)
+    def _prioritize_article_links(self, links: list[str]) -> list[str]:
+        if not links:
+            return links
+
+        ranked: list[tuple[int, int, str]] = []
+        for index, link in enumerate(links):
+            score, blocked = self._score_article_url(link)
+            if blocked:
+                continue
+            ranked.append((score, index, link))
+
+        if not ranked:
+            return links
+
+        ranked.sort(key=lambda item: (-item[0], item[1]))
+        positives = [link for score, _, link in ranked if score > 0]
+        if positives:
+            return positives
+        return [link for _, _, link in ranked]
+
+    def _score_article_url(self, url: str) -> tuple[int, bool]:
+        parts = urlsplit(url)
+        path = (parts.path or "/").lower()
+        host = parts.netloc.lower().removeprefix("www.")
+        query = dict(parse_qsl(parts.query, keep_blank_values=True))
+
+        if re.search(r"\.(pdf|jpe?g|png|gif|webp|svg|zip|mp4|mp3|docx?|xlsx?|pptx?)($|[?#])", path):
+            return (-10, True)
+
+        if host == "20.detik.com" or host == "x.detik.com":
+            return (-10, True)
+
+        # Strongly exclude non-article utility and profile routes.
+        blocked_markers = [
+            "/author/",
+            "/authors/",
+            "/writer",
+            "/writers",
+            "/editor",
+            "/editors",
+            "/tag/",
+            "/tags/",
+            "/category/",
+            "/categories/",
+            "/section/index/",
+            "/search",
+            "/contact",
+            "/about",
+            "/privacy",
+            "/terms",
+            "/account",
+            "/login",
+            "/wp-login",
+            "/register",
+            "/subscribe",
+            "/newsletter",
+            "/videos/",
+            "/video/",
+            "/x/detail/",
+        ]
+        if any(marker in path for marker in blocked_markers):
+            return (-10, True)
+
+        if re.search(r"/news/\d{4}/\d{1,2}/\d{1,2}/?$", path):
+            return (-8, True)
+
+        score = 0
+        if re.search(r"/\d{4}/\d{1,2}/\d{1,2}(?:/|$)", path):
+            score += 6
+        if re.search(r"/\d{4}-\d{1,2}-\d{1,2}(?:/|$)", path):
+            score += 5
+        if re.search(r"/\d{6,}(?:/|$)", path):
+            score += 3
+
+        slug = path.rstrip("/").split("/")[-1]
+        if slug and len(slug) >= 20 and "-" in slug:
+            score += 3
+        if re.search(r"-\d{5,}$", slug):
+            score += 3
+        if re.fullmatch(r"\d{1,2}", slug):
+            score -= 4
+        if any(token in path for token in ("/article/", "/news/", "/story/", "/details/")):
+            score += 2
+
+        # Query-based article identifiers.
+        for key in ("id", "storyid", "articleid", "p", "newsid"):
+            if key in query and (query[key].isdigit() or len(query[key]) >= 5):
+                score += 3
+                break
+
+        if path in ("", "/"):
+            score -= 5
+
+        return (score, False)
 
     def _extract_url(self, url_rule: Any, soup: BeautifulSoup, document: Any, base_url: str) -> str | None:
         raw_value = self._extract_field(url_rule, soup, document)
@@ -581,17 +900,36 @@ class ScraperEngine:
 
     def _looks_blocked(self, html: str) -> bool:
         lower_text = BeautifulSoup(html, "lxml").get_text(" ", strip=True).lower()
-        indicators = [
-            "captcha",
+        hard_indicators = [
             "attention required",
             "access denied",
             "verify you are human",
-            "forbidden",
             "enable javascript and cookies",
             "bot verification",
-            "cloudflare",
+            "http error 429",
+            "your device sent us too many requests",
+            "please wait a few minutes before retrying",
+            "temporarily rate limited",
         ]
-        return any(indicator in lower_text for indicator in indicators)
+        if any(indicator in lower_text for indicator in hard_indicators):
+            return True
+
+        if "captcha" in lower_text and ("verify you are human" in lower_text or "access denied" in lower_text):
+            return True
+        if "forbidden" in lower_text and ("403" in lower_text or "access denied" in lower_text):
+            return True
+        if "too many requests" in lower_text and "429" in lower_text:
+            return True
+
+        # Avoid false positives from normal pages that merely mention Cloudflare.
+        cloudflare_challenge_signals = [
+            "/cdn-cgi/challenge-platform",
+            "__cf_chl_",
+            "cf-chl-",
+            "checking your browser before accessing",
+            "just a moment...",
+        ]
+        return any(signal in lower_text for signal in cloudflare_challenge_signals)
 
 
 class ScraperRunner:
@@ -601,7 +939,7 @@ class ScraperRunner:
         self.runtime_config = runtime_config
         self.engine = ScraperEngine(timeout=timeout)
 
-    def run(self, input_config: InputConfig) -> RunDatasets:
+    def run(self, input_config: InputConfig, progress_callback: ProgressCallback | None = None) -> RunDatasets:
         """Execute a full scrape and persist state/datasets."""
 
         catalog = load_json_model(self.runtime_config.catalog_path, SiteCatalog)
@@ -611,8 +949,30 @@ class ScraperRunner:
         catalog_sites = self._select_sites(catalog, input_config)
         selector_by_name = {site.site_name: site for site in selector_map.sites}
         datasets = RunDatasets()
+        total_targets = 0
+        planned_targets_by_site: dict[str, int] = {}
 
         for site in catalog_sites:
+            site_tracker = get_or_create_site_tracker(tracker, site.site_name)
+            selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
+            targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
+            planned_targets_by_site[site.site_name] = len(targets)
+            total_targets += len(targets)
+
+        self._emit_progress(
+            progress_callback,
+            event="run_started",
+            mode=input_config.execution_mode.value,
+            total_sites=len(catalog_sites),
+            total_targets=total_targets,
+            completed_targets=0,
+            success_items=0,
+            error_items=0,
+        )
+
+        completed_targets = 0
+
+        for site_index, site in enumerate(catalog_sites, start=1):
             if site.site_name not in selector_by_name:
                 datasets.error_log_dataset.append(
                     ErrorDatasetItem(
@@ -625,14 +985,99 @@ class ScraperRunner:
                         execution_mode=input_config.execution_mode,
                     )
                 )
+                completed_targets += planned_targets_by_site.get(site.site_name, 0)
+                self._emit_progress(
+                    progress_callback,
+                    event="site_missing_selectors",
+                    site_name=site.site_name,
+                    site_index=site_index,
+                    total_sites=len(catalog_sites),
+                    total_targets=total_targets,
+                    completed_targets=completed_targets,
+                    success_items=len(datasets.success_dataset),
+                    error_items=len(datasets.error_log_dataset),
+                    percent=progress_percent(completed_targets, total_targets),
+                )
                 continue
 
             site_selectors = selector_by_name[site.site_name]
-            self._scrape_site(site, site_selectors, tracker, input_config, datasets)
+            site_tracker = get_or_create_site_tracker(tracker, site.site_name)
+            site_target_total = planned_targets_by_site.get(site.site_name, 0)
+            selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
+
+            self._emit_progress(
+                progress_callback,
+                event="site_started",
+                site_name=site.site_name,
+                site_index=site_index,
+                total_sites=len(catalog_sites),
+                site_total_targets=site_target_total,
+                site_processed_targets=0,
+                total_targets=total_targets,
+                completed_targets=completed_targets,
+                success_items=len(datasets.success_dataset),
+                error_items=len(datasets.error_log_dataset),
+                percent=progress_percent(completed_targets, total_targets),
+            )
+
+            base_completed_targets = completed_targets
+
+            def site_progress(payload: dict[str, Any]) -> None:
+                site_processed_targets = int(payload.get("site_processed_targets", 0))
+                overall_completed = min(base_completed_targets + site_processed_targets, total_targets)
+                self._emit_progress(
+                    progress_callback,
+                    **payload,
+                    site_name=site.site_name,
+                    site_index=site_index,
+                    total_sites=len(catalog_sites),
+                    total_targets=total_targets,
+                    completed_targets=overall_completed,
+                    success_items=len(datasets.success_dataset),
+                    error_items=len(datasets.error_log_dataset),
+                    percent=progress_percent(overall_completed, total_targets),
+                )
+
+            site_summary = self._scrape_site(
+                site,
+                site_selectors,
+                site_tracker,
+                input_config,
+                datasets,
+                selected_categories=selected_categories,
+                progress_callback=site_progress,
+            )
+            completed_targets += site_summary["planned_targets"]
+            self._emit_progress(
+                progress_callback,
+                event="site_completed",
+                site_name=site.site_name,
+                site_index=site_index,
+                total_sites=len(catalog_sites),
+                site_total_targets=site_summary["planned_targets"],
+                site_processed_targets=site_summary["processed_targets"],
+                site_collected_items=site_summary["collected_items"],
+                total_targets=total_targets,
+                completed_targets=completed_targets,
+                success_items=len(datasets.success_dataset),
+                error_items=len(datasets.error_log_dataset),
+                percent=progress_percent(completed_targets, total_targets),
+            )
 
         save_json_model(self.runtime_config.catalog_path, catalog)
         save_json_model(self.runtime_config.tracker_path, tracker)
         self._write_datasets(datasets)
+        self._emit_progress(
+            progress_callback,
+            event="run_completed",
+            mode=input_config.execution_mode.value,
+            total_sites=len(catalog_sites),
+            total_targets=total_targets,
+            completed_targets=total_targets,
+            success_items=len(datasets.success_dataset),
+            error_items=len(datasets.error_log_dataset),
+            percent=100,
+        )
         return datasets
 
     def verify_sites(self, sites_to_verify: list[str] | None = None) -> VerificationReport:
@@ -712,20 +1157,24 @@ class ScraperRunner:
         self,
         site: SiteCatalogEntry,
         site_selectors: SiteSelectorConfig,
-        tracker: CategoryPaginationTracker,
+        site_tracker: SiteCategoryTracker,
         input_config: InputConfig,
         datasets: RunDatasets,
-    ) -> None:
-        site_tracker = get_or_create_site_tracker(tracker, site.site_name)
-        targets = self._build_targets(site, site_tracker, input_config.execution_mode)
+        selected_categories: set[str] | None = None,
+        progress_callback: ProgressCallback | None = None,
+    ) -> dict[str, int]:
+        targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
         seen_urls = {str(item.article_url) for item in datasets.success_dataset}
         max_items = input_config.max_items_per_site
         collected = 0
+        processed_targets = 0
+        total_targets = len(targets)
 
         for category_root_url, page_url, page_index in targets:
             if collected >= max_items:
                 break
 
+            page_status = "ok"
             try:
                 listing_fetch = self.engine.fetch_with_fallback(
                     page_url,
@@ -764,6 +1213,7 @@ class ScraperRunner:
                     seen_urls.add(str(success_item.article_url))
                     collected += 1
             except Exception as exc:
+                page_status = "error"
                 fallback_tool_failed = exc.attempts[-1].tool if isinstance(exc, FetchError) and exc.attempts else None
                 datasets.error_log_dataset.append(
                     ErrorDatasetItem(
@@ -777,9 +1227,27 @@ class ScraperRunner:
                         execution_mode=input_config.execution_mode,
                     )
                 )
+            finally:
+                processed_targets += 1
+                self._emit_progress(
+                    progress_callback,
+                    event="page_completed",
+                    category_url=category_root_url,
+                    page_url=page_url,
+                    page_index=page_index,
+                    page_status=page_status,
+                    site_total_targets=total_targets,
+                    site_processed_targets=processed_targets,
+                    site_collected_items=collected,
+                )
 
         if site.scraping_history:
             site.preferred_scraping_tool = choose_preferred_tool(site.scraping_history)
+        return {
+            "planned_targets": total_targets,
+            "processed_targets": processed_targets,
+            "collected_items": collected,
+        }
 
     def _scrape_article(
         self,
@@ -893,6 +1361,7 @@ class ScraperRunner:
         site: SiteCatalogEntry,
         site_tracker: SiteCategoryTracker,
         mode: ExecutionMode,
+        selected_categories: set[str] | None = None,
     ) -> list[tuple[str, str, int]]:
         if not site_tracker.categories:
             site_tracker.categories.append(
@@ -904,8 +1373,18 @@ class ScraperRunner:
                 )
             )
 
+        if selected_categories:
+            selected = {normalize_url(category_url) for category_url in selected_categories}
+            categories = [
+                category
+                for category in site_tracker.categories
+                if normalize_url(str(category.category_url)) in selected
+            ]
+        else:
+            categories = site_tracker.categories
+
         targets: list[tuple[str, str, int]] = []
-        for category in site_tracker.categories:
+        for category in categories:
             if mode == ExecutionMode.CURRENT:
                 max_page = min(category.total_known_pages, 2)
                 for page_index in range(1, max_page + 1):
@@ -946,10 +1425,19 @@ class ScraperRunner:
             [item.model_dump(mode="json") for item in datasets.error_log_dataset],
         )
 
+    def _emit_progress(self, progress_callback: ProgressCallback | None, **payload: Any) -> None:
+        """Dispatch UI progress updates when a callback is provided."""
+
+        if progress_callback is None:
+            return
+        progress_callback(payload)
+
 
 def resolve_proxy_url(proxy_config: ProxyConfig | None) -> str | None:
     """Resolve a proxy URL from runtime config and environment."""
 
+    if proxy_config and proxy_config.proxyUrls:
+        return proxy_config.proxyUrls[0]
     if proxy_config and proxy_config.useApifyProxy:
         return os.getenv("APIFY_PROXY_URL") or os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
     return os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY")
@@ -1087,6 +1575,15 @@ def build_page_url(category_url: str, page_index: int) -> str:
     else:
         new_path = f"{parsed.path}/page/{page_index}/"
     return normalize_url(urlunsplit((parsed.scheme, parsed.netloc, new_path, parsed.query, "")))
+
+
+def progress_percent(completed_targets: int, total_targets: int) -> int:
+    """Convert target progress to a UI-friendly integer percentage."""
+
+    if total_targets <= 0:
+        return 100
+    ratio = max(0.0, min(completed_targets / total_targets, 1.0))
+    return int(round(ratio * 100))
 
 
 def coerce_scalar(value: Any) -> str | None:
