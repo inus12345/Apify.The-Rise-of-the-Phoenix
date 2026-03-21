@@ -7,7 +7,7 @@
       "title": "Websites to scrape",
       "type": "array",
       "description": "Select one or more active websites. Leave empty to scrape all active sites in the catalog.",
-      "editor": "schemaBased",
+      "editor": "select",
       "prefill": [],
       "uniqueItems": true,
       "items": {
@@ -408,7 +408,7 @@
       "title": "Categories to scrape",
       "type": "array",
       "description": "Optional category dropdown. Each option is tied to a website. Leave empty to scrape all tracked categories for selected websites.",
-      "editor": "schemaBased",
+      "editor": "select",
       "prefill": [],
       "uniqueItems": true,
       "items": {
@@ -2608,6 +2608,7 @@
           "site_name": {
             "title": "Site name",
             "type": "string",
+            "description": "Exact site_name from the catalog.",
             "editor": "select",
             "enum": [
               "24 heures",
@@ -3003,6 +3004,7 @@
           "category_urls": {
             "title": "Category URLs",
             "type": "array",
+            "description": "Tracked category URLs for that site.",
             "editor": "stringList",
             "items": {
               "type": "string"

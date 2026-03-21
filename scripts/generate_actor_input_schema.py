@@ -105,7 +105,7 @@ def build_schema(
                     "Select one or more active websites. Leave empty to scrape all active "
                     "sites in the catalog."
                 ),
-                "editor": "schemaBased",
+                "editor": "select",
                 "prefill": [],
                 "uniqueItems": True,
                 "items": {
@@ -121,7 +121,7 @@ def build_schema(
                     "Optional category dropdown. Each option is tied to a website. "
                     "Leave empty to scrape all tracked categories for selected websites."
                 ),
-                "editor": "schemaBased",
+                "editor": "select",
                 "prefill": [],
                 "uniqueItems": True,
                 "items": {
@@ -191,6 +191,7 @@ def build_schema(
                         "site_name": {
                             "title": "Site name",
                             "type": "string",
+                            "description": "Exact site_name from the catalog.",
                             "editor": "select",
                             "enum": site_names,
                             "enumTitles": site_titles,
@@ -198,6 +199,7 @@ def build_schema(
                         "category_urls": {
                             "title": "Category URLs",
                             "type": "array",
+                            "description": "Tracked category URLs for that site.",
                             "editor": "stringList",
                             "items": {
                                 "type": "string",
