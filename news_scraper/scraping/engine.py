@@ -968,6 +968,11 @@ class ScraperEngine:
             ScrapingTool.PYDOLL: PydollFetcher(timeout=timeout * 2),
             ScrapingTool.SELENIUM: SeleniumFetcher(timeout=timeout * 4),
         }
+        self.available_tools = [tool for tool in self.strict_order if self._is_tool_available(tool)]
+        LOGGER.info(
+            "Available scraping backends: %s",
+            [tool.value for tool in self.available_tools] or ["none"],
+        )
 
     def fetch_with_fallback(
         self,
@@ -979,7 +984,21 @@ class ScraperEngine:
 
         attempts: list[FetchAttempt] = []
         proxy_url = resolve_proxy_url(proxy_config)
-        ordered_tools = order_tools(preferred_tool, self.strict_order)
+        ordered_tools = order_tools(preferred_tool, self.available_tools)
+
+        if not ordered_tools:
+            raise FetchError(
+                f"No scraping backends available for {url}",
+                attempts=[
+                    FetchAttempt(
+                        tool=ScrapingTool.SELENIUM,
+                        success=False,
+                        elapsed_ms=0,
+                        error_type="BackendUnavailable",
+                        message="No available backends were detected at runtime",
+                    )
+                ],
+            )
 
         for tool in ordered_tools:
             html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
@@ -1008,6 +1027,20 @@ class ScraperEngine:
     ) -> FetchResult:
         """Fetch a page with a specific backend tool only."""
 
+        if tool not in self.available_tools:
+            raise FetchError(
+                f"{tool.value} backend unavailable for {url}",
+                attempts=[
+                    FetchAttempt(
+                        tool=tool,
+                        success=False,
+                        elapsed_ms=0,
+                        error_type="BackendUnavailable",
+                        message=f"{tool.value} backend unavailable at runtime",
+                    )
+                ],
+            )
+
         proxy_url = resolve_proxy_url(proxy_config)
         html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
         if attempt.success:
@@ -1024,6 +1057,21 @@ class ScraperEngine:
         if html is not None and attempt.success:
             return FetchResult(url=url, html=html, tool=tool, elapsed_ms=attempt.elapsed_ms, attempts=[attempt])
         raise FetchError(f"{tool.value} failed for {url}", attempts=[attempt])
+
+    def _is_tool_available(self, tool: ScrapingTool) -> bool:
+        try:
+            if tool == ScrapingTool.SCRAPLING:
+                import scrapling  # noqa: F401
+                return True
+            if tool == ScrapingTool.PYDOLL:
+                import pydoll  # type: ignore
+                return hasattr(pydoll, "Browser")
+            if tool == ScrapingTool.SELENIUM:
+                from selenium import webdriver  # noqa: F401
+                return True
+        except Exception:
+            return False
+        return False
 
     def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
         """Extract article fields using configured selectors."""
@@ -1537,12 +1585,14 @@ class ScraperRunner:
     ) -> tuple[FetchResult, list[str]]:
         """Fetch listing page and retry extraction across tools when links are missing."""
 
-        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.strict_order)
+        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.available_tools)
         issues: list[str] = []
+        last_success_fetch: FetchResult | None = None
 
         for tool in ordered_tools:
             try:
                 fetch = self.engine.fetch_with_tool(page_url, tool=tool, proxy_config=proxy_config)
+                last_success_fetch = fetch
                 links = self.engine.extract_listing_links(fetch.html, page_url, site_selectors)
                 if links:
                     return fetch, links
@@ -1552,6 +1602,16 @@ class ScraperRunner:
                 self._record_site_attempt(site, exc.attempts)
                 message = exc.attempts[-1].error_type if exc.attempts else exc.__class__.__name__
                 issues.append(f"{tool.value}: {message}")
+
+        feed_links = self._extract_links_from_feed(page_url, site, proxy_config)
+        if feed_links and last_success_fetch is not None:
+            LOGGER.info(
+                "Feed fallback produced links site=%s page=%s links=%d",
+                site.site_name,
+                page_url,
+                len(feed_links),
+            )
+            return last_success_fetch, feed_links
 
         raise ExtractionError(f"No article links found on listing page after tool fallback ({'; '.join(issues)})")
 
@@ -1564,7 +1624,7 @@ class ScraperRunner:
     ) -> tuple[FetchResult, dict[str, Any]]:
         """Fetch article and retry extraction across tools for selector-sensitive pages."""
 
-        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.strict_order)
+        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.available_tools)
         issues: list[str] = []
 
         for tool in ordered_tools:
@@ -1580,6 +1640,100 @@ class ScraperRunner:
                 issues.append(f"{tool.value}: {exc}")
 
         raise ExtractionError(f"Required selectors failed after tool fallback ({'; '.join(issues)})")
+
+    def _extract_links_from_feed(
+        self,
+        page_url: str,
+        site: SiteCatalogEntry,
+        proxy_config: ProxyConfig,
+    ) -> list[str]:
+        feed_urls = self._build_feed_candidates(page_url)
+        article_links: list[str] = []
+        seen: set[str] = set()
+        for feed_url in feed_urls:
+            try:
+                fetch = self.engine.fetch_with_fallback(
+                    feed_url,
+                    preferred_tool=site.preferred_scraping_tool,
+                    proxy_config=proxy_config,
+                )
+                self._record_site_attempt(site, fetch.attempts)
+                feed_links = self._parse_feed_links(fetch.html, str(site.base_url))
+                for link in feed_links:
+                    if link in seen:
+                        continue
+                    seen.add(link)
+                    article_links.append(link)
+            except Exception:
+                continue
+        return article_links
+
+    def _build_feed_candidates(self, page_url: str) -> list[str]:
+        normalized_page = normalize_url(page_url)
+        trimmed = normalized_page.rstrip("/")
+        candidates = [
+            f"{trimmed}/feed.xml",
+            f"{trimmed}/rss.xml",
+        ]
+        parsed = urlsplit(normalized_page)
+        if parsed.path in {"", "/"}:
+            candidates.extend(
+                [
+                    f"{parsed.scheme}://{parsed.netloc}/news/local/feed.xml",
+                    f"{parsed.scheme}://{parsed.netloc}/news/international/feed.xml",
+                    f"{parsed.scheme}://{parsed.netloc}/news/business/feed.xml",
+                    f"{parsed.scheme}://{parsed.netloc}/news/sports/feed.xml",
+                    f"{parsed.scheme}://{parsed.netloc}/news/entertainment/feed.xml",
+                ]
+            )
+        deduped: list[str] = []
+        seen: set[str] = set()
+        for candidate in candidates:
+            normalized = normalize_url(candidate)
+            if normalized in seen:
+                continue
+            seen.add(normalized)
+            deduped.append(normalized)
+        return deduped
+
+    def _parse_feed_links(self, content: str, base_url: str) -> list[str]:
+        soup = BeautifulSoup(content, "xml")
+        links: list[str] = []
+        parsed_base = urlsplit(base_url)
+        base_host = parsed_base.netloc.lower().removeprefix("www.")
+
+        for item in soup.find_all("item"):
+            link_tag = item.find("link")
+            value = link_tag.get_text(strip=True) if link_tag else ""
+            if value:
+                links.append(value)
+
+        for entry in soup.find_all("entry"):
+            for link_tag in entry.find_all("link"):
+                value = link_tag.get("href") or link_tag.get_text(strip=True)
+                if value:
+                    links.append(value)
+
+        normalized_links: list[str] = []
+        seen: set[str] = set()
+        for link in links:
+            resolved = urljoin(base_url, str(link).strip())
+            if not resolved.startswith("http"):
+                continue
+            host = urlsplit(resolved).netloc.lower().removeprefix("www.")
+            if host != base_host and not host.endswith(f".{base_host}"):
+                continue
+            if not self.engine.extractor._is_valid_listing_candidate(resolved):
+                continue
+            score, blocked = self.engine.extractor._score_article_url(resolved)
+            if blocked or score <= 0:
+                continue
+            normalized = normalize_url(resolved)
+            if normalized in seen:
+                continue
+            seen.add(normalized)
+            normalized_links.append(normalized)
+        return normalized_links
 
     def _record_site_attempt(self, site: SiteCatalogEntry, attempts: list[FetchAttempt]) -> None:
         for attempt in attempts:

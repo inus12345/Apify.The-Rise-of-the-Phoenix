@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import asyncio
+import importlib
+from importlib import metadata as importlib_metadata
 import os
 from pathlib import Path
 from typing import Any
@@ -17,6 +19,32 @@ from news_scraper.scraping import ScraperRunner, default_runtime_config
 
 ERROR_DATASET_NAME = "error-log"
 CATEGORY_OPTION_DELIMITER = "|||"
+
+
+def log_backend_diagnostics() -> None:
+    if Actor is None:  # pragma: no cover
+        return
+
+    checks = [
+        ("scrapling", "scrapling", "Fetcher"),
+        ("pydoll", "pydoll", "Browser"),
+        ("selenium", "selenium", "webdriver"),
+    ]
+    diagnostics: list[str] = []
+    for label, module_name, required_attr in checks:
+        try:
+            module = importlib.import_module(module_name)
+            try:
+                version = importlib_metadata.version(module_name)
+            except Exception:
+                version = "unknown"
+            has_attr = hasattr(module, required_attr)
+            diagnostics.append(
+                f"{label}:import=ok,version={version},required_attr={required_attr},available={has_attr}"
+            )
+        except Exception as exc:
+            diagnostics.append(f"{label}:import=fail,error={exc.__class__.__name__}")
+    Actor.log.info("Backend diagnostics: %s", " | ".join(diagnostics))
 
 
 def _coerce_bool(value: Any) -> bool:
@@ -191,6 +219,7 @@ async def main() -> None:
     async with Actor:
         raw_input = await Actor.get_input() or {}
         input_config = normalize_actor_input(raw_input)
+        log_backend_diagnostics()
         await prepare_proxy(input_config.proxy_config)
 
         runtime = default_runtime_config(Path.cwd())
