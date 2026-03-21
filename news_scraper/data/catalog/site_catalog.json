@@ -3647,6 +3647,26 @@
           "avg_response_time_ms": 5214,
           "block_detected": false,
           "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T18:28:27.500441Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 27,
+          "avg_response_time_ms": 5216,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T18:28:33.445598Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 28,
+          "avg_response_time_ms": 5194,
+          "block_detected": false,
+          "error_type": null
         }
       ],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
