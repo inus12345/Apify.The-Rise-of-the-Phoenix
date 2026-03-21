@@ -206,6 +206,8 @@ class SeleniumFetcher(BackendFetcher):
         try:
             from selenium import webdriver
             from selenium.webdriver.chrome.options import Options
+            from selenium.webdriver.common.by import By
+            from selenium.webdriver.support.ui import WebDriverWait
         except ImportError:
             return None
 
@@ -223,6 +225,25 @@ class SeleniumFetcher(BackendFetcher):
         driver.set_page_load_timeout(self.timeout)
         try:
             driver.get(url)
+            wait_seconds = max(5, min(self.timeout, 20))
+            try:
+                WebDriverWait(driver, wait_seconds).until(
+                    lambda current: current.execute_script("return document.readyState") == "complete"
+                )
+            except Exception:
+                pass
+
+            # Allow JS-driven listing cards to hydrate before reading page_source.
+            selectors = ("a[href*='/news/']", "article a[href]", "main a[href]")
+            for selector in selectors:
+                try:
+                    WebDriverWait(driver, 4).until(
+                        lambda current, sel=selector: len(current.find_elements(By.CSS_SELECTOR, sel)) >= 5
+                    )
+                    break
+                except Exception:
+                    continue
+            time.sleep(0.8)
             return driver.page_source
         finally:
             driver.quit()
@@ -702,6 +723,7 @@ class ArticleExtractor:
         path = (parts.path or "/").lower()
         host = parts.netloc.lower().removeprefix("www.")
         query = dict(parse_qsl(parts.query, keep_blank_values=True))
+        segments = [segment for segment in path.split("/") if segment]
 
         if any(token in path for token in ("\\u003c", "\\u003e", "</", "if(", "this.canvasctx")):
             return (-10, True)
@@ -748,6 +770,24 @@ class ArticleExtractor:
 
         if re.search(r"/news/\d{4}/\d{1,2}/\d{1,2}/?$", path):
             return (-8, True)
+
+        category_like_tokens = {
+            "news",
+            "local",
+            "international",
+            "business",
+            "sports",
+            "entertainment",
+            "world",
+            "politics",
+            "health",
+            "tech",
+            "technology",
+            "lifestyle",
+            "opinion",
+        }
+        if len(segments) <= 2 and segments and all(segment in category_like_tokens for segment in segments):
+            return (-9, True)
 
         score = 0
         if re.search(r"/\d{4}/\d{1,2}/\d{1,2}(?:/|$)", path):
