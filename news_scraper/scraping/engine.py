@@ -402,6 +402,7 @@ class ArticleExtractor:
         parsed = urlsplit(url)
         path = parsed.path or "/"
         lowered = f"{path}?{parsed.query}".lower()
+        segments = [segment for segment in path.split("/") if segment]
 
         if len(path) > 240:
             return False
@@ -410,6 +411,9 @@ class ArticleExtractor:
             return False
 
         if re.search(r"[{}<>;|]", path):
+            return False
+
+        if segments and re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segments[0].lower()):
             return False
 
         lowered_path = path.lower()
@@ -729,6 +733,9 @@ class ArticleExtractor:
             return (-10, True)
 
         if re.search(r"[{}<>;|]", path):
+            return (-10, True)
+
+        if segments and re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segments[0]):
             return (-10, True)
 
         if re.search(r"\.(pdf|jpe?g|png|gif|webp|svg|zip|mp4|mp3|docx?|xlsx?|pptx?)($|[?#])", path):
