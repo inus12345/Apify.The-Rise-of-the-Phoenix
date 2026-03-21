@@ -271,7 +271,11 @@ class ArticleExtractor:
                 if not raw_value:
                     continue
                 resolved = urljoin(base_url, raw_value)
-                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
+                if (
+                    resolved.startswith("http")
+                    and self._is_same_domain(resolved, base_host)
+                    and self._is_valid_listing_candidate(resolved)
+                ):
                     links.append(normalize_url(resolved))
 
         seen: set[str] = set()
@@ -307,7 +311,11 @@ class ArticleExtractor:
                 if not href:
                     continue
                 resolved = urljoin(base_url, href)
-                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
+                if (
+                    resolved.startswith("http")
+                    and self._is_same_domain(resolved, base_host)
+                    and self._is_valid_listing_candidate(resolved)
+                ):
                     links.append(normalize_url(resolved))
 
         if not links:
@@ -316,7 +324,11 @@ class ArticleExtractor:
                 if not href:
                     continue
                 resolved = urljoin(base_url, href)
-                if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
+                if (
+                    resolved.startswith("http")
+                    and self._is_same_domain(resolved, base_host)
+                    and self._is_valid_listing_candidate(resolved)
+                ):
                     links.append(normalize_url(resolved))
 
         if not links:
@@ -341,13 +353,33 @@ class ArticleExtractor:
         for candidate in candidates:
             if not candidate:
                 continue
+            if len(candidate) > 240:
+                continue
             resolved = urljoin(base_url, candidate)
             if not resolved.startswith("http"):
                 continue
             if not self._is_same_domain(resolved, base_host):
                 continue
+            if not self._is_valid_listing_candidate(resolved):
+                continue
             links.append(normalize_url(resolved))
         return links
+
+    def _is_valid_listing_candidate(self, url: str) -> bool:
+        parsed = urlsplit(url)
+        path = parsed.path or "/"
+        lowered = f"{path}?{parsed.query}".lower()
+
+        if len(path) > 240:
+            return False
+
+        if any(token in lowered for token in ("\\u003c", "\\u003e", "</", "<strong", "if(", "this.canvasctx")):
+            return False
+
+        if re.search(r"[{}<>;|]", path):
+            return False
+
+        return True
 
     def _is_same_domain(self, candidate_url: str, base_host: str) -> bool:
         candidate_host = urlsplit(candidate_url).netloc.lower().removeprefix("www.")
@@ -638,6 +670,12 @@ class ArticleExtractor:
         path = (parts.path or "/").lower()
         host = parts.netloc.lower().removeprefix("www.")
         query = dict(parse_qsl(parts.query, keep_blank_values=True))
+
+        if any(token in path for token in ("\\u003c", "\\u003e", "</", "if(", "this.canvasctx")):
+            return (-10, True)
+
+        if re.search(r"[{}<>;|]", path):
+            return (-10, True)
 
         if re.search(r"\.(pdf|jpe?g|png|gif|webp|svg|zip|mp4|mp3|docx?|xlsx?|pptx?)($|[?#])", path):
             return (-10, True)
