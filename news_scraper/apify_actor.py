@@ -168,6 +168,7 @@ async def push_datasets(runner: ScraperRunner, input_config: InputConfig) -> dic
     if error_items:
         error_dataset = await Actor.open_dataset(name=ERROR_DATASET_NAME)
         await error_dataset.push_data(error_items)
+        Actor.log.warning("Sample scrape errors: %s", error_items[:3])
 
     summary = {
         "executionMode": input_config.execution_mode.value,
