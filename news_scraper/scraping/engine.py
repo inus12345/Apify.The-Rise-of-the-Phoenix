@@ -347,12 +347,21 @@ class ArticleExtractor:
         """Extract same-domain links from script/state blobs when anchors are missing."""
 
         normalized_html = html.replace("\\/", "/")
-        candidates = re.findall(r'https?://[^"\'>\s]+|/[^"\'>\s]{4,}', normalized_html)
+        absolute_candidates = re.findall(
+            r"https?://[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]{8,}",
+            normalized_html,
+        )
+        relative_candidates = re.findall(
+            r"/[A-Za-z0-9._~%-]+(?:/[A-Za-z0-9._~%-]+)+",
+            normalized_html,
+        )
+        candidates = absolute_candidates + relative_candidates
         links: list[str] = []
 
         for candidate in candidates:
             if not candidate:
                 continue
+            candidate = candidate.rstrip(").,;:'\"")
             if len(candidate) > 240:
                 continue
             resolved = urljoin(base_url, candidate)
@@ -361,6 +370,9 @@ class ArticleExtractor:
             if not self._is_same_domain(resolved, base_host):
                 continue
             if not self._is_valid_listing_candidate(resolved):
+                continue
+            score, blocked = self._score_article_url(resolved)
+            if blocked or score <= 0:
                 continue
             links.append(normalize_url(resolved))
         return links
@@ -377,6 +389,26 @@ class ArticleExtractor:
             return False
 
         if re.search(r"[{}<>;|]", path):
+            return False
+
+        lowered_path = path.lower()
+        blocked_slug_tokens = {
+            "title",
+            "style",
+            "script",
+            "const",
+            "button",
+            "audio",
+            "template",
+            "head",
+            "body",
+            "html",
+            "math",
+            "span",
+            "div",
+        }
+        segments = [segment for segment in lowered_path.split("/") if segment]
+        if segments and all(segment in blocked_slug_tokens for segment in segments):
             return False
 
         return True
