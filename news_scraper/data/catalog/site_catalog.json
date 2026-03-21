@@ -3346,8 +3346,149 @@
       "language": "en",
       "underlying_tech": "Custom CMS",
       "active": true,
-      "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "preferred_scraping_tool": "selenium",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-21T14:06:28.867891Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1269,
+          "block_detected": false,
+          "error_type": "EmptyResponse"
+        },
+        {
+          "timestamp": "2026-03-21T14:06:28.868269Z",
+          "tool": "pydoll",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1,
+          "block_detected": false,
+          "error_type": "AttributeError"
+        },
+        {
+          "timestamp": "2026-03-21T14:06:34.960926Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1333,
+          "block_detected": false,
+          "error_type": "EmptyResponse"
+        },
+        {
+          "timestamp": "2026-03-21T14:06:34.960977Z",
+          "tool": "pydoll",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 2,
+          "avg_response_time_ms": null,
+          "block_detected": false,
+          "error_type": "AttributeError"
+        },
+        {
+          "timestamp": "2026-03-21T14:06:35.028162Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 4584,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:06:41.028268Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 5226,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:06:47.296674Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 5321,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:06:52.921106Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 5164,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:06:58.616155Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 5178,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:07:04.380625Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 6,
+          "avg_response_time_ms": 5190,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:07:10.051070Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 7,
+          "avg_response_time_ms": 5176,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:07:15.966440Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 8,
+          "avg_response_time_ms": 5201,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:07:21.787610Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 9,
+          "avg_response_time_ms": 5195,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T14:07:27.653590Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 10,
+          "avg_response_time_ms": 5200,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
