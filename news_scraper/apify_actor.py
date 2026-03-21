@@ -105,7 +105,13 @@ def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
 
     payload.setdefault("sites_to_scrape", [])
     payload.setdefault("max_items_per_site", 50)
-    payload.setdefault("proxy_config", {})
+    payload.setdefault(
+        "proxy_config",
+        {
+            "useApifyProxy": True,
+            "apifyProxyGroups": [],
+        },
+    )
 
     return InputConfig.model_validate(payload)
 
@@ -118,9 +124,11 @@ async def prepare_proxy(proxy_config: ProxyConfig) -> None:
 
     if proxy_config.proxyUrls:
         os.environ["APIFY_PROXY_URL"] = proxy_config.proxyUrls[0]
+        Actor.log.info("Using custom proxy URL from input.")
         return
 
     if not proxy_config.useApifyProxy:
+        Actor.log.info("Proxy disabled by input configuration.")
         return
 
     actor_proxy_input: dict[str, Any] = {
@@ -133,11 +141,15 @@ async def prepare_proxy(proxy_config: ProxyConfig) -> None:
 
     proxy_configuration = await Actor.create_proxy_configuration(actor_proxy_input=actor_proxy_input)
     if proxy_configuration is None:
+        Actor.log.warning("Apify proxy configuration could not be created; continuing without proxy.")
         return
 
     new_proxy_url = await proxy_configuration.new_url()
     if new_proxy_url:
         os.environ["APIFY_PROXY_URL"] = new_proxy_url
+        Actor.log.info("Apify proxy URL resolved and configured.")
+    else:
+        Actor.log.warning("Apify proxy configuration returned no URL; continuing without proxy.")
 
 
 async def push_datasets(runner: ScraperRunner, input_config: InputConfig) -> dict[str, Any]:
@@ -184,10 +196,12 @@ async def main() -> None:
         runner = ScraperRunner(runtime)
 
         Actor.log.info(
-            "Starting scraper run in %s mode for %s with max_items_per_site=%s",
+            "Starting scraper run in %s mode for %s with max_items_per_site=%s (proxy: useApifyProxy=%s, customProxy=%s)",
             input_config.execution_mode.value,
             input_config.sites_to_scrape or "all active sites",
             input_config.max_items_per_site,
+            input_config.proxy_config.useApifyProxy,
+            bool(input_config.proxy_config.proxyUrls),
         )
 
         summary = await push_datasets(runner, input_config)
