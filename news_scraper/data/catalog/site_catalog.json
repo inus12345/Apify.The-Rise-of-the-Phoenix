@@ -3537,6 +3537,56 @@
           "avg_response_time_ms": 5192,
           "block_detected": false,
           "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T16:16:42.223067Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 16,
+          "avg_response_time_ms": 5116,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T16:16:49.809703Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 17,
+          "avg_response_time_ms": 5285,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T16:16:54.467568Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 18,
+          "avg_response_time_ms": 5123,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T16:17:00.921228Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 19,
+          "avg_response_time_ms": 5218,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T16:17:06.900069Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 20,
+          "avg_response_time_ms": 5194,
+          "block_detected": false,
+          "error_type": null
         }
       ],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
