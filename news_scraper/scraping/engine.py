@@ -150,12 +150,20 @@ class ScraplingFetcher(BackendFetcher):
             return self._httpx_fetch(url, proxy_url)
         try:
             import scrapling
-        except ImportError:
+        except Exception:
             return self._httpx_fetch(url, proxy_url)
 
-        fetcher = scrapling.Fetcher()
-        response = fetcher.get(url, headers=self.headers, timeout=self.timeout)
-        return coerce_html(response)
+        try:
+            fetcher = scrapling.Fetcher()
+            response = fetcher.get(url, headers=self.headers, timeout=self.timeout)
+            html = coerce_html(response)
+            if html:
+                return html
+        except Exception:
+            # Some scrapling versions rely on optional runtime deps that may be
+            # absent in restricted environments; fall back to plain HTTP fetch.
+            return self._httpx_fetch(url, proxy_url)
+        return self._httpx_fetch(url, proxy_url)
 
     def _httpx_fetch(self, url: str, proxy_url: str | None) -> str | None:
         kwargs: dict[str, Any] = {
@@ -179,7 +187,11 @@ class PydollFetcher(BackendFetcher):
     def fetch(self, url: str, proxy_url: str | None = None) -> str | None:
         try:
             import pydoll
-        except ImportError:
+        except Exception:
+            return None
+
+        browser_cls = getattr(pydoll, "Browser", None)
+        if browser_cls is None:
             return None
 
         browser = None
@@ -187,11 +199,13 @@ class PydollFetcher(BackendFetcher):
             browser_kwargs: dict[str, Any] = {"headless": True}
             if proxy_url:
                 browser_kwargs["proxy"] = proxy_url
-            browser = pydoll.Browser(**browser_kwargs)
+            browser = browser_cls(**browser_kwargs)
             page = browser.new_page()
             page.goto(url, timeout=self.timeout * 1000)
             page.wait_for_load_state("networkidle")
             return page.content()
+        except Exception:
+            return None
         finally:
             if browser and hasattr(browser, "close"):
                 browser.close()
@@ -383,6 +397,9 @@ class ArticleExtractor:
             if not candidate:
                 continue
             candidate = candidate.rstrip(").,;:'\"")
+            candidate_lower = candidate.lower()
+            if candidate_lower.startswith("www.") or candidate_lower.startswith("/www."):
+                continue
             if len(candidate) > 240:
                 continue
             resolved = urljoin(base_url, candidate)
@@ -413,7 +430,7 @@ class ArticleExtractor:
         if re.search(r"[{}<>;|]", path):
             return False
 
-        if segments and re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segments[0].lower()):
+        if any(re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segment.lower()) for segment in segments):
             return False
 
         lowered_path = path.lower()
@@ -714,7 +731,7 @@ class ArticleExtractor:
             ranked.append((score, index, link))
 
         if not ranked:
-            return links
+            return []
 
         ranked.sort(key=lambda item: (-item[0], item[1]))
         positives = [link for score, _, link in ranked if score > 0]
@@ -1065,7 +1082,11 @@ class ScraperEngine:
                 return True
             if tool == ScrapingTool.PYDOLL:
                 import pydoll  # type: ignore
-                return hasattr(pydoll, "Browser")
+                browser_cls = getattr(pydoll, "Browser", None)
+                if browser_cls is None:
+                    return False
+                # Only enable pydoll when it exposes the sync API shape used by this backend.
+                return hasattr(browser_cls, "new_page") and hasattr(browser_cls, "close")
             if tool == ScrapingTool.SELENIUM:
                 from selenium import webdriver  # noqa: F401
                 return True
