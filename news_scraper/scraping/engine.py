@@ -283,10 +283,16 @@ class ArticleExtractor:
             deduped.append(link)
 
         if not deduped:
-            deduped = self._extract_fallback_listing_links(soup, base_url, base_host)
+            deduped = self._extract_fallback_listing_links(soup, html, base_url, base_host)
         return self._prioritize_article_links(deduped)
 
-    def _extract_fallback_listing_links(self, soup: BeautifulSoup, base_url: str, base_host: str) -> list[str]:
+    def _extract_fallback_listing_links(
+        self,
+        soup: BeautifulSoup,
+        html: str,
+        base_url: str,
+        base_host: str,
+    ) -> list[str]:
         fallback_selectors = [
             "main a[href]",
             "article a[href]",
@@ -313,6 +319,9 @@ class ArticleExtractor:
                 if resolved.startswith("http") and self._is_same_domain(resolved, base_host):
                     links.append(normalize_url(resolved))
 
+        if not links:
+            links.extend(self._extract_links_from_embedded_state(html, base_url, base_host))
+
         seen: set[str] = set()
         deduped: list[str] = []
         for link in links:
@@ -321,6 +330,24 @@ class ArticleExtractor:
             seen.add(link)
             deduped.append(link)
         return deduped
+
+    def _extract_links_from_embedded_state(self, html: str, base_url: str, base_host: str) -> list[str]:
+        """Extract same-domain links from script/state blobs when anchors are missing."""
+
+        normalized_html = html.replace("\\/", "/")
+        candidates = re.findall(r'https?://[^"\'>\s]+|/[^"\'>\s]{4,}', normalized_html)
+        links: list[str] = []
+
+        for candidate in candidates:
+            if not candidate:
+                continue
+            resolved = urljoin(base_url, candidate)
+            if not resolved.startswith("http"):
+                continue
+            if not self._is_same_domain(resolved, base_host):
+                continue
+            links.append(normalize_url(resolved))
+        return links
 
     def _is_same_domain(self, candidate_url: str, base_host: str) -> bool:
         candidate_host = urlsplit(candidate_url).netloc.lower().removeprefix("www.")
@@ -838,51 +865,26 @@ class ScraperEngine:
         ordered_tools = order_tools(preferred_tool, self.strict_order)
 
         for tool in ordered_tools:
-            backend = self.backends[tool]
-            start = time.perf_counter()
-            try:
-                html = backend.fetch(url, proxy_url=proxy_url)
-                elapsed_ms = int((time.perf_counter() - start) * 1000)
-                if not html:
-                    attempts.append(
-                        FetchAttempt(
-                            tool=tool,
-                            success=False,
-                            elapsed_ms=elapsed_ms,
-                            error_type="EmptyResponse",
-                            message="Fetcher returned no HTML",
-                        )
-                    )
-                    continue
-                blocked = self._looks_blocked(html)
-                if blocked or not self._is_valid_html(html):
-                    attempts.append(
-                        FetchAttempt(
-                            tool=tool,
-                            success=False,
-                            elapsed_ms=elapsed_ms,
-                            error_type="Blocked" if blocked else "InvalidHtml",
-                            message="Response looks blocked or malformed",
-                            block_detected=blocked,
-                        )
-                    )
-                    continue
-
-                attempts.append(FetchAttempt(tool=tool, success=True, elapsed_ms=elapsed_ms))
-                return FetchResult(url=url, html=html, tool=tool, elapsed_ms=elapsed_ms, attempts=attempts)
-            except Exception as exc:
-                elapsed_ms = int((time.perf_counter() - start) * 1000)
-                attempts.append(
-                    FetchAttempt(
-                        tool=tool,
-                        success=False,
-                        elapsed_ms=elapsed_ms,
-                        error_type=exc.__class__.__name__,
-                        message=str(exc),
-                    )
-                )
+            html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
+            attempts.append(attempt)
+            if html is not None and attempt.success:
+                return FetchResult(url=url, html=html, tool=tool, elapsed_ms=attempt.elapsed_ms, attempts=attempts)
 
         raise FetchError(f"All scraping tools failed for {url}", attempts=attempts)
+
+    def fetch_with_tool(
+        self,
+        url: str,
+        tool: ScrapingTool,
+        proxy_config: ProxyConfig | None = None,
+    ) -> FetchResult:
+        """Fetch a page with a specific backend tool only."""
+
+        proxy_url = resolve_proxy_url(proxy_config)
+        html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
+        if html is not None and attempt.success:
+            return FetchResult(url=url, html=html, tool=tool, elapsed_ms=attempt.elapsed_ms, attempts=[attempt])
+        raise FetchError(f"{tool.value} failed for {url}", attempts=[attempt])
 
     def extract_article(self, html: str, url: str, site_selectors: SiteSelectorConfig) -> dict[str, Any]:
         """Extract article fields using configured selectors."""
@@ -893,6 +895,43 @@ class ScraperEngine:
         """Extract article links from a category or home page."""
 
         return self.extractor.extract_listing_links(html, base_url, site_selectors.article_link_selectors)
+
+    def _fetch_once(self, url: str, tool: ScrapingTool, proxy_url: str | None) -> tuple[str | None, FetchAttempt]:
+        backend = self.backends[tool]
+        start = time.perf_counter()
+        try:
+            html = backend.fetch(url, proxy_url=proxy_url)
+            elapsed_ms = int((time.perf_counter() - start) * 1000)
+            if not html:
+                return None, FetchAttempt(
+                    tool=tool,
+                    success=False,
+                    elapsed_ms=elapsed_ms,
+                    error_type="EmptyResponse",
+                    message="Fetcher returned no HTML",
+                )
+
+            blocked = self._looks_blocked(html)
+            if blocked or not self._is_valid_html(html):
+                return None, FetchAttempt(
+                    tool=tool,
+                    success=False,
+                    elapsed_ms=elapsed_ms,
+                    error_type="Blocked" if blocked else "InvalidHtml",
+                    message="Response looks blocked or malformed",
+                    block_detected=blocked,
+                )
+
+            return html, FetchAttempt(tool=tool, success=True, elapsed_ms=elapsed_ms)
+        except Exception as exc:
+            elapsed_ms = int((time.perf_counter() - start) * 1000)
+            return None, FetchAttempt(
+                tool=tool,
+                success=False,
+                elapsed_ms=elapsed_ms,
+                error_type=exc.__class__.__name__,
+                message=str(exc),
+            )
 
     def _is_valid_html(self, html: str) -> bool:
         text = BeautifulSoup(html, "lxml").get_text(" ", strip=True)
@@ -1176,15 +1215,13 @@ class ScraperRunner:
 
             page_status = "ok"
             try:
-                listing_fetch = self.engine.fetch_with_fallback(
-                    page_url,
-                    preferred_tool=site.preferred_scraping_tool,
+                listing_fetch, links = self._fetch_listing_with_link_fallback(
+                    site=site,
+                    page_url=page_url,
+                    site_selectors=site_selectors,
                     proxy_config=input_config.proxy_config,
                 )
                 self._record_site_attempt(site, listing_fetch.attempts)
-                links = self.engine.extract_listing_links(listing_fetch.html, page_url, site_selectors)
-                if not links:
-                    raise ExtractionError("No article links found on listing page")
 
                 category_state = upsert_category_state(site_tracker, category_root_url, page_index)
                 category_state.total_known_pages = max(category_state.total_known_pages, page_index)
@@ -1260,13 +1297,13 @@ class ScraperRunner:
         proxy_config: ProxyConfig,
     ) -> tuple[SuccessDatasetItem | None, ErrorDatasetItem | None]:
         try:
-            fetch = self.engine.fetch_with_fallback(
-                article_url,
-                preferred_tool=site.preferred_scraping_tool,
+            fetch, article = self._fetch_article_with_extraction_fallback(
+                site=site,
+                article_url=article_url,
+                site_selectors=site_selectors,
                 proxy_config=proxy_config,
             )
             self._record_site_attempt(site, fetch.attempts)
-            article = self.engine.extract_article(fetch.html, article_url, site_selectors)
 
             published = ensure_utc(article["date_published"])
             if cutoff_date and published < ensure_utc(cutoff_date):
@@ -1306,6 +1343,59 @@ class ScraperRunner:
                 fallback_tool_failed=fallback_tool_failed,
                 execution_mode=mode,
             )
+
+    def _fetch_listing_with_link_fallback(
+        self,
+        site: SiteCatalogEntry,
+        page_url: str,
+        site_selectors: SiteSelectorConfig,
+        proxy_config: ProxyConfig,
+    ) -> tuple[FetchResult, list[str]]:
+        """Fetch listing page and retry extraction across tools when links are missing."""
+
+        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.strict_order)
+        issues: list[str] = []
+
+        for tool in ordered_tools:
+            try:
+                fetch = self.engine.fetch_with_tool(page_url, tool=tool, proxy_config=proxy_config)
+                links = self.engine.extract_listing_links(fetch.html, page_url, site_selectors)
+                if links:
+                    return fetch, links
+                issues.append(f"{tool.value}: no article links")
+                self._record_site_attempt(site, fetch.attempts)
+            except FetchError as exc:
+                self._record_site_attempt(site, exc.attempts)
+                message = exc.attempts[-1].error_type if exc.attempts else exc.__class__.__name__
+                issues.append(f"{tool.value}: {message}")
+
+        raise ExtractionError(f"No article links found on listing page after tool fallback ({'; '.join(issues)})")
+
+    def _fetch_article_with_extraction_fallback(
+        self,
+        site: SiteCatalogEntry,
+        article_url: str,
+        site_selectors: SiteSelectorConfig,
+        proxy_config: ProxyConfig,
+    ) -> tuple[FetchResult, dict[str, Any]]:
+        """Fetch article and retry extraction across tools for selector-sensitive pages."""
+
+        ordered_tools = order_tools(site.preferred_scraping_tool, self.engine.strict_order)
+        issues: list[str] = []
+
+        for tool in ordered_tools:
+            try:
+                fetch = self.engine.fetch_with_tool(article_url, tool=tool, proxy_config=proxy_config)
+                article = self.engine.extract_article(fetch.html, article_url, site_selectors)
+                return fetch, article
+            except FetchError as exc:
+                self._record_site_attempt(site, exc.attempts)
+                message = exc.attempts[-1].error_type if exc.attempts else exc.__class__.__name__
+                issues.append(f"{tool.value}: {message}")
+            except ExtractionError as exc:
+                issues.append(f"{tool.value}: {exc}")
+
+        raise ExtractionError(f"Required selectors failed after tool fallback ({'; '.join(issues)})")
 
     def _record_site_attempt(self, site: SiteCatalogEntry, attempts: list[FetchAttempt]) -> None:
         for attempt in attempts:
