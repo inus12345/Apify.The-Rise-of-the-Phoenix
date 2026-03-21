@@ -867,6 +867,17 @@ class ScraperEngine:
         for tool in ordered_tools:
             html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
             attempts.append(attempt)
+            if attempt.success:
+                LOGGER.info("Fetch success url=%s tool=%s elapsed_ms=%d", url, tool.value, attempt.elapsed_ms)
+            else:
+                LOGGER.info(
+                    "Fetch failed url=%s tool=%s reason=%s blocked=%s elapsed_ms=%d",
+                    url,
+                    tool.value,
+                    attempt.error_type or "UnknownError",
+                    attempt.block_detected,
+                    attempt.elapsed_ms,
+                )
             if html is not None and attempt.success:
                 return FetchResult(url=url, html=html, tool=tool, elapsed_ms=attempt.elapsed_ms, attempts=attempts)
 
@@ -882,6 +893,17 @@ class ScraperEngine:
 
         proxy_url = resolve_proxy_url(proxy_config)
         html, attempt = self._fetch_once(url, tool=tool, proxy_url=proxy_url)
+        if attempt.success:
+            LOGGER.info("Fetch success url=%s tool=%s elapsed_ms=%d", url, tool.value, attempt.elapsed_ms)
+        else:
+            LOGGER.info(
+                "Fetch failed url=%s tool=%s reason=%s blocked=%s elapsed_ms=%d",
+                url,
+                tool.value,
+                attempt.error_type or "UnknownError",
+                attempt.block_detected,
+                attempt.elapsed_ms,
+            )
         if html is not None and attempt.success:
             return FetchResult(url=url, html=html, tool=tool, elapsed_ms=attempt.elapsed_ms, attempts=[attempt])
         raise FetchError(f"{tool.value} failed for {url}", attempts=[attempt])
@@ -990,6 +1012,13 @@ class ScraperRunner:
         datasets = RunDatasets()
         total_targets = 0
         planned_targets_by_site: dict[str, int] = {}
+        LOGGER.info(
+            "Run config execution_mode=%s sites=%s max_items_per_site=%s category_filter_sites=%d",
+            input_config.execution_mode.value,
+            input_config.sites_to_scrape or "all-active",
+            input_config.max_items_per_site,
+            len(input_config.category_filters),
+        )
 
         for site in catalog_sites:
             site_tracker = get_or_create_site_tracker(tracker, site.site_name)
@@ -997,6 +1026,12 @@ class ScraperRunner:
             targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
             planned_targets_by_site[site.site_name] = len(targets)
             total_targets += len(targets)
+            LOGGER.info(
+                "Planned targets site=%s targets=%d selected_categories=%d",
+                site.site_name,
+                len(targets),
+                len(selected_categories or set()),
+            )
 
         self._emit_progress(
             progress_callback,
@@ -1208,6 +1243,14 @@ class ScraperRunner:
         collected = 0
         processed_targets = 0
         total_targets = len(targets)
+        LOGGER.info(
+            "Site start site=%s mode=%s targets=%d max_items=%s selected_categories=%d",
+            site.site_name,
+            input_config.execution_mode.value,
+            total_targets,
+            max_items,
+            len(selected_categories or set()),
+        )
 
         for category_root_url, page_url, page_index in targets:
             if max_items is not None and collected >= max_items:
@@ -1222,6 +1265,16 @@ class ScraperRunner:
                     proxy_config=input_config.proxy_config,
                 )
                 self._record_site_attempt(site, listing_fetch.attempts)
+                LOGGER.info(
+                    "Listing parsed site=%s page=%s page_index=%d tool=%s links=%d",
+                    site.site_name,
+                    page_url,
+                    page_index,
+                    listing_fetch.tool.value,
+                    len(links),
+                )
+                if links:
+                    LOGGER.info("Listing link sample site=%s page=%s first_link=%s", site.site_name, page_url, links[0])
 
                 category_state = upsert_category_state(site_tracker, category_root_url, page_index)
                 category_state.total_known_pages = max(category_state.total_known_pages, page_index)
@@ -1251,6 +1304,13 @@ class ScraperRunner:
                     collected += 1
             except Exception as exc:
                 page_status = "error"
+                LOGGER.warning(
+                    "Listing failed site=%s page=%s page_index=%d error=%s",
+                    site.site_name,
+                    page_url,
+                    page_index,
+                    exc,
+                )
                 fallback_tool_failed = exc.attempts[-1].tool if isinstance(exc, FetchError) and exc.attempts else None
                 datasets.error_log_dataset.append(
                     ErrorDatasetItem(
@@ -1310,6 +1370,13 @@ class ScraperRunner:
                 return None, None
 
             self._record_success(site, fetch.tool, fetch.elapsed_ms)
+            LOGGER.info(
+                "Article success site=%s url=%s tool=%s published=%s",
+                site.site_name,
+                article_url,
+                fetch.tool.value,
+                published.isoformat(),
+            )
             return SuccessDatasetItem(
                 site_name=site.site_name,
                 country=site.country,
