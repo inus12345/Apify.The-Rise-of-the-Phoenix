@@ -493,7 +493,7 @@
       ]
     },
     {
-      "site_name": "Actualité.cd",
+      "site_name": "Actualit\u00e9.cd",
       "categories": [
         {
           "category_name": "front_page",
@@ -1625,37 +1625,37 @@
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_محليات",
+          "category_name": "category_\u0645\u062d\u0644\u064a\u0627\u062a",
           "category_url": "https://al-sharq.com/category/%D9%85%D8%AD%D9%84%D9%8A%D8%A7%D8%AA",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_اقتصاد",
+          "category_name": "category_\u0627\u0642\u062a\u0635\u0627\u062f",
           "category_url": "https://al-sharq.com/category/%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_عربي-ودولي",
+          "category_name": "category_\u0639\u0631\u0628\u064a-\u0648\u062f\u0648\u0644\u064a",
           "category_url": "https://al-sharq.com/category/%D8%B9%D8%B1%D8%A8%D9%8A-%D9%88%D8%AF%D9%88%D9%84%D9%8A",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_رياضة",
+          "category_name": "category_\u0631\u064a\u0627\u0636\u0629",
           "category_url": "https://al-sharq.com/category/%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_ثقافة-وفنون",
+          "category_name": "category_\u062b\u0642\u0627\u0641\u0629-\u0648\u0641\u0646\u0648\u0646",
           "category_url": "https://al-sharq.com/category/%D8%AB%D9%82%D8%A7%D9%81%D8%A9-%D9%88%D9%81%D9%86%D9%88%D9%86",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "category_تقارير-وحوارات",
+          "category_name": "category_\u062a\u0642\u0627\u0631\u064a\u0631-\u0648\u062d\u0648\u0627\u0631\u0627\u062a",
           "category_url": "https://al-sharq.com/category/%D8%AA%D9%82%D8%A7%D8%B1%D9%8A%D8%B1-%D9%88%D8%AD%D9%88%D8%A7%D8%B1%D8%A7%D8%AA",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
@@ -1672,37 +1672,37 @@
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "نبض-الوطن",
+          "category_name": "\u0646\u0628\u0636-\u0627\u0644\u0648\u0637\u0646",
           "category_url": "https://www.al-watan.com/%D9%86%D8%A8%D8%B6-%D8%A7%D9%84%D9%88%D8%B7%D9%86",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "تحقيقات",
+          "category_name": "\u062a\u062d\u0642\u064a\u0642\u0627\u062a",
           "category_url": "https://www.al-watan.com/%D8%AA%D8%AD%D9%82%D9%8A%D9%82%D8%A7%D8%AA",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "اذاعة-وتلفزيون",
+          "category_name": "\u0627\u0630\u0627\u0639\u0629-\u0648\u062a\u0644\u0641\u0632\u064a\u0648\u0646",
           "category_url": "https://www.al-watan.com/%D8%A7%D8%B0%D8%A7%D8%B9%D8%A9-%D9%88%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "كتاب-وأراء",
+          "category_name": "\u0643\u062a\u0627\u0628-\u0648\u0623\u0631\u0627\u0621",
           "category_url": "https://www.al-watan.com/%D9%83%D8%AA%D8%A7%D8%A8-%D9%88%D8%A3%D8%B1%D8%A7%D8%A1",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "عربي-ودولي",
+          "category_name": "\u0639\u0631\u0628\u064a-\u0648\u062f\u0648\u0644\u064a",
           "category_url": "https://www.al-watan.com/%D8%B9%D8%B1%D8%A8%D9%8A-%D9%88%D8%AF%D9%88%D9%84%D9%8A",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         },
         {
-          "category_name": "الأخيرة",
+          "category_name": "\u0627\u0644\u0623\u062e\u064a\u0631\u0629",
           "category_url": "https://www.al-watan.com/%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
@@ -3387,7 +3387,7 @@
       ]
     },
     {
-      "site_name": "Bunia Actualité",
+      "site_name": "Bunia Actualit\u00e9",
       "categories": [
         {
           "category_name": "front_page",
@@ -5291,7 +5291,7 @@
           "category_name": "hot-news",
           "category_url": "https://dailypost.ng/hot-news",
           "total_known_pages": 1,
-          "last_scraped_page_index": 0
+          "last_scraped_page_index": 1
         },
         {
           "category_name": "politics",

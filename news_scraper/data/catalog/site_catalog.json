@@ -1064,7 +1064,7 @@
       "last_verified_at": null
     },
     {
-      "site_name": "Actualité.cd",
+      "site_name": "Actualit\u00e9.cd",
       "base_url": "https://actualite.cd/",
       "country": "Democratic Republic of the Congo",
       "region": "Middle Africa",
@@ -2221,7 +2221,7 @@
       "last_verified_at": null
     },
     {
-      "site_name": "Bunia Actualité",
+      "site_name": "Bunia Actualit\u00e9",
       "base_url": "https://buniaactualite.cd/",
       "country": "Democratic Republic of the Congo",
       "region": "Middle Africa",
@@ -2756,7 +2756,7 @@
     {
       "site_name": "Connection Ivoirienne",
       "base_url": "https://connectionivoirienne.net/",
-      "country": "Côte d'Ivoire",
+      "country": "C\u00f4te d'Ivoire",
       "region": "Western Africa",
       "language": "fr",
       "underlying_tech": "WordPress",
@@ -2904,8 +2904,99 @@
       "language": "en",
       "underlying_tech": "WordPress",
       "active": true,
-      "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "preferred_scraping_tool": "selenium",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-21T13:15:28.914684Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 5,
+          "block_detected": false,
+          "error_type": "ModuleNotFoundError"
+        },
+        {
+          "timestamp": "2026-03-21T13:15:28.914715Z",
+          "tool": "pydoll",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 1,
+          "avg_response_time_ms": null,
+          "block_detected": false,
+          "error_type": "EmptyResponse"
+        },
+        {
+          "timestamp": "2026-03-21T13:15:30.591868Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 2,
+          "avg_response_time_ms": null,
+          "block_detected": false,
+          "error_type": "ModuleNotFoundError"
+        },
+        {
+          "timestamp": "2026-03-21T13:15:30.591896Z",
+          "tool": "pydoll",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 2,
+          "avg_response_time_ms": null,
+          "block_detected": false,
+          "error_type": "EmptyResponse"
+        },
+        {
+          "timestamp": "2026-03-21T13:15:30.623730Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1623,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T13:15:32.011462Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1481,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T13:15:33.689833Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 1578,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T13:15:35.434629Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 1594,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-21T13:15:37.103624Z",
+          "tool": "selenium",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 1579,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
