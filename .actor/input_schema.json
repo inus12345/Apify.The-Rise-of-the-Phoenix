@@ -1,0 +1,70 @@
+{
+  "title": "The Rise of the Phoenix input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "sites_to_scrape": {
+      "title": "Sites to scrape",
+      "type": "array",
+      "description": "Optional list of site names from the JSON catalog. Leave empty to scrape all active sites.",
+      "editor": "stringList",
+      "prefill": []
+    },
+    "site_category_filters": {
+      "title": "Site category filters",
+      "type": "array",
+      "description": "Optional advanced overrides. Each entry limits one selected site to the listed category URLs.",
+      "editor": "schemaBased",
+      "prefill": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "site_name": {
+            "title": "Site name",
+            "type": "string",
+            "editor": "textfield",
+            "description": "Exact site_name from the catalog."
+          },
+          "category_urls": {
+            "title": "Category URLs",
+            "type": "array",
+            "editor": "stringList",
+            "items": {
+              "type": "string"
+            },
+            "description": "One or more tracked category URLs for that site."
+          }
+        },
+        "required": ["site_name", "category_urls"],
+        "additionalProperties": false
+      }
+    },
+    "max_items_per_site": {
+      "title": "Max items per site",
+      "type": "integer",
+      "description": "Upper bound used for testing and controlling each site run.",
+      "editor": "number",
+      "minimum": 1,
+      "maximum": 1000,
+      "default": 50
+    },
+    "historic_cutoff_date": {
+      "title": "Historic cutoff date",
+      "type": "string",
+      "description": "ISO 8601 timestamp. If provided, the scraper runs in historic mode and stops once articles are older than this cutoff.",
+      "editor": "textfield",
+      "example": "2025-01-01T00:00:00Z"
+    },
+    "proxy_config": {
+      "title": "Proxy configuration",
+      "type": "object",
+      "description": "Select Apify Proxy or provide custom proxy URLs for difficult sites.",
+      "editor": "proxy",
+      "prefill": {
+        "useApifyProxy": true,
+        "apifyProxyGroups": ["RESIDENTIAL"]
+      }
+    }
+  },
+  "required": ["max_items_per_site"]
+}

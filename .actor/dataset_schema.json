@@ -1,0 +1,175 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "site_name": {
+        "type": "string",
+        "title": "Site name",
+        "description": "Human-readable site identifier from the site catalog.",
+        "example": "3news"
+      },
+      "country": {
+        "type": "string",
+        "title": "Country",
+        "description": "Country associated with the source website.",
+        "example": "Ghana"
+      },
+      "region": {
+        "type": "string",
+        "title": "Region",
+        "description": "Broader region associated with the source website.",
+        "example": "Western Africa"
+      },
+      "language": {
+        "type": "string",
+        "title": "Language",
+        "description": "Language code or language family notation defined in the site catalog.",
+        "example": "en"
+      },
+      "article_title": {
+        "type": "string",
+        "title": "Article title",
+        "description": "Headline extracted from the article page.",
+        "example": "Sample article headline"
+      },
+      "author": {
+        "type": ["string", "null"],
+        "title": "Author",
+        "description": "Author or byline extracted from the article page.",
+        "example": "Jane Doe"
+      },
+      "article_body": {
+        "type": "string",
+        "title": "Article body",
+        "description": "Normalized text body extracted from the article page."
+      },
+      "tags": {
+        "type": "array",
+        "title": "Tags",
+        "description": "Tags or keywords associated with the article.",
+        "items": {
+          "type": "string"
+        }
+      },
+      "date_published": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Published date",
+        "description": "Article publication timestamp normalized to ISO 8601 UTC.",
+        "example": "2026-03-20T10:15:00Z"
+      },
+      "article_url": {
+        "type": "string",
+        "format": "uri",
+        "title": "Article URL",
+        "description": "Canonical article URL after normalization.",
+        "example": "https://example.com/news/story"
+      },
+      "url_hash": {
+        "type": "string",
+        "title": "URL hash",
+        "description": "MD5 hash of the canonical article URL used for deduplication.",
+        "example": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "main_image_url": {
+        "type": ["string", "null"],
+        "format": "uri",
+        "title": "Main image URL",
+        "description": "Featured image URL extracted from the article metadata."
+      },
+      "seo_description": {
+        "type": ["string", "null"],
+        "title": "SEO description",
+        "description": "SEO or social meta description extracted from the article page."
+      },
+      "scraped_at": {
+        "type": "string",
+        "format": "date-time",
+        "title": "Scraped at",
+        "description": "Timestamp when the scraper successfully extracted the article.",
+        "example": "2026-03-20T10:20:00Z"
+      },
+      "scraping_tool": {
+        "type": "string",
+        "title": "Scraping tool",
+        "description": "Fetcher that successfully scraped the page.",
+        "enum": ["scrapling", "pydoll", "selenium"]
+      },
+      "execution_mode": {
+        "type": "string",
+        "title": "Execution mode",
+        "description": "Whether the run was current or historic.",
+        "enum": ["current", "historic"]
+      },
+      "category_url": {
+        "type": ["string", "null"],
+        "format": "uri",
+        "title": "Category URL",
+        "description": "Category or listing URL that led to the article."
+      },
+      "source_html_lang": {
+        "type": ["string", "null"],
+        "title": "Source HTML language",
+        "description": "The source document's HTML lang value, when available."
+      }
+    }
+  },
+  "views": {
+    "overview": {
+      "title": "Articles",
+      "description": "Cleanly scraped article output.",
+      "transformation": {
+        "fields": [
+          "site_name",
+          "article_title",
+          "date_published",
+          "article_url",
+          "scraping_tool",
+          "execution_mode",
+          "country",
+          "region"
+        ],
+        "desc": true
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "site_name": {
+            "label": "Site",
+            "format": "text"
+          },
+          "article_title": {
+            "label": "Title",
+            "format": "text"
+          },
+          "date_published": {
+            "label": "Published",
+            "format": "date"
+          },
+          "article_url": {
+            "label": "Article URL",
+            "format": "link"
+          },
+          "scraping_tool": {
+            "label": "Tool",
+            "format": "text"
+          },
+          "execution_mode": {
+            "label": "Mode",
+            "format": "text"
+          },
+          "country": {
+            "label": "Country",
+            "format": "text"
+          },
+          "region": {
+            "label": "Region",
+            "format": "text"
+          }
+        }
+      }
+    }
+  }
+}

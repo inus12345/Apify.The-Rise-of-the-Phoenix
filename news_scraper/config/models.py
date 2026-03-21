@@ -234,6 +234,7 @@ class ProxyConfig(BaseModel):
     useApifyProxy: bool = False
     apifyProxyGroups: list[str] = Field(default_factory=list)
     countryCode: str | None = None
+    proxyUrls: list[str] = Field(default_factory=list)
 
 
 class InputConfig(BaseModel):
@@ -242,6 +243,7 @@ class InputConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     sites_to_scrape: list[str] = Field(default_factory=list)
+    category_filters: dict[str, list[str]] = Field(default_factory=dict)
     max_items_per_site: int = Field(default=50, ge=1)
     historic_cutoff_date: datetime | None = None
     proxy_config: ProxyConfig = Field(default_factory=ProxyConfig)

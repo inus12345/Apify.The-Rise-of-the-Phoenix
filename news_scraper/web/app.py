@@ -1,15 +1,23 @@
-"""Minimal Flask interface for the JSON-driven scraper runtime."""
+"""Bootstrap-based Flask UI for the JSON-driven scraper runtime."""
 
 from __future__ import annotations
 
+import argparse
 import json
+import threading
 from pathlib import Path
+from typing import Any
+from uuid import uuid4
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request
 
-from news_scraper.config import InputConfig, ProxyConfig, load_json_model
-from news_scraper.config.models import SiteCatalog
+from news_scraper.config import InputConfig, ProxyConfig, load_json_model, utc_now
+from news_scraper.config.models import CategoryPaginationTracker, SiteCatalog
 from news_scraper.scraping import ScraperRunner, default_runtime_config
+
+RUNS_LOCK = threading.Lock()
+RUN_EXECUTION_LOCK = threading.Lock()
+RUNS: dict[str, dict[str, Any]] = {}
 
 
 def create_app() -> Flask:
@@ -25,114 +33,334 @@ def create_app() -> Flask:
 app = create_app()
 
 
-def load_sites() -> list[dict[str, str]]:
-    """Load active sites from the JSON site catalog."""
+def load_site_options() -> list[dict[str, Any]]:
+    """Load active sites plus category choices from the JSON registries."""
 
     runtime = app.config["RUNTIME"]
     catalog = load_json_model(runtime.catalog_path, SiteCatalog)
-    return [
-        {"name": site.site_name, "url": str(site.base_url)}
-        for site in catalog.sites
-        if site.active
-    ]
+    tracker = load_json_model(runtime.tracker_path, CategoryPaginationTracker)
+    tracker_by_name = {site.site_name: site for site in tracker.sites}
+
+    options: list[dict[str, Any]] = []
+    for site in sorted((site for site in catalog.sites if site.active), key=lambda entry: entry.site_name.lower()):
+        tracked = tracker_by_name.get(site.site_name)
+        categories = []
+        if tracked:
+            categories = [
+                {
+                    "name": category.category_name,
+                    "url": str(category.category_url),
+                    "known_pages": category.total_known_pages,
+                }
+                for category in tracked.categories
+            ]
+        if not categories:
+            categories = [
+                {
+                    "name": "front_page",
+                    "url": str(site.base_url),
+                    "known_pages": 1,
+                }
+            ]
+
+        options.append(
+            {
+                "name": site.site_name,
+                "url": str(site.base_url),
+                "country": site.country,
+                "region": site.region,
+                "language": site.language,
+                "technology": site.underlying_tech,
+                "categories": categories,
+            }
+        )
+
+    return options
+
+
+def has_active_run() -> bool:
+    """Return whether a run is currently queued or in flight."""
+
+    with RUNS_LOCK:
+        return any(run["status"] in {"queued", "running"} for run in RUNS.values())
+
+
+def sanitize_run_request(payload: dict[str, Any], site_options: list[dict[str, Any]]) -> dict[str, Any]:
+    """Validate and normalize a frontend run request."""
+
+    available_sites = {site["name"]: site for site in site_options}
+    selected_sites = [str(site).strip() for site in payload.get("sites", []) if str(site).strip()]
+    if not selected_sites:
+        raise ValueError("Select at least one website.")
+
+    unknown_sites = [site for site in selected_sites if site not in available_sites]
+    if unknown_sites:
+        raise ValueError(f"Unknown or inactive sites: {', '.join(sorted(unknown_sites))}")
+
+    mode = str(payload.get("mode", "current")).strip().lower()
+    if mode not in {"current", "historic"}:
+        raise ValueError("Mode must be either current or historic.")
+
+    try:
+        max_items_per_site = int(payload.get("max_items_per_site", 25))
+    except (TypeError, ValueError) as exc:
+        raise ValueError("Max items per site must be a number.") from exc
+    if max_items_per_site < 1 or max_items_per_site > 1000:
+        raise ValueError("Max items per site must be between 1 and 1000.")
+
+    historic_cutoff_date = str(payload.get("historic_cutoff_date", "") or "").strip() or None
+    if mode == "historic" and not historic_cutoff_date:
+        raise ValueError("Historic mode requires a cutoff date.")
+
+    raw_categories = payload.get("categories", {}) or {}
+    category_filters: dict[str, list[str]] = {}
+    for site_name in selected_sites:
+        requested = raw_categories.get(site_name, []) or []
+        available_category_urls = {
+            category["url"]
+            for category in available_sites[site_name]["categories"]
+        }
+        sanitized = [str(category_url).strip() for category_url in requested if str(category_url).strip()]
+        sanitized = [category_url for category_url in sanitized if category_url in available_category_urls]
+        if sanitized:
+            category_filters[site_name] = sorted(set(sanitized))
+
+    return {
+        "sites": selected_sites,
+        "category_filters": category_filters,
+        "mode": mode,
+        "max_items_per_site": max_items_per_site,
+        "historic_cutoff_date": historic_cutoff_date,
+    }
+
+
+def build_run_state(run_id: str, payload: dict[str, Any]) -> dict[str, Any]:
+    """Create the initial JSON payload exposed to the frontend."""
+
+    selected_category_count = sum(len(values) for values in payload["category_filters"].values())
+    return {
+        "run_id": run_id,
+        "status": "queued",
+        "created_at": utc_now().isoformat(),
+        "updated_at": utc_now().isoformat(),
+        "request": {
+            "sites": payload["sites"],
+            "mode": payload["mode"],
+            "max_items_per_site": payload["max_items_per_site"],
+            "historic_cutoff_date": payload["historic_cutoff_date"],
+            "category_filters": payload["category_filters"],
+        },
+        "progress": {
+            "percent": 0,
+            "current_site": None,
+            "total_sites": len(payload["sites"]),
+            "site_index": 0,
+            "total_targets": 0,
+            "completed_targets": 0,
+            "site_total_targets": 0,
+            "site_processed_targets": 0,
+            "message": "Waiting to start…",
+        },
+        "summary": {
+            "success_items": 0,
+            "error_items": 0,
+            "selected_site_count": len(payload["sites"]),
+            "selected_category_count": selected_category_count,
+        },
+        "result": None,
+        "events": [],
+        "error": None,
+    }
+
+
+def append_event(run: dict[str, Any], message: str, *, level: str = "info") -> None:
+    """Append a short status event for the frontend activity feed."""
+
+    run["events"].insert(
+        0,
+        {
+            "timestamp": utc_now().isoformat(),
+            "level": level,
+            "message": message,
+        },
+    )
+    del run["events"][18:]
+
+
+def progress_message(event: dict[str, Any]) -> str:
+    """Convert backend progress events into concise UI text."""
+
+    event_name = event.get("event")
+    site_name = event.get("site_name")
+    if event_name == "run_started":
+        return f"Preparing {event.get('total_sites', 0)} site(s) for {event.get('mode', 'current')} mode."
+    if event_name == "site_started" and site_name:
+        return f"Scraping {site_name}."
+    if event_name == "page_completed" and site_name:
+        page_index = event.get("page_index", 0)
+        category_url = event.get("category_url", "")
+        return f"{site_name}: finished page {page_index} for {category_url}."
+    if event_name == "site_completed" and site_name:
+        return f"{site_name}: completed with {event.get('site_collected_items', 0)} item(s)."
+    if event_name == "site_missing_selectors" and site_name:
+        return f"{site_name}: skipped because no selector map was found."
+    if event_name == "run_completed":
+        return "Scrape finished successfully."
+    return "Scrape in progress…"
+
+
+def update_run_progress(run_id: str, payload: dict[str, Any]) -> None:
+    """Update stored run state from backend progress events."""
+
+    with RUNS_LOCK:
+        run = RUNS.get(run_id)
+        if run is None:
+            return
+
+        run["status"] = "running"
+        run["updated_at"] = utc_now().isoformat()
+        progress = run["progress"]
+        progress["percent"] = int(payload.get("percent", progress["percent"]))
+        progress["current_site"] = payload.get("site_name", progress["current_site"])
+        progress["total_sites"] = int(payload.get("total_sites", progress["total_sites"]))
+        progress["site_index"] = int(payload.get("site_index", progress["site_index"]))
+        progress["total_targets"] = int(payload.get("total_targets", progress["total_targets"]))
+        progress["completed_targets"] = int(payload.get("completed_targets", progress["completed_targets"]))
+        progress["site_total_targets"] = int(payload.get("site_total_targets", progress["site_total_targets"]))
+        progress["site_processed_targets"] = int(
+            payload.get("site_processed_targets", progress["site_processed_targets"])
+        )
+        progress["message"] = progress_message(payload)
+        run["summary"]["success_items"] = int(payload.get("success_items", run["summary"]["success_items"]))
+        run["summary"]["error_items"] = int(payload.get("error_items", run["summary"]["error_items"]))
+
+        if payload.get("event") in {"run_started", "site_started", "site_completed", "site_missing_selectors"}:
+            append_event(run, progress["message"], level="info")
+        elif payload.get("event") == "page_completed":
+            append_event(run, progress["message"], level="muted")
+
+
+def execute_run(run_id: str, payload: dict[str, Any]) -> None:
+    """Background job worker for a UI-triggered scrape."""
+
+    with RUN_EXECUTION_LOCK:
+        with RUNS_LOCK:
+            run = RUNS[run_id]
+            run["status"] = "running"
+            run["updated_at"] = utc_now().isoformat()
+            append_event(run, "Run accepted. Initializing scraper.", level="info")
+
+        runtime = app.config["RUNTIME"]
+        runner = ScraperRunner(runtime)
+        input_payload = InputConfig(
+            sites_to_scrape=payload["sites"],
+            category_filters=payload["category_filters"],
+            max_items_per_site=payload["max_items_per_site"],
+            historic_cutoff_date=payload["historic_cutoff_date"] if payload["mode"] == "historic" else None,
+            proxy_config=ProxyConfig(),
+        )
+
+        try:
+            datasets = runner.run(input_payload, progress_callback=lambda event: update_run_progress(run_id, event))
+        except Exception as exc:  # pragma: no cover - defensive UI error path
+            with RUNS_LOCK:
+                run = RUNS[run_id]
+                run["status"] = "failed"
+                run["updated_at"] = utc_now().isoformat()
+                run["error"] = str(exc)
+                run["progress"]["message"] = "Run failed."
+                append_event(run, f"Run failed: {exc}", level="error")
+            return
+
+        success_path = runtime.output_dir / "success_dataset.json"
+        error_path = runtime.output_dir / "error_log_dataset.json"
+        with RUNS_LOCK:
+            run = RUNS[run_id]
+            run["status"] = "completed"
+            run["updated_at"] = utc_now().isoformat()
+            run["progress"]["percent"] = 100
+            run["progress"]["message"] = "Scrape finished successfully."
+            run["summary"]["success_items"] = len(datasets.success_dataset)
+            run["summary"]["error_items"] = len(datasets.error_log_dataset)
+            run["result"] = {
+                "success_dataset_path": str(success_path),
+                "error_dataset_path": str(error_path),
+                "success_preview": [item.model_dump(mode="json") for item in datasets.success_dataset[:3]],
+            }
+            append_event(
+                run,
+                f"Run complete: {len(datasets.success_dataset)} success item(s), "
+                f"{len(datasets.error_log_dataset)} error item(s).",
+                level="success",
+            )
 
 
 @app.route("/")
 def index() -> str:
-    """Render a compact HTML control panel."""
+    """Render the Bootstrap control panel."""
 
     runtime = app.config["RUNTIME"]
-    sites = load_sites()
-    data_dir = runtime.output_dir
-
-    if not sites:
-        return (
-            "<!DOCTYPE html><html><head><title>The Rise of the Phoenix</title>"
-            "<style>body{font-family:Arial,sans-serif;background:#152238;color:#fff;margin:0;padding:40px;}"
-            ".container{max-width:800px;margin:0 auto;}.title{font-size:36px;font-weight:bold;margin-bottom:20px;}"
-            ".subtitle{color:#c7d0dc;font-size:16px;margin-bottom:20px;}</style></head>"
-            "<body><div class='container'><h1 class='title'>The Rise of the Phoenix</h1>"
-            "<p class='subtitle'>No active sites found in the JSON catalog.</p>"
-            f"<p>Update <code>{runtime.catalog_path}</code> and <code>{runtime.selectors_path}</code>.</p>"
-            "</div></body></html>"
-        )
-
-    options = "".join(
-        f"<option value='{site['name']}'>{site['name']} ({site['url']})</option>"
-        for site in sites
-    )
-    return (
-        "<!DOCTYPE html><html><head><title>The Rise of the Phoenix</title>"
-        "<style>body{font-family:Arial,sans-serif;background:#edf2f7;padding:40px 20px;}"
-        ".container{max-width:820px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.12);overflow:hidden;}"
-        ".header{background:#12355b;color:#fff;padding:28px 32px;}"
-        ".content{padding:28px 32px;}form{display:grid;gap:14px;}select,input{padding:12px;border:1px solid #cbd5e0;border-radius:8px;font-size:15px;}"
-        "button{padding:14px 18px;background:#12355b;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer;}"
-        ".note{margin-top:18px;padding:14px;background:#f7fafc;border-left:4px solid #12355b;border-radius:8px;color:#334155;}</style></head>"
-        "<body><div class='container'><div class='header'><h1>The Rise of the Phoenix</h1></div><div class='content'>"
-        f"<p>Outputs are written to <code>{data_dir}</code>.</p>"
-        "<form method='POST' action='/scrape'>"
-        "<label>Site</label>"
-        f"<select name='site_name' required>{options}</select>"
-        "<label>Mode</label>"
-        "<select name='mode'><option value='current'>Current</option><option value='historic'>Historic</option></select>"
-        "<label>Max items</label><input type='number' name='max_items_per_site' value='25' min='1' max='500'>"
-        "<label>Historic cutoff date (ISO 8601, historic mode only)</label>"
-        "<input type='text' name='historic_cutoff_date' placeholder='2025-01-01T00:00:00Z'>"
-        "<button type='submit'>Run Scrape</button>"
-        "</form>"
-        "<div class='note'>Selectors and categories come from the JSON catalog files, not SQLite.</div>"
-        "</div></div></body></html>"
+    site_options = load_site_options()
+    return render_template(
+        "dashboard.html",
+        site_options=site_options,
+        site_data_json=json.dumps(site_options, ensure_ascii=False),
+        output_dir=str(runtime.output_dir),
+        site_count=len(site_options),
+        category_count=sum(len(site["categories"]) for site in site_options),
     )
 
 
-@app.route("/scrape", methods=["POST"])
-def scrape() -> tuple[str, int] | str:
-    """Run the scraper for a single selected site."""
-
-    site_name = request.form.get("site_name", "").strip()
-    mode = request.form.get("mode", "current").strip()
-    max_items_per_site = int(request.form.get("max_items_per_site", "25"))
-    cutoff = request.form.get("historic_cutoff_date", "").strip() or None
-
-    if not site_name:
-        return jsonify({"error": "Please select a site"}), 400
-    if mode not in {"current", "historic"}:
-        return jsonify({"error": "Mode must be 'current' or 'historic'"}), 400
-    if mode == "historic" and not cutoff:
-        return jsonify({"error": "Historic mode requires a cutoff date"}), 400
+@app.get("/api/options")
+def options() -> Any:
+    """Return the active site and category options."""
 
     runtime = app.config["RUNTIME"]
-    runner = ScraperRunner(runtime)
-    input_payload = InputConfig(
-        sites_to_scrape=[site_name],
-        max_items_per_site=max_items_per_site,
-        historic_cutoff_date=cutoff if mode == "historic" else None,
-        proxy_config=ProxyConfig(),
+    return jsonify(
+        {
+            "sites": load_site_options(),
+            "output_dir": str(runtime.output_dir),
+            "active_run": has_active_run(),
+        }
     )
-    datasets = runner.run(input_payload)
-    result_path = runtime.output_dir / "success_dataset.json"
 
-    return (
-        "<!DOCTYPE html><html><head><title>Scrape Complete</title>"
-        "<style>body{font-family:Arial,sans-serif;background:#edf2f7;padding:40px 20px;}"
-        ".box{max-width:720px;margin:0 auto;background:#fff;border-radius:16px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.12);}</style></head>"
-        "<body><div class='box'>"
-        "<h1>Scrape Complete</h1>"
-        f"<p><strong>Site:</strong> {site_name}</p>"
-        f"<p><strong>Mode:</strong> {mode}</p>"
-        f"<p><strong>Success items:</strong> {len(datasets.success_dataset)}</p>"
-        f"<p><strong>Error items:</strong> {len(datasets.error_log_dataset)}</p>"
-        f"<p><strong>Success dataset:</strong> {result_path}</p>"
-        f"<pre>{json.dumps([item.model_dump(mode='json') for item in datasets.success_dataset[:2]], indent=2)}</pre>"
-        "<p><a href='/'>Back</a></p>"
-        "</div></body></html>"
-    )
+
+@app.post("/api/runs")
+def start_run() -> Any:
+    """Start a background scrape run."""
+
+    if has_active_run():
+        return jsonify({"error": "A scrape is already running. Wait for it to finish first."}), 409
+
+    payload = request.get_json(silent=True) or {}
+    site_options = load_site_options()
+    try:
+        sanitized = sanitize_run_request(payload, site_options)
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+
+    run_id = uuid4().hex
+    run_state = build_run_state(run_id, sanitized)
+    with RUNS_LOCK:
+        RUNS[run_id] = run_state
+
+    worker = threading.Thread(target=execute_run, args=(run_id, sanitized), daemon=True)
+    worker.start()
+    return jsonify(run_state), 202
+
+
+@app.get("/api/runs/<run_id>")
+def get_run(run_id: str) -> Any:
+    """Return run state for the polling frontend."""
+
+    with RUNS_LOCK:
+        run = RUNS.get(run_id)
+        if run is None:
+            return jsonify({"error": "Run not found"}), 404
+        return jsonify(run)
 
 
 if __name__ == "__main__":
-    import argparse
-
     parser = argparse.ArgumentParser(description="Flask JSON scraper UI")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=5001)

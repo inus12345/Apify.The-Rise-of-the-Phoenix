@@ -22,6 +22,50 @@ def test_input_config_uses_historic_mode_when_cutoff_present() -> None:
     assert config.execution_mode.value == "historic"
 
 
+def test_input_config_accepts_category_filters() -> None:
+    config = InputConfig.model_validate(
+        {
+            "sites_to_scrape": ["Example News"],
+            "category_filters": {
+                "Example News": [
+                    "https://example.com/world",
+                    "https://example.com/politics",
+                ]
+            },
+            "max_items_per_site": 5,
+            "proxy_config": {
+                "useApifyProxy": False,
+                "apifyProxyGroups": [],
+                "countryCode": None,
+            },
+        }
+    )
+
+    assert config.category_filters == {
+        "Example News": [
+            "https://example.com/world",
+            "https://example.com/politics",
+        ]
+    }
+
+
+def test_input_config_accepts_proxy_urls() -> None:
+    config = InputConfig.model_validate(
+        {
+            "sites_to_scrape": [],
+            "max_items_per_site": 5,
+            "proxy_config": {
+                "useApifyProxy": False,
+                "apifyProxyGroups": [],
+                "countryCode": None,
+                "proxyUrls": ["http://user:pass@proxy.example:8000"],
+            },
+        }
+    )
+
+    assert config.proxy_config.proxyUrls == ["http://user:pass@proxy.example:8000"]
+
+
 def test_success_item_normalizes_urls_and_datetimes() -> None:
     item = SuccessDatasetItem(
         site_name="example-news.com",

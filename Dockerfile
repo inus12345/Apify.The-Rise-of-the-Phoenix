@@ -1,4 +1,4 @@
-FROM apify/actor-python:3.12
+FROM apify/actor-python-selenium:3.12
 
 COPY requirements.txt ./
 RUN python -m pip install --upgrade pip \
@@ -6,4 +6,4 @@ RUN python -m pip install --upgrade pip \
 
 COPY . ./
 
-CMD ["python", "-m", "news_scraper"]
+CMD ["python", "-m", "news_scraper.apify_actor"]

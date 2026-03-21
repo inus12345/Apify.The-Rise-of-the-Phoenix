@@ -11,6 +11,7 @@ beautifulsoup4>=4.12.0      # HTML parsing
 lxml>=4.9.0                 # BS4 parser backend (faster than html.parser)
 pydantic>=2.7.0             # Typed runtime models and JSON validation
 python-dateutil>=2.8.0       # Flexible date parsing
+apify>=1.9.0                # Apify Python SDK for Actor deployment
 
 # Preferred scraping stack (priority order)
 scrapling>=0.2.0           # Primary scraping backend (headless browser automation)

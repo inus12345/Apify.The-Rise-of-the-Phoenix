@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Rise of the Phoenix</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      :root {
+        --phoenix-navy: #10253f;
+        --phoenix-blue: #214d7a;
+        --phoenix-gold: #d7a84a;
+        --phoenix-cream: #f5efe4;
+        --phoenix-ink: #1f2b3a;
+        --phoenix-muted: #617083;
+        --phoenix-line: rgba(16, 37, 63, 0.12);
+        --phoenix-shadow: 0 30px 60px rgba(16, 37, 63, 0.12);
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--phoenix-ink);
+        background:
+          radial-gradient(circle at top left, rgba(215, 168, 74, 0.28), transparent 30%),
+          radial-gradient(circle at top right, rgba(33, 77, 122, 0.24), transparent 26%),
+          linear-gradient(180deg, #f8f4ec 0%, #edf2f6 48%, #e6edf3 100%);
+        font-family: "Space Grotesk", "Segoe UI", sans-serif;
+      }
+
+      .hero-shell {
+        background:
+          linear-gradient(135deg, rgba(16, 37, 63, 0.96), rgba(33, 77, 122, 0.92)),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: var(--phoenix-shadow);
+      }
+
+      .hero-kicker {
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 0.78rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .hero-subtitle {
+        max-width: 58rem;
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 1.02rem;
+      }
+
+      .stat-pill {
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #fff;
+        padding: 0.85rem 1rem;
+      }
+
+      .app-card {
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        box-shadow: 0 18px 45px rgba(16, 37, 63, 0.08);
+        backdrop-filter: blur(14px);
+      }
+
+      .section-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--phoenix-muted);
+      }
+
+      .site-list {
+        max-height: 28rem;
+        overflow: auto;
+      }
+
+      .site-option,
+      .category-option {
+        border: 1px solid var(--phoenix-line);
+        border-radius: 1rem;
+        transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+
+      .site-option:hover,
+      .category-option:hover {
+        transform: translateY(-1px);
+        border-color: rgba(33, 77, 122, 0.26);
+        box-shadow: 0 10px 25px rgba(16, 37, 63, 0.08);
+      }
+
+      .site-meta,
+      .site-url,
+      .category-url {
+        font-size: 0.85rem;
+        color: var(--phoenix-muted);
+      }
+
+      .category-groups {
+        max-height: 28rem;
+        overflow: auto;
+      }
+
+      .group-header {
+        background: linear-gradient(180deg, rgba(245, 239, 228, 0.9), rgba(255, 255, 255, 0.96));
+        border-bottom: 1px solid var(--phoenix-line);
+      }
+
+      .config-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--phoenix-muted);
+      }
+
+      .btn-phoenix {
+        background: linear-gradient(135deg, var(--phoenix-navy), var(--phoenix-blue));
+        border: none;
+        color: #fff;
+        box-shadow: 0 14px 30px rgba(16, 37, 63, 0.2);
+      }
+
+      .btn-phoenix:hover,
+      .btn-phoenix:focus {
+        background: linear-gradient(135deg, #0d2138, #1d466e);
+        color: #fff;
+      }
+
+      .status-badge {
+        border-radius: 999px;
+        padding: 0.55rem 0.9rem;
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+
+      .status-idle {
+        background: rgba(97, 112, 131, 0.12);
+        color: var(--phoenix-muted);
+      }
+
+      .status-running {
+        background: rgba(33, 77, 122, 0.12);
+        color: var(--phoenix-blue);
+      }
+
+      .status-completed {
+        background: rgba(29, 135, 84, 0.12);
+        color: #1d8754;
+      }
+
+      .status-failed {
+        background: rgba(186, 54, 54, 0.14);
+        color: #b03030;
+      }
+
+      .event-feed {
+        max-height: 18rem;
+        overflow: auto;
+      }
+
+      .event-item {
+        border-left: 3px solid rgba(16, 37, 63, 0.16);
+      }
+
+      .preview-pane {
+        min-height: 13rem;
+        background: #09131f;
+        color: #d4e0ea;
+      }
+
+      .placeholder-panel {
+        border: 1px dashed rgba(16, 37, 63, 0.18);
+        background: rgba(255, 255, 255, 0.48);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container-fluid px-3 px-lg-4 py-4 py-lg-5">
+      <section class="hero-shell rounded-5 p-4 p-lg-5 mb-4 text-white overflow-hidden">
+        <div class="row g-4 align-items-end">
+          <div class="col-xl-8">
+            <div class="hero-kicker mb-3">Configuration Driven News Intelligence</div>
+            <h1 class="hero-title mb-3">The Rise of the Phoenix</h1>
+            <p class="hero-subtitle mb-0">
+              Launch JSON-only scraping runs across multiple sites and categories from one control room.
+              The UI is wired to the live scraper runtime, so the progress panel reflects real backend work
+              instead of a fake frontend timer.
+            </p>
+          </div>
+          <div class="col-xl-4">
+            <div class="row g-3">
+              <div class="col-sm-4 col-xl-12">
+                <div class="stat-pill">
+                  <div class="small text-uppercase text-white-50 mb-1">Active Sites</div>
+                  <div class="fs-3 fw-semibold">{{ site_count }}</div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-xl-12">
+                <div class="stat-pill">
+                  <div class="small text-uppercase text-white-50 mb-1">Tracked Categories</div>
+                  <div class="fs-3 fw-semibold">{{ category_count }}</div>
+                </div>
+              </div>
+              <div class="col-sm-4 col-xl-12">
+                <div class="stat-pill">
+                  <div class="small text-uppercase text-white-50 mb-1">JSON Output</div>
+                  <div class="small">{{ output_dir }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="row g-4">
+        <div class="col-12 col-xl-4">
+          <section class="app-card rounded-5 p-4 h-100">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div>
+                <div class="section-title mb-2">Step 1</div>
+                <h2 class="h4 mb-0">Choose Websites</h2>
+              </div>
+              <button class="btn btn-sm btn-outline-secondary rounded-pill" id="toggleAllSites" type="button">
+                Select all
+              </button>
+            </div>
+
+            {% if not site_options %}
+            <div class="placeholder-panel rounded-4 p-4">
+              <h3 class="h5">No active sites available</h3>
+              <p class="mb-0 text-secondary">
+                Activate sites in the JSON catalog first, then reload this page.
+              </p>
+            </div>
+            {% else %}
+            <div class="input-group mb-3">
+              <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+              <input class="form-control" id="siteSearch" placeholder="Filter by site name, country, or tech" />
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-3 text-secondary small">
+              <i class="bi bi-info-circle"></i>
+              <span>Select one or many sites. The category panel updates automatically.</span>
+            </div>
+            <div class="site-list d-grid gap-3" id="siteList"></div>
+            {% endif %}
+          </section>
+        </div>
+
+        <div class="col-12 col-xl-8">
+          <section class="app-card rounded-5 p-4 mb-4">
+            <div class="row g-4 align-items-start">
+              <div class="col-12 col-lg-7">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <div class="section-title mb-2">Step 2</div>
+                    <h2 class="h4 mb-0">Choose Categories</h2>
+                  </div>
+                  <button class="btn btn-sm btn-outline-secondary rounded-pill" id="clearCategories" type="button">
+                    Clear category picks
+                  </button>
+                </div>
+                <div class="small text-secondary mb-3">
+                  If you leave a selected site's categories unchecked, the scraper will use all tracked categories for that site.
+                </div>
+                <div class="category-groups d-grid gap-3" id="categoryGroups">
+                  <div class="placeholder-panel rounded-4 p-4 text-secondary">
+                    Select at least one website to load category controls.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-lg-5">
+                <div class="section-title mb-2">Step 3</div>
+                <h2 class="h4 mb-3">Run Configuration</h2>
+                <form class="d-grid gap-3" id="scrapeForm">
+                  <div>
+                    <label class="config-label mb-2" for="mode">Mode</label>
+                    <select class="form-select form-select-lg rounded-4" id="mode" name="mode">
+                      <option value="current">Current scrape</option>
+                      <option value="historic">Historic scrape</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="config-label mb-2" for="maxItems">Max items per site</label>
+                    <input
+                      class="form-control form-control-lg rounded-4"
+                      id="maxItems"
+                      name="max_items_per_site"
+                      type="number"
+                      value="25"
+                      min="1"
+                      max="1000"
+                    />
+                  </div>
+                  <div>
+                    <label class="config-label mb-2" for="cutoff">Historic cutoff</label>
+                    <input
+                      class="form-control form-control-lg rounded-4"
+                      id="cutoff"
+                      name="historic_cutoff_date"
+                      type="text"
+                      placeholder="2025-01-01T00:00:00Z"
+                      disabled
+                    />
+                  </div>
+                  <div class="rounded-4 border p-3 bg-light-subtle">
+                    <div class="fw-semibold mb-2">Run summary</div>
+                    <div class="small text-secondary" id="selectionSummary">
+                      No websites selected yet.
+                    </div>
+                  </div>
+                  <button class="btn btn-phoenix btn-lg rounded-4 py-3" id="runButton" type="submit">
+                    <i class="bi bi-lightning-charge-fill me-2"></i>
+                    Start Scrape
+                  </button>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <section class="app-card rounded-5 p-4">
+            <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 mb-4">
+              <div>
+                <div class="section-title mb-2">Run Monitor</div>
+                <h2 class="h4 mb-1">Live Progress</h2>
+                <div class="text-secondary" id="progressMessage">
+                  Waiting for a scrape to start.
+                </div>
+              </div>
+              <span class="status-badge status-idle" id="runStatus">idle</span>
+            </div>
+
+            <div class="progress rounded-pill bg-body-tertiary mb-3" style="height: 1rem;">
+              <div
+                class="progress-bar progress-bar-striped progress-bar-animated rounded-pill"
+                id="progressBar"
+                role="progressbar"
+                style="width: 0%;"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+              >
+                0%
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-6 col-lg-3">
+                <div class="rounded-4 border p-3 h-100">
+                  <div class="small text-uppercase text-secondary mb-1">Current Site</div>
+                  <div class="fw-semibold" id="currentSite">-</div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="rounded-4 border p-3 h-100">
+                  <div class="small text-uppercase text-secondary mb-1">Target Pages</div>
+                  <div class="fw-semibold" id="targetProgress">0 / 0</div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="rounded-4 border p-3 h-100">
+                  <div class="small text-uppercase text-secondary mb-1">Success Items</div>
+                  <div class="fw-semibold" id="successCount">0</div>
+                </div>
+              </div>
+              <div class="col-6 col-lg-3">
+                <div class="rounded-4 border p-3 h-100">
+                  <div class="small text-uppercase text-secondary mb-1">Errors</div>
+                  <div class="fw-semibold" id="errorCount">0</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-12 col-lg-5">
+                <h3 class="h6 mb-3">Activity Feed</h3>
+                <div class="event-feed d-grid gap-2" id="eventFeed">
+                  <div class="event-item rounded-4 border bg-white p-3 text-secondary">
+                    No events yet.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-7">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <h3 class="h6 mb-0">Dataset Preview</h3>
+                  <div class="small text-secondary" id="datasetPaths">Output files will appear here after the run.</div>
+                </div>
+                <pre class="preview-pane rounded-4 p-3 mb-0" id="resultPreview">[]</pre>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const SITE_DATA = {{ site_data_json|safe }};
+      const state = {
+        selectedSites: new Set(),
+        selectedCategories: {},
+        currentRunId: null,
+        pollHandle: null,
+      };
+
+      const siteListEl = document.getElementById("siteList");
+      const siteSearchEl = document.getElementById("siteSearch");
+      const categoryGroupsEl = document.getElementById("categoryGroups");
+      const selectionSummaryEl = document.getElementById("selectionSummary");
+      const modeEl = document.getElementById("mode");
+      const cutoffEl = document.getElementById("cutoff");
+      const formEl = document.getElementById("scrapeForm");
+      const runButtonEl = document.getElementById("runButton");
+      const runStatusEl = document.getElementById("runStatus");
+      const progressBarEl = document.getElementById("progressBar");
+      const progressMessageEl = document.getElementById("progressMessage");
+      const currentSiteEl = document.getElementById("currentSite");
+      const targetProgressEl = document.getElementById("targetProgress");
+      const successCountEl = document.getElementById("successCount");
+      const errorCountEl = document.getElementById("errorCount");
+      const eventFeedEl = document.getElementById("eventFeed");
+      const resultPreviewEl = document.getElementById("resultPreview");
+      const datasetPathsEl = document.getElementById("datasetPaths");
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll("\"", "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function getSelectedSiteRecords() {
+        return SITE_DATA.filter((site) => state.selectedSites.has(site.name));
+      }
+
+      function updateSelectionSummary() {
+        const selectedSites = getSelectedSiteRecords();
+        if (!selectedSites.length) {
+          selectionSummaryEl.textContent = "No websites selected yet.";
+          return;
+        }
+        const manuallySelectedCategories = selectedSites.reduce((total, site) => {
+          return total + (state.selectedCategories[site.name]?.length || 0);
+        }, 0);
+        selectionSummaryEl.textContent =
+          `${selectedSites.length} site(s) selected. ${manuallySelectedCategories} category override(s) applied.`;
+      }
+
+      function renderSites() {
+        if (!siteListEl) return;
+        const query = (siteSearchEl?.value || "").trim().toLowerCase();
+        const html = SITE_DATA.filter((site) => {
+          if (!query) return true;
+          return [site.name, site.country, site.region, site.technology, site.language]
+            .join(" ")
+            .toLowerCase()
+            .includes(query);
+        })
+          .map((site) => {
+            const checked = state.selectedSites.has(site.name) ? "checked" : "";
+            return `
+              <label class="site-option p-3 d-block bg-white">
+                <div class="form-check">
+                  <input class="form-check-input site-checkbox" type="checkbox" value="${escapeHtml(site.name)}" ${checked} />
+                  <div class="form-check-label ms-1 w-100">
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+                      <div class="fw-semibold">${escapeHtml(site.name)}</div>
+                      <span class="badge rounded-pill text-bg-light">${site.categories.length} categories</span>
+                    </div>
+                    <div class="site-meta mt-1">${escapeHtml(site.country)} · ${escapeHtml(site.region)} · ${escapeHtml(site.language)} · ${escapeHtml(site.technology)}</div>
+                    <div class="site-url mt-2">${escapeHtml(site.url)}</div>
+                  </div>
+                </div>
+              </label>
+            `;
+          })
+          .join("");
+
+        siteListEl.innerHTML = html || `
+          <div class="placeholder-panel rounded-4 p-4 text-secondary">
+            No sites match that filter.
+          </div>
+        `;
+
+        siteListEl.querySelectorAll(".site-checkbox").forEach((checkbox) => {
+          checkbox.addEventListener("change", (event) => {
+            const siteName = event.target.value;
+            if (event.target.checked) {
+              state.selectedSites.add(siteName);
+            } else {
+              state.selectedSites.delete(siteName);
+            }
+            renderCategories();
+            updateSelectionSummary();
+          });
+        });
+      }
+
+      function renderCategories() {
+        const selectedSites = getSelectedSiteRecords();
+        if (!selectedSites.length) {
+          categoryGroupsEl.innerHTML = `
+            <div class="placeholder-panel rounded-4 p-4 text-secondary">
+              Select at least one website to load category controls.
+            </div>
+          `;
+          return;
+        }
+
+        categoryGroupsEl.innerHTML = selectedSites
+          .map((site) => {
+            const selectedCategoryUrls = new Set(state.selectedCategories[site.name] || []);
+            const categoryCards = site.categories
+              .map((category) => {
+                const checked = selectedCategoryUrls.has(category.url) ? "checked" : "";
+                return `
+                  <label class="category-option p-3 bg-white d-block">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input category-checkbox"
+                        type="checkbox"
+                        data-site-name="${escapeHtml(site.name)}"
+                        value="${escapeHtml(category.url)}"
+                        ${checked}
+                      />
+                      <div class="form-check-label ms-1">
+                        <div class="fw-semibold">${escapeHtml(category.name)}</div>
+                        <div class="category-url mt-1">${escapeHtml(category.url)}</div>
+                        <div class="small text-secondary mt-2">${escapeHtml(String(category.known_pages))} tracked page(s)</div>
+                      </div>
+                    </div>
+                  </label>
+                `;
+              })
+              .join("");
+
+            return `
+              <section class="rounded-4 border overflow-hidden bg-white">
+                <div class="group-header px-3 py-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
+                  <div>
+                    <div class="fw-semibold">${escapeHtml(site.name)}</div>
+                    <div class="small text-secondary">${escapeHtml(site.url)}</div>
+                  </div>
+                  <button
+                    class="btn btn-sm btn-outline-secondary rounded-pill select-site-categories"
+                    type="button"
+                    data-site-name="${escapeHtml(site.name)}"
+                  >
+                    Select all categories
+                  </button>
+                </div>
+                <div class="p-3 d-grid gap-3">${categoryCards}</div>
+              </section>
+            `;
+          })
+          .join("");
+
+        categoryGroupsEl.querySelectorAll(".category-checkbox").forEach((checkbox) => {
+          checkbox.addEventListener("change", (event) => {
+            const siteName = event.target.dataset.siteName;
+            const selected = new Set(state.selectedCategories[siteName] || []);
+            if (event.target.checked) {
+              selected.add(event.target.value);
+            } else {
+              selected.delete(event.target.value);
+            }
+            state.selectedCategories[siteName] = Array.from(selected);
+            updateSelectionSummary();
+          });
+        });
+
+        categoryGroupsEl.querySelectorAll(".select-site-categories").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            const siteName = event.target.dataset.siteName;
+            const site = SITE_DATA.find((item) => item.name === siteName);
+            state.selectedCategories[siteName] = site.categories.map((category) => category.url);
+            renderCategories();
+            updateSelectionSummary();
+          });
+        });
+      }
+
+      function setStatusBadge(status) {
+        runStatusEl.textContent = status;
+        runStatusEl.className = "status-badge";
+        if (status === "running" || status === "queued") {
+          runStatusEl.classList.add("status-running");
+        } else if (status === "completed") {
+          runStatusEl.classList.add("status-completed");
+        } else if (status === "failed") {
+          runStatusEl.classList.add("status-failed");
+        } else {
+          runStatusEl.classList.add("status-idle");
+        }
+      }
+
+      function renderEvents(events) {
+        if (!events?.length) {
+          eventFeedEl.innerHTML = `
+            <div class="event-item rounded-4 border bg-white p-3 text-secondary">
+              No events yet.
+            </div>
+          `;
+          return;
+        }
+
+        eventFeedEl.innerHTML = events
+          .map((event) => {
+            return `
+              <div class="event-item rounded-4 border bg-white p-3">
+                <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+                  <span class="badge text-bg-light text-uppercase">${escapeHtml(event.level)}</span>
+                  <span class="small text-secondary">${escapeHtml(event.timestamp)}</span>
+                </div>
+                <div>${escapeHtml(event.message)}</div>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      function renderRunState(run) {
+        setStatusBadge(run.status || "idle");
+        const progress = run.progress || {};
+        const summary = run.summary || {};
+        const percent = Number(progress.percent || 0);
+        progressBarEl.style.width = `${percent}%`;
+        progressBarEl.setAttribute("aria-valuenow", String(percent));
+        progressBarEl.textContent = `${percent}%`;
+        progressMessageEl.textContent = progress.message || "Waiting for a scrape to start.";
+        currentSiteEl.textContent = progress.current_site || "-";
+        targetProgressEl.textContent = `${progress.completed_targets || 0} / ${progress.total_targets || 0}`;
+        successCountEl.textContent = String(summary.success_items || 0);
+        errorCountEl.textContent = String(summary.error_items || 0);
+        renderEvents(run.events || []);
+
+        const preview = run.result?.success_preview || [];
+        resultPreviewEl.textContent = JSON.stringify(preview, null, 2);
+        if (run.result) {
+          datasetPathsEl.innerHTML = `
+            <div><strong>Success:</strong> ${escapeHtml(run.result.success_dataset_path)}</div>
+            <div><strong>Errors:</strong> ${escapeHtml(run.result.error_dataset_path)}</div>
+          `;
+        } else if (run.error) {
+          datasetPathsEl.textContent = run.error;
+        } else {
+          datasetPathsEl.textContent = "Output files will appear here after the run.";
+        }
+
+        const disableRun = run.status === "queued" || run.status === "running";
+        runButtonEl.disabled = disableRun;
+      }
+
+      async function pollRun(runId) {
+        state.currentRunId = runId;
+        if (state.pollHandle) {
+          clearInterval(state.pollHandle);
+        }
+
+        const refresh = async () => {
+          const response = await fetch(`/api/runs/${runId}`);
+          if (!response.ok) {
+            clearInterval(state.pollHandle);
+            state.pollHandle = null;
+            return;
+          }
+          const run = await response.json();
+          renderRunState(run);
+          if (run.status === "completed" || run.status === "failed") {
+            clearInterval(state.pollHandle);
+            state.pollHandle = null;
+          }
+        };
+
+        await refresh();
+        state.pollHandle = setInterval(refresh, 1500);
+      }
+
+      function collectPayload() {
+        const sites = Array.from(state.selectedSites);
+        const categories = {};
+        sites.forEach((siteName) => {
+          const selected = state.selectedCategories[siteName] || [];
+          if (selected.length) {
+            categories[siteName] = selected;
+          }
+        });
+        return {
+          sites,
+          categories,
+          mode: modeEl.value,
+          max_items_per_site: Number(document.getElementById("maxItems").value || 25),
+          historic_cutoff_date: cutoffEl.value.trim(),
+        };
+      }
+
+      modeEl.addEventListener("change", () => {
+        cutoffEl.disabled = modeEl.value !== "historic";
+      });
+
+      document.getElementById("toggleAllSites")?.addEventListener("click", () => {
+        if (state.selectedSites.size === SITE_DATA.length) {
+          state.selectedSites.clear();
+        } else {
+          SITE_DATA.forEach((site) => state.selectedSites.add(site.name));
+        }
+        renderSites();
+        renderCategories();
+        updateSelectionSummary();
+      });
+
+      document.getElementById("clearCategories")?.addEventListener("click", () => {
+        state.selectedCategories = {};
+        renderCategories();
+        updateSelectionSummary();
+      });
+
+      siteSearchEl?.addEventListener("input", renderSites);
+
+      formEl?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const payload = collectPayload();
+        if (!payload.sites.length) {
+          progressMessageEl.textContent = "Choose at least one website before starting the scrape.";
+          setStatusBadge("idle");
+          return;
+        }
+
+        runButtonEl.disabled = true;
+        progressMessageEl.textContent = "Submitting scrape request...";
+        setStatusBadge("queued");
+
+        const response = await fetch("/api/runs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          runButtonEl.disabled = false;
+          progressMessageEl.textContent = data.error || "Could not start the scrape.";
+          setStatusBadge("failed");
+          return;
+        }
+
+        renderRunState(data);
+        await pollRun(data.run_id);
+      });
+
+      renderSites();
+      renderCategories();
+      updateSelectionSummary();
+      setStatusBadge("idle");
+    </script>
+  </body>
+</html>
