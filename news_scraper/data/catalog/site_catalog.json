@@ -8019,7 +8019,58 @@
       "underlying_tech": "WordPress",
       "active": true,
       "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-22T15:56:36.061480Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 790,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-22T15:56:36.914533Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 798,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-22T15:56:37.674657Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 765,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-22T15:56:38.502132Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 782,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-22T15:56:39.339131Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 786,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },

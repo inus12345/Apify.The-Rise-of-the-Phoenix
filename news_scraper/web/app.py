@@ -11,7 +11,7 @@ from uuid import uuid4
 
 from flask import Flask, jsonify, render_template, request
 
-from news_scraper.config import InputConfig, ProxyConfig, load_json_model, utc_now
+from news_scraper.config import InputConfig, ProxyConfig, load_json_model, save_json_data, utc_now
 from news_scraper.config.models import CategoryPaginationTracker, SiteCatalog
 from news_scraper.scraping import ScraperRunner, default_runtime_config
 
@@ -27,6 +27,7 @@ def create_app() -> Flask:
     app.secret_key = "news-scraper-secret-key"
     runtime = default_runtime_config(Path(__file__).resolve().parents[2])
     app.config["RUNTIME"] = runtime
+    app.config["FLASK_RUN_OUTPUT_DIR"] = runtime.output_dir / "flask_runs"
     return app
 
 
@@ -251,7 +252,14 @@ def execute_run(run_id: str, payload: dict[str, Any]) -> None:
             append_event(run, "Run accepted. Initializing scraper.", level="info")
 
         runtime = app.config["RUNTIME"]
-        runner = ScraperRunner(runtime)
+        flask_output_dir = app.config["FLASK_RUN_OUTPUT_DIR"]
+        run_runtime = type(runtime)(
+            catalog_path=runtime.catalog_path,
+            selectors_path=runtime.selectors_path,
+            tracker_path=runtime.tracker_path,
+            output_dir=flask_output_dir,
+        )
+        runner = ScraperRunner(run_runtime)
         input_payload = InputConfig(
             sites_to_scrape=payload["sites"],
             category_filters=payload["category_filters"],
@@ -272,12 +280,32 @@ def execute_run(run_id: str, payload: dict[str, Any]) -> None:
                 append_event(run, f"Run failed: {exc}", level="error")
             return
 
-        success_path = runtime.output_dir / "success_dataset.json"
-        error_path = runtime.output_dir / "error_log_dataset.json"
+        finished_at = utc_now()
+        timestamp = finished_at.strftime("%Y%m%d_%H%M%S")
+        run_suffix = run_id[:8]
+        success_path = flask_output_dir / f"success_dataset_{timestamp}_{run_suffix}.json"
+        error_path = flask_output_dir / f"error_log_dataset_{timestamp}_{run_suffix}.json"
+        save_json_data(
+            success_path,
+            [item.model_dump(mode="json") for item in datasets.success_dataset],
+        )
+        save_json_data(
+            error_path,
+            [item.model_dump(mode="json") for item in datasets.error_log_dataset],
+        )
+
+        # Runner persists default filenames; remove them so Flask output stays timestamped-only.
+        default_success = flask_output_dir / "success_dataset.json"
+        default_error = flask_output_dir / "error_log_dataset.json"
+        if default_success.exists():
+            default_success.unlink()
+        if default_error.exists():
+            default_error.unlink()
+
         with RUNS_LOCK:
             run = RUNS[run_id]
             run["status"] = "completed"
-            run["updated_at"] = utc_now().isoformat()
+            run["updated_at"] = finished_at.isoformat()
             run["progress"]["percent"] = 100
             run["progress"]["message"] = "Scrape finished successfully."
             run["summary"]["success_items"] = len(datasets.success_dataset)
@@ -299,13 +327,13 @@ def execute_run(run_id: str, payload: dict[str, Any]) -> None:
 def index() -> str:
     """Render the Bootstrap control panel."""
 
-    runtime = app.config["RUNTIME"]
+    flask_output_dir = app.config["FLASK_RUN_OUTPUT_DIR"]
     site_options = load_site_options()
     return render_template(
         "dashboard.html",
         site_options=site_options,
         site_data_json=json.dumps(site_options, ensure_ascii=False),
-        output_dir=str(runtime.output_dir),
+        output_dir=str(flask_output_dir),
         site_count=len(site_options),
         category_count=sum(len(site["categories"]) for site in site_options),
     )
@@ -315,11 +343,11 @@ def index() -> str:
 def options() -> Any:
     """Return the active site and category options."""
 
-    runtime = app.config["RUNTIME"]
+    flask_output_dir = app.config["FLASK_RUN_OUTPUT_DIR"]
     return jsonify(
         {
             "sites": load_site_options(),
-            "output_dir": str(runtime.output_dir),
+            "output_dir": str(flask_output_dir),
             "active_run": has_active_run(),
         }
     )
