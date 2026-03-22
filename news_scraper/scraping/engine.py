@@ -9,7 +9,7 @@ import time
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from html import unescape
 from pathlib import Path
@@ -368,6 +368,7 @@ class ArticleExtractor:
 
         links: list[str] = []
         parsed = ParsedHtml(html)
+        listing_url = normalize_url(base_url)
         base_parts = urlsplit(base_url)
         base_host = base_parts.netloc.lower().removeprefix("www.")
 
@@ -376,13 +377,17 @@ class ArticleExtractor:
             for raw_value in raw_values:
                 if not raw_value:
                     continue
-                resolved = urljoin(base_url, raw_value)
+                resolved = self._resolve_listing_url(base_url, raw_value)
+                if not resolved:
+                    continue
+                normalized = normalize_url(resolved)
                 if (
-                    resolved.startswith("http")
-                    and self._is_same_domain(resolved, base_host)
-                    and self._is_valid_listing_candidate(resolved)
+                    normalized != listing_url
+                    and normalized.startswith("http")
+                    and self._is_same_domain(normalized, base_host)
+                    and self._is_valid_listing_candidate(normalized)
                 ):
-                    links.append(normalize_url(resolved))
+                    links.append(normalized)
 
         seen: set[str] = set()
         deduped: list[str] = []
@@ -392,9 +397,12 @@ class ArticleExtractor:
             seen.add(link)
             deduped.append(link)
 
-        if not deduped:
-            deduped = self._extract_fallback_listing_links(parsed.soup, html, base_url, base_host)
-        return self._prioritize_article_links(deduped)
+        prioritized = self._prioritize_article_links(deduped)
+        if prioritized:
+            return prioritized
+
+        fallback_links = self._extract_fallback_listing_links(parsed.soup, html, base_url, base_host, listing_url)
+        return self._prioritize_article_links(fallback_links)
 
     def _extract_fallback_listing_links(
         self,
@@ -402,6 +410,7 @@ class ArticleExtractor:
         html: str,
         base_url: str,
         base_host: str,
+        listing_url: str,
     ) -> list[str]:
         fallback_selectors = [
             "main a[href]",
@@ -416,29 +425,37 @@ class ArticleExtractor:
                 href = anchor.get("href")
                 if not href:
                     continue
-                resolved = urljoin(base_url, href)
+                resolved = self._resolve_listing_url(base_url, href)
+                if not resolved:
+                    continue
+                normalized = normalize_url(resolved)
                 if (
-                    resolved.startswith("http")
-                    and self._is_same_domain(resolved, base_host)
-                    and self._is_valid_listing_candidate(resolved)
+                    normalized != listing_url
+                    and normalized.startswith("http")
+                    and self._is_same_domain(normalized, base_host)
+                    and self._is_valid_listing_candidate(normalized)
                 ):
-                    links.append(normalize_url(resolved))
+                    links.append(normalized)
 
         if not links:
             for anchor in soup.select("a[href]"):
                 href = anchor.get("href")
                 if not href:
                     continue
-                resolved = urljoin(base_url, href)
+                resolved = self._resolve_listing_url(base_url, href)
+                if not resolved:
+                    continue
+                normalized = normalize_url(resolved)
                 if (
-                    resolved.startswith("http")
-                    and self._is_same_domain(resolved, base_host)
-                    and self._is_valid_listing_candidate(resolved)
+                    normalized != listing_url
+                    and normalized.startswith("http")
+                    and self._is_same_domain(normalized, base_host)
+                    and self._is_valid_listing_candidate(normalized)
                 ):
-                    links.append(normalize_url(resolved))
+                    links.append(normalized)
 
         if not links:
-            links.extend(self._extract_links_from_embedded_state(html, base_url, base_host))
+            links.extend(self._extract_links_from_embedded_state(html, base_url, base_host, listing_url))
 
         seen: set[str] = set()
         deduped: list[str] = []
@@ -449,7 +466,7 @@ class ArticleExtractor:
             deduped.append(link)
         return deduped
 
-    def _extract_links_from_embedded_state(self, html: str, base_url: str, base_host: str) -> list[str]:
+    def _extract_links_from_embedded_state(self, html: str, base_url: str, base_host: str, listing_url: str) -> list[str]:
         """Extract same-domain links from script/state blobs when anchors are missing."""
 
         normalized_html = html.replace("\\/", "/")
@@ -473,18 +490,59 @@ class ArticleExtractor:
                 continue
             if len(candidate) > 240:
                 continue
-            resolved = urljoin(base_url, candidate)
-            if not resolved.startswith("http"):
+            resolved = self._resolve_listing_url(base_url, candidate)
+            if not resolved:
                 continue
-            if not self._is_same_domain(resolved, base_host):
+            normalized = normalize_url(resolved)
+            if normalized == listing_url:
                 continue
-            if not self._is_valid_listing_candidate(resolved):
+            if not normalized.startswith("http"):
                 continue
-            score, blocked = self._score_article_url(resolved)
+            if not self._is_same_domain(normalized, base_host):
+                continue
+            if not self._is_valid_listing_candidate(normalized):
+                continue
+            score, blocked = self._score_article_url(normalized)
             if blocked or score <= 0:
                 continue
-            links.append(normalize_url(resolved))
+            links.append(normalized)
         return links
+
+    def _resolve_listing_url(self, base_url: str, raw_value: Any) -> str | None:
+        candidate = str(raw_value).strip()
+        if not candidate:
+            return None
+
+        candidate = unescape(candidate).strip(" \t\r\n'\"")
+        if not candidate:
+            return None
+        lowered = candidate.lower()
+        if lowered.startswith(("javascript:", "mailto:", "tel:", "data:", "#")):
+            return None
+
+        base_parts = urlsplit(base_url)
+        base_host = base_parts.netloc.lower().removeprefix("www.")
+
+        # Reject malformed host-like values from inline JS/state blobs
+        # (e.g. "example.com/path") that are not this listing domain.
+        if re.match(r"^[a-z0-9-]+\.[a-z]{2,}(?:/[^\s]*)?$", lowered):
+            if not (
+                lowered.startswith(f"{base_host}/")
+                or lowered.startswith(f"www.{base_host}/")
+            ):
+                return None
+
+        if candidate.startswith("//"):
+            candidate = f"{base_parts.scheme}:{candidate}"
+        elif lowered.startswith("www."):
+            candidate = f"{base_parts.scheme}://{candidate}"
+        elif not re.match(r"^[a-z][a-z0-9+.-]*://", lowered):
+            if lowered.startswith(f"{base_host}/"):
+                candidate = f"{base_parts.scheme}://{candidate}"
+            elif lowered.startswith(f"www.{base_host}/"):
+                candidate = f"{base_parts.scheme}://{candidate}"
+
+        return urljoin(base_url, candidate)
 
     def _is_valid_listing_candidate(self, url: str) -> bool:
         parsed = urlsplit(url)
@@ -501,8 +559,56 @@ class ArticleExtractor:
         if re.search(r"[{}<>;|]", path):
             return False
 
-        if any(re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segment.lower()) for segment in segments):
+        if any(segment.lower().startswith("www.") or segment.count(".") >= 2 for segment in segments):
             return False
+
+        if any(
+            re.match(
+                r"^[a-z0-9-]+\.(?:com|net|org|co|info|biz|tv|io|ly|me|gov|edu|news|[a-z]{2})(?:\.[a-z]{2})?$",
+                segment.lower(),
+            )
+            for segment in segments
+        ):
+            return False
+
+        if (
+            len(segments) >= 3
+            and segments[0].isdigit()
+            and len(segments[0]) >= 6
+            and any("_" in segment for segment in segments[1:3])
+        ):
+            return False
+
+        if any(
+            token in lowered
+            for token in (
+                "/rss",
+                "/feed",
+                ".xml",
+                "/connexion",
+                "/login",
+                "/abonnement",
+                "/abonnements",
+                "/compte/",
+                "/users/admin",
+                "/mentions-legales",
+                "/homepage/",
+                "desktop_hp_",
+            )
+        ):
+            return False
+        if re.search(r"\.(css|js|map|woff2?|ttf|eot|otf)($|[?#])", lowered):
+            return False
+
+        if not segments:
+            query_params = dict(parse_qsl(parsed.query, keep_blank_values=True))
+            article_query_keys = ("id", "storyid", "articleid", "p", "newsid")
+            has_article_query = any(
+                key in query_params and (query_params[key].isdigit() or len(query_params[key]) >= 5)
+                for key in article_query_keys
+            )
+            if not has_article_query:
+                return False
 
         lowered_path = path.lower()
         blocked_slug_tokens = {
@@ -519,9 +625,13 @@ class ArticleExtractor:
             "math",
             "span",
             "div",
+            "rss",
+            "feed",
         }
-        segments = [segment for segment in lowered_path.split("/") if segment]
-        if segments and all(segment in blocked_slug_tokens for segment in segments):
+        lowered_segments = [segment for segment in lowered_path.split("/") if segment]
+        if lowered_segments and all(segment in blocked_slug_tokens for segment in lowered_segments):
+            return False
+        if lowered_segments and lowered_segments[-1] in blocked_slug_tokens and len(lowered_segments) <= 2:
             return False
 
         return True
@@ -753,13 +863,45 @@ class ArticleExtractor:
         return self._extract_date_from_url(url)
 
     def _parse_date_from_text(self, text: str) -> datetime | None:
+        now_utc = datetime.now(UTC)
+        relative_patterns = [
+            (
+                re.compile(
+                    r"\b(today|heute|aujourd'hui|hoy|oggi|hoje|hari\s*ini|сегодня)\b"
+                    r"(?:\s*[,:-]?\s*(\d{1,2})[:.](\d{2}))?",
+                    flags=re.IGNORECASE,
+                ),
+                0,
+            ),
+            (
+                re.compile(
+                    r"\b(yesterday|gestern|hier|ayer|ieri|ontem|вчера)\b"
+                    r"(?:\s*[,:-]?\s*(\d{1,2})[:.](\d{2}))?",
+                    flags=re.IGNORECASE,
+                ),
+                -1,
+            ),
+        ]
+        for pattern, day_offset in relative_patterns:
+            match = pattern.search(text)
+            if not match:
+                continue
+            hour = int(match.group(2)) if match.group(2) is not None else 0
+            minute = int(match.group(3)) if match.group(3) is not None else 0
+            if 0 <= hour <= 23 and 0 <= minute <= 59:
+                base_day = (now_utc + timedelta(days=day_offset)).date()
+                return datetime(base_day.year, base_day.month, base_day.day, hour, minute, tzinfo=UTC)
+
+        month_names = (
+            "january|february|march|april|may|june|july|august|september|october|november|december|"
+            "janvier|fevrier|février|mars|avril|mai|juin|juillet|aout|août|septembre|octobre|novembre|"
+            "decembre|décembre"
+        )
         date_patterns = [
             r"\b\d{2}/\d{2}/\d{4}(?:\s*[-–]\s*\d{1,2}:\d{2})?\b",
             r"\b\d{4}-\d{2}-\d{2}(?:[T\s]\d{1,2}:\d{2}(?::\d{2})?)?\b",
-            r"\b(?:january|february|march|april|may|june|july|august|"
-            r"september|october|november|december)\s+\d{1,2},\s+\d{4}\b",
-            r"\b\d{1,2}\s+(?:january|february|march|april|may|june|july|"
-            r"august|september|october|november|december)\s+\d{4}\b",
+            rf"\b(?:{month_names})\s+\d{{1,2}},?\s+\d{{4}}\b",
+            rf"\b\d{{1,2}}\s+(?:{month_names})\s+\d{{4}}\b",
         ]
         lower_text = text.lower()
         for pattern in date_patterns:
@@ -822,7 +964,9 @@ class ArticleExtractor:
         if re.search(r"[{}<>;|]", path):
             return (-10, True)
 
-        if segments and re.fullmatch(r"(?:www\.)?[a-z0-9-]+\.[a-z]{2,}", segments[0]):
+        # Guard against malformed links where a full host leaks into the path.
+        # Keep file-like slugs (e.g. /post.php) valid.
+        if segments and (segments[0].startswith("www.") or segments[0].count(".") >= 2):
             return (-10, True)
 
         if re.search(r"\.(pdf|jpe?g|png|gif|webp|svg|zip|mp4|mp3|docx?|xlsx?|pptx?)($|[?#])", path):
@@ -858,6 +1002,8 @@ class ArticleExtractor:
             "/videos/",
             "/video/",
             "/x/detail/",
+            "/homepage/",
+            "desktop_hp_",
         ]
         if any(marker in path for marker in blocked_markers):
             return (-10, True)
@@ -984,14 +1130,67 @@ class ArticleExtractor:
 
     def _parse_date(self, value: str) -> datetime | None:
         value = value.strip()
+        epoch_match = re.fullmatch(r"\d{10,13}", value)
+        if epoch_match:
+            epoch_value = int(value)
+            if len(value) == 13:
+                epoch_value //= 1000
+            # 2000-01-01 through 2100-01-01 guardrail.
+            if 946684800 <= epoch_value <= 4102444800:
+                try:
+                    return datetime.fromtimestamp(epoch_value, tz=UTC)
+                except (ValueError, OSError, OverflowError):
+                    pass
+
+        compact_tz_match = re.match(r"^(?P<dt>.+?)(?P<tz>[A-Za-z]+/[A-Za-z0-9_+\-]+)$", value)
+        if compact_tz_match:
+            dt_part = compact_tz_match.group("dt").strip()
+            tz_name = compact_tz_match.group("tz")
+            try:
+                parsed = date_parser.parse(dt_part)
+            except (TypeError, ValueError, OverflowError):
+                parsed = None
+            if parsed is not None and parsed.tzinfo is None:
+                try:
+                    return parsed.replace(tzinfo=ZoneInfo(tz_name))
+                except Exception:
+                    pass
+
         try:
             return parsedate_to_datetime(value)
         except (TypeError, ValueError):
             pass
-        try:
-            return date_parser.parse(value)
-        except (TypeError, ValueError, OverflowError):
-            return None
+        normalized = self._normalize_date_text(value)
+        parser_options = ({}, {"dayfirst": True}, {"fuzzy": True}, {"dayfirst": True, "fuzzy": True})
+        for options in parser_options:
+            try:
+                return date_parser.parse(normalized, **options)
+            except (TypeError, ValueError, OverflowError):
+                continue
+        return None
+
+    def _normalize_date_text(self, value: str) -> str:
+        normalized = value
+        month_aliases = {
+            "janvier": "january",
+            "fevrier": "february",
+            "février": "february",
+            "mars": "march",
+            "avril": "april",
+            "mai": "may",
+            "juin": "june",
+            "juillet": "july",
+            "aout": "august",
+            "août": "august",
+            "septembre": "september",
+            "octobre": "october",
+            "novembre": "november",
+            "decembre": "december",
+            "décembre": "december",
+        }
+        for source, target in month_aliases.items():
+            normalized = re.sub(rf"\b{re.escape(source)}\b", target, normalized, flags=re.IGNORECASE)
+        return normalized
 
     def _apply_timezone(self, value: datetime, timezone_name: str | None) -> datetime:
         if value.tzinfo is None:
