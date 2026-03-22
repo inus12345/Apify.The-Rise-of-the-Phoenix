@@ -86,6 +86,8 @@ BASE_URL_OVERRIDES = {
     "The Herald Zimbabwe": "https://www.heraldonline.co.zw/",
     "The Sun VoTN": "https://thesun.ng/",
     "TODAY": "https://todayonline.com/latest-news",
+    "USTDA": "https://www.ustda.gov/news/",
+    "VOA": "https://www.voaportugues.com/africa-e-mundo",
 }
 FORCE_INACTIVE_SITE_REASONS = {
     "Mozambique Insights": "Homepage currently yields no extractable article links, so scraping is disabled until the site structure changes.",
@@ -124,6 +126,13 @@ FORCE_INACTIVE_SITE_REASONS = {
     "The Quest Times": "Domain currently redirects to an unrelated non-news page, so scraping is disabled.",
     "The Rwandan": "Domain currently has an expired SSL certificate, so scraping is disabled until certificate issues are fixed.",
     "Tuoi Tre News": "Homepage currently presents bot-protection/access-check behavior, so scraping is disabled until access restrictions are relaxed.",
+    "Vetogate": "Category/listing routes currently return HTTP 403 or anti-bot responses in this runtime, so scraping is disabled until access restrictions are relaxed.",
+    "Wal Fadjri L'Aurore": "Homepage currently returns access-blocked responses across available scraping tools, so scraping is disabled until access restrictions are relaxed.",
+    "Wataninet": "Homepage currently returns access-blocked responses across available scraping tools, so scraping is disabled until access restrictions are relaxed.",
+    "Wataninet English": "Homepage currently returns access-blocked responses across available scraping tools, so scraping is disabled until access restrictions are relaxed.",
+    "ZBC news": "Homepage currently returns access-blocked responses across available scraping tools, so scraping is disabled until access restrictions are relaxed.",
+    "Zurich 24": "Domain is currently unreachable/intermittently unreachable from this runtime environment, so scraping is disabled until connectivity stabilizes.",
+    "Zoom Tchad": "Homepage currently does not expose article-style listings compatible with this scraper schema.",
 }
 CATEGORY_OVERRIDES: dict[str, list[str]] = {
     "Al-Masry Al-Youm (The Egyptian Today)": [
@@ -684,6 +693,75 @@ CATEGORY_OVERRIDES: dict[str, list[str]] = {
     "The Sun VoTN": [
         "https://thesun.ng/category/news/",
         "https://thesun.ng/category/politics/",
+    ],
+    "Uganda Media Centre": [
+        "https://mediacentre.go.ug/latest-news.php",
+        "https://mediacentre.go.ug/opinions.php",
+        "https://mediacentre.go.ug/articles.php",
+        "https://mediacentre.go.ug/publications.php",
+    ],
+    "USTDA": [
+        "https://www.ustda.gov/news/",
+    ],
+    "Verdade": [
+        "https://verdade.co.mz/category/desporto",
+        "https://verdade.co.mz/category/newsflash",
+        "https://verdade.co.mz/category/ambiente",
+        "https://verdade.co.mz/category/democracia",
+        "https://verdade.co.mz/category/economia",
+        "https://verdade.co.mz/category/nacional",
+        "https://verdade.co.mz/category/opiniao",
+        "https://verdade.co.mz/category/saude-e-bem-estar",
+    ],
+    "Vetogate": [],
+    "VOA": [
+        "https://www.voaportugues.com/africa-e-mundo",
+        "https://www.voaportugues.com/voa60-africa",
+        "https://www.voaportugues.com/z/7279",
+        "https://www.voaportugues.com/angola",
+        "https://www.voaportugues.com/brasil",
+        "https://www.voaportugues.com/dossiers-especiais",
+    ],
+    "Voice of Nigeria Arabic": [
+        "https://french.von.gov.ng/category/afrique",
+        "https://french.von.gov.ng/category/economie",
+        "https://french.von.gov.ng/category/monde",
+        "https://french.von.gov.ng/category/sports",
+        "https://french.von.gov.ng/category/nigeria",
+    ],
+    "Voice of Nigeria French": [
+        "https://arabic.von.gov.ng/category/africa",
+        "https://arabic.von.gov.ng/category/nigeria",
+        "https://arabic.von.gov.ng/category/politics",
+        "https://arabic.von.gov.ng/category/world",
+    ],
+    "Voice of the Cape": [
+        "https://vocfm.co.za/news",
+        "https://vocfm.co.za/category/news/local",
+        "https://vocfm.co.za/category/international-news",
+        "https://vocfm.co.za/category/opinions",
+        "https://vocfm.co.za/category/sports-news",
+    ],
+    "Watson": [
+        "https://www.watson.ch/international",
+        "https://www.watson.ch/sport",
+        "https://www.watson.ch/wintersport",
+        "https://www.watson.ch/cute-news",
+        "https://www.watson.ch/gute-news",
+    ],
+    "Windhoek Observer": [
+        "https://www.observer24.com.na/category/latest-news",
+        "https://www.observer24.com.na/category/national",
+        "https://www.observer24.com.na/category/opinions",
+        "https://www.observer24.com.na/category/sports",
+        "https://www.observer24.com.na/category/observer-money",
+        "https://www.observer24.com.na/category/energy",
+    ],
+    "Zurich 24": [
+        "https://zuerich24.ch/sport",
+        "https://zuerich24.ch/sport/eishockey",
+        "https://zuerich24.ch/sport/fussball",
+        "https://zuerich24.ch/dossiers",
     ],
     "Ticionline": [
         "https://www.tio.ch/newsblog",

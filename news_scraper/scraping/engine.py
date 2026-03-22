@@ -895,7 +895,8 @@ class ArticleExtractor:
         month_names = (
             "january|february|march|april|may|june|july|august|september|october|november|december|"
             "janvier|fevrier|février|mars|avril|mai|juin|juillet|aout|août|septembre|octobre|novembre|"
-            "decembre|décembre"
+            "decembre|décembre|"
+            "janeiro|fevereiro|marco|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro"
         )
         date_patterns = [
             r"\b\d{2}/\d{2}/\d{4}(?:\s*[-–]\s*\d{1,2}:\d{2})?\b",
@@ -1187,6 +1188,19 @@ class ArticleExtractor:
             "novembre": "november",
             "decembre": "december",
             "décembre": "december",
+            "janeiro": "january",
+            "fevereiro": "february",
+            "marco": "march",
+            "março": "march",
+            "abril": "april",
+            "maio": "may",
+            "junho": "june",
+            "julho": "july",
+            "agosto": "august",
+            "setembro": "september",
+            "outubro": "october",
+            "novembro": "november",
+            "dezembro": "december",
         }
         for source, target in month_aliases.items():
             normalized = re.sub(rf"\b{re.escape(source)}\b", target, normalized, flags=re.IGNORECASE)

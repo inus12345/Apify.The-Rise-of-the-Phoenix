@@ -1,5 +1,7 @@
 .git
 .gitignore
+.DS_Store
+.playwright-cli/
 .pytest_cache
 __pycache__/
 *.py[cod]
@@ -10,5 +12,10 @@ __pycache__/
 .venv/
 venv/
 data/
+tests/
+scripts/
+verify_sites.py
+setup.py
+ChatGPT Image*.png
 OUTPUT.json
 INPUT.json

@@ -28,7 +28,6 @@ setup(
         "flask>=3.0.0",
     ],
     extras_require={
-        "dev": ["pytest>=7.4.0", "pytest-cov>=4.1.0"],
         "llm": ["openai>=1.0.0", "anthropic>=0.3.0"],
     },
     entry_points={

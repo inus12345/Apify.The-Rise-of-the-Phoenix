@@ -19703,7 +19703,7 @@
           "category_name": "news_world",
           "category_url": "https://sowetanlive.co.za/news/world",
           "total_known_pages": 1,
-          "last_scraped_page_index": 0
+          "last_scraped_page_index": 1
         },
         {
           "category_name": "opinion",
@@ -23864,6 +23864,1944 @@
         {
           "category_name": "our-partners",
           "category_url": "https://www.2oceansvibe.com/our-partners",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "UAE Barq",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://uaebarq.ae/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "UAE Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://uaetimes.ae/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "dmca",
+          "category_url": "https://uaetimes.ae/dmca",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Uganda Business News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://ugbusiness.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_opinion",
+          "category_url": "https://ugbusiness.com/section/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_uganda-economy_agriculture",
+          "category_url": "https://ugbusiness.com/section/uganda-economy/agriculture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_companies",
+          "category_url": "https://ugbusiness.com/section/companies",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_energy-oil-gas",
+          "category_url": "https://ugbusiness.com/section/energy-oil-gas",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_movers-shakers",
+          "category_url": "https://ugbusiness.com/section/movers-shakers",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_politics-policy",
+          "category_url": "https://ugbusiness.com/section/politics-policy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_property",
+          "category_url": "https://ugbusiness.com/section/property",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_uganda-economy",
+          "category_url": "https://ugbusiness.com/section/uganda-economy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Uganda Media Centre",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://mediacentre.go.ug/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "latest-news.php",
+          "category_url": "https://mediacentre.go.ug/latest-news.php",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinions.php",
+          "category_url": "https://mediacentre.go.ug/opinions.php",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "articles.php",
+          "category_url": "https://mediacentre.go.ug/articles.php",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "publications.php",
+          "category_url": "https://mediacentre.go.ug/publications.php",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Umuseke",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://umuseke.rw/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_amahanga",
+          "category_url": "https://umuseke.rw/category/amahanga",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_imikino",
+          "category_url": "https://umuseke.rw/category/imikino",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ubukungu",
+          "category_url": "https://umuseke.rw/category/ubukungu",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_uburezi",
+          "category_url": "https://umuseke.rw/category/uburezi",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ubutabera",
+          "category_url": "https://umuseke.rw/category/ubutabera",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ubuzima",
+          "category_url": "https://umuseke.rw/category/ubuzima",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_utuntu-nundi",
+          "category_url": "https://umuseke.rw/category/utuntu-nundi",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "USTDA",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.ustda.gov/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Utunsan Malaysia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.utusan.com.my/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_pr-newswire-bm",
+          "category_url": "https://www.utusan.com.my/category/pr-newswire-bm",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_pr-newswire-en",
+          "category_url": "https://www.utusan.com.my/category/pr-newswire-en",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_pendidikan",
+          "category_url": "https://www.utusan.com.my/category/pendidikan",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sukan",
+          "category_url": "https://www.utusan.com.my/category/sukan",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ekonomi_kewangan",
+          "category_url": "https://www.utusan.com.my/category/ekonomi/kewangan",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ekonomi_korporat",
+          "category_url": "https://www.utusan.com.my/category/ekonomi/korporat",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ekonomi_produk",
+          "category_url": "https://www.utusan.com.my/category/ekonomi/produk",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ekonomi_usahawan",
+          "category_url": "https://www.utusan.com.my/category/ekonomi/usahawan",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Vanguard NG",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.vanguardngr.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://www.vanguardngr.com/category/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://www.vanguardngr.com/category/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more-news",
+          "category_url": "https://www.vanguardngr.com/category/more-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_national-news",
+          "category_url": "https://www.vanguardngr.com/category/national-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://www.vanguardngr.com/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.vanguardngr.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_aviation",
+          "category_url": "https://www.vanguardngr.com/category/aviation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_cartoons",
+          "category_url": "https://www.vanguardngr.com/category/cartoons",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "VBTC",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://vbtc.vu/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_breaking-news",
+          "category_url": "https://vbtc.vu/topics/breaking-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_sport-news",
+          "category_url": "https://vbtc.vu/topics/sport-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_topics_national",
+          "category_url": "https://vbtc.vu/en/topics/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_vbtc-news_business-bi",
+          "category_url": "https://vbtc.vu/topics/vbtc-news/business-bi",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_vbtc-news_health",
+          "category_url": "https://vbtc.vu/topics/vbtc-news/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_vbtc-news_local-news",
+          "category_url": "https://vbtc.vu/topics/vbtc-news/local-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_vbtc-news_national-nius",
+          "category_url": "https://vbtc.vu/topics/vbtc-news/national-nius",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_vbtc-news_big-stories",
+          "category_url": "https://vbtc.vu/topics/vbtc-news/big-stories",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Verdade",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://verdade.co.mz/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_desporto",
+          "category_url": "https://verdade.co.mz/category/desporto",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_newsflash",
+          "category_url": "https://verdade.co.mz/category/newsflash",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ambiente",
+          "category_url": "https://verdade.co.mz/category/ambiente",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_democracia",
+          "category_url": "https://verdade.co.mz/category/democracia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_economia",
+          "category_url": "https://verdade.co.mz/category/economia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nacional",
+          "category_url": "https://verdade.co.mz/category/nacional",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opiniao",
+          "category_url": "https://verdade.co.mz/category/opiniao",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_saude-e-bem-estar",
+          "category_url": "https://verdade.co.mz/category/saude-e-bem-estar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Vetogate",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.vetogate.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Viet Nam News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://vietnamnews.vn/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://vietnamnews.vn/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://vietnamnews.vn/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://vietnamnews.vn/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion-op-ed",
+          "category_url": "https://vietnamnews.vn/opinion-op-ed",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion-outlook",
+          "category_url": "https://vietnamnews.vn/opinion-outlook",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Sci-Tech",
+          "category_url": "https://vietnamnews.vn/Sci-Tech",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bizhub",
+          "category_url": "https://vietnamnews.vn/bizhub",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "brandinfo",
+          "category_url": "https://vietnamnews.vn/brandinfo",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "VietnamNet",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://vietnamnet.vn/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ban-doc",
+          "category_url": "https://vietnamnet.vn/ban-doc",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ban-doc_chia-se",
+          "category_url": "https://vietnamnet.vn/ban-doc/chia-se",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ban-doc_hoi-am",
+          "category_url": "https://vietnamnet.vn/ban-doc/hoi-am",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ban-doc_ngay-mai-tuoi-sang",
+          "category_url": "https://vietnamnet.vn/ban-doc/ngay-mai-tuoi-sang",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ban-doc_tho",
+          "category_url": "https://vietnamnet.vn/ban-doc/tho",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bat-dong-san",
+          "category_url": "https://vietnamnet.vn/bat-dong-san",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bat-dong-san_du-an",
+          "category_url": "https://vietnamnet.vn/bat-dong-san/du-an",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bat-dong-san_kim-oanh-group",
+          "category_url": "https://vietnamnet.vn/bat-dong-san/kim-oanh-group",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "VnExpress",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://vnexpress.net/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bat-dong-san",
+          "category_url": "https://vnexpress.net/bat-dong-san",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "doi-song",
+          "category_url": "https://vnexpress.net/doi-song",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "du-lich",
+          "category_url": "https://vnexpress.net/du-lich",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "giai-tri",
+          "category_url": "https://vnexpress.net/giai-tri",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "giao-duc",
+          "category_url": "https://vnexpress.net/giao-duc",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "goc-nhin",
+          "category_url": "https://vnexpress.net/goc-nhin",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "khoa-hoc-cong-nghe",
+          "category_url": "https://vnexpress.net/khoa-hoc-cong-nghe",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "kinh-doanh",
+          "category_url": "https://vnexpress.net/kinh-doanh",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "VOA",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.voaportugues.com/africa-e-mundo",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "voa60-africa",
+          "category_url": "https://www.voaportugues.com/voa60-africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "z_7279",
+          "category_url": "https://www.voaportugues.com/z/7279",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "angola",
+          "category_url": "https://www.voaportugues.com/angola",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "brasil",
+          "category_url": "https://www.voaportugues.com/brasil",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "dossiers-especiais",
+          "category_url": "https://www.voaportugues.com/dossiers-especiais",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "VOH Online",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://voh.com.vn/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria Arabic",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://french.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_afrique",
+          "category_url": "https://french.von.gov.ng/category/afrique",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_economie",
+          "category_url": "https://french.von.gov.ng/category/economie",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_monde",
+          "category_url": "https://french.von.gov.ng/category/monde",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://french.von.gov.ng/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nigeria",
+          "category_url": "https://french.von.gov.ng/category/nigeria",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_africa",
+          "category_url": "https://von.gov.ng/category/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://von.gov.ng/category/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sport",
+          "category_url": "https://von.gov.ng/category/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://von.gov.ng/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nigeria",
+          "category_url": "https://von.gov.ng/category/nigeria",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_politics",
+          "category_url": "https://von.gov.ng/category/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria French",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://arabic.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_africa",
+          "category_url": "https://arabic.von.gov.ng/category/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nigeria",
+          "category_url": "https://arabic.von.gov.ng/category/nigeria",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_politics",
+          "category_url": "https://arabic.von.gov.ng/category/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://arabic.von.gov.ng/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria Fulfulde",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://fulfulde.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_africa",
+          "category_url": "https://fulfulde.von.gov.ng/category/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://fulfulde.von.gov.ng/category/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_home",
+          "category_url": "https://fulfulde.von.gov.ng/category/home",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://fulfulde.von.gov.ng/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://fulfulde.von.gov.ng/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bs-contact",
+          "category_url": "https://fulfulde.von.gov.ng/bs-contact",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria Hausa",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://hausa.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria Igbo",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://igbo.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_africa",
+          "category_url": "https://igbo.von.gov.ng/category/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_agriculture",
+          "category_url": "https://igbo.von.gov.ng/category/agriculture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://igbo.von.gov.ng/category/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nigeria",
+          "category_url": "https://igbo.von.gov.ng/category/nigeria",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://igbo.von.gov.ng/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://igbo.von.gov.ng/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "bs-contact",
+          "category_url": "https://igbo.von.gov.ng/bs-contact",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sample-page",
+          "category_url": "https://igbo.von.gov.ng/sample-page",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of Nigeria Yoruba",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://yoruba.von.gov.ng/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_africa",
+          "category_url": "https://yoruba.von.gov.ng/category/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_nigeria",
+          "category_url": "https://yoruba.von.gov.ng/category/nigeria",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://yoruba.von.gov.ng/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://yoruba.von.gov.ng/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Voice of the Cape",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://vocfm.co.za/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://vocfm.co.za/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_local",
+          "category_url": "https://vocfm.co.za/category/news/local",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_international-news",
+          "category_url": "https://vocfm.co.za/category/international-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinions",
+          "category_url": "https://vocfm.co.za/category/opinions",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports-news",
+          "category_url": "https://vocfm.co.za/category/sports-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Vorwaerts",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.vorwaerts.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_international",
+          "category_url": "https://www.vorwaerts.ch/category/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_feminismus",
+          "category_url": "https://www.vorwaerts.ch/category/feminismus",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_inland",
+          "category_url": "https://www.vorwaerts.ch/category/inland",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_kultur",
+          "category_url": "https://www.vorwaerts.ch/category/kultur",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news",
+          "category_url": "https://www.vorwaerts.ch/category/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_pda",
+          "category_url": "https://www.vorwaerts.ch/category/pda",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_theorie-debatte",
+          "category_url": "https://www.vorwaerts.ch/category/theorie-debatte",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_inland_gewerkschaften",
+          "category_url": "https://www.vorwaerts.ch/category/inland/gewerkschaften",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Waagacusub",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://waagacusub.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_1_Wararka",
+          "category_url": "https://waagacusub.com/category/1/Wararka",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_8_News-In-English",
+          "category_url": "https://waagacusub.com/category/8/News-In-English",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_3_Quran",
+          "category_url": "https://waagacusub.com/category/3/Quran",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_4_Waagacusub-Radio",
+          "category_url": "https://waagacusub.com/category/4/Waagacusub-Radio",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_6_Music",
+          "category_url": "https://waagacusub.com/category/6/Music",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_9_Featured",
+          "category_url": "https://waagacusub.com/category/9/Featured",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Wal Fadjri L'Aurore",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://walf-groupe.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Walta Information Center",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.waltainfo.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more_business",
+          "category_url": "https://www.waltainfo.com/category/more/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more_health",
+          "category_url": "https://www.waltainfo.com/category/more/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more_sport",
+          "category_url": "https://www.waltainfo.com/category/more/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more_sport_sportinternational",
+          "category_url": "https://www.waltainfo.com/category/more/sport/sportinternational",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_more_sport_sportloval",
+          "category_url": "https://www.waltainfo.com/category/more/sport/sportloval",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_africa",
+          "category_url": "https://www.waltainfo.com/category/news/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_international",
+          "category_url": "https://www.waltainfo.com/category/news/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_national",
+          "category_url": "https://www.waltainfo.com/category/news/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Wardheer News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://wardheernews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_daily-news-audio",
+          "category_url": "https://wardheernews.com/category/daily-news-audio",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinion",
+          "category_url": "https://wardheernews.com/category/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_book-shelf",
+          "category_url": "https://wardheernews.com/category/book-shelf",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_camels-and-poets",
+          "category_url": "https://wardheernews.com/category/camels-and-poets",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_editorials",
+          "category_url": "https://wardheernews.com/category/editorials",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_everyday-people",
+          "category_url": "https://wardheernews.com/category/everyday-people",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_films",
+          "category_url": "https://wardheernews.com/category/films",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_maqaallo-articles",
+          "category_url": "https://wardheernews.com/category/maqaallo-articles",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Wataninet",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://wataninet.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Wataninet English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://en.wataninet.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Watchdog Uganda",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.watchdoguganda.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "africa-news",
+          "category_url": "https://www.watchdoguganda.com/africa-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://www.watchdoguganda.com/category/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_china-news",
+          "category_url": "https://www.watchdoguganda.com/category/china-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_community-news",
+          "category_url": "https://www.watchdoguganda.com/category/community-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_culture",
+          "category_url": "https://www.watchdoguganda.com/category/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news",
+          "category_url": "https://www.watchdoguganda.com/category/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinion",
+          "category_url": "https://www.watchdoguganda.com/category/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://www.watchdoguganda.com/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Watson",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.watson.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "international",
+          "category_url": "https://www.watson.ch/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.watson.ch/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "wintersport",
+          "category_url": "https://www.watson.ch/wintersport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cute-news",
+          "category_url": "https://www.watson.ch/cute-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "gute-news",
+          "category_url": "https://www.watson.ch/gute-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Windhoek Observer",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.observer24.com.na/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_latest-news",
+          "category_url": "https://www.observer24.com.na/category/latest-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_national",
+          "category_url": "https://www.observer24.com.na/category/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinions",
+          "category_url": "https://www.observer24.com.na/category/opinions",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://www.observer24.com.na/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_observer-money",
+          "category_url": "https://www.observer24.com.na/category/observer-money",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_energy",
+          "category_url": "https://www.observer24.com.na/category/energy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "womensworldbanking",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.womensworldbanking.org/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "work-for-us",
+          "category_url": "https://www.womensworldbanking.org/work-for-us",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Yeroo",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://yeroo.org/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://yeroo.org/category/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinion",
+          "category_url": "https://yeroo.org/category/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://yeroo.org/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://yeroo.org/category/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_arts",
+          "category_url": "https://yeroo.org/category/arts",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ethiopia",
+          "category_url": "https://yeroo.org/category/ethiopia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_oduu",
+          "category_url": "https://yeroo.org/category/oduu",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_oromia",
+          "category_url": "https://yeroo.org/category/oromia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Youm7",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.youm7.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D9%88%D8%A3%D8%B3%D9%88%D8%A7%D9%82_358_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D9%88%D8%A3%D8%B3%D9%88%D8%A7%D9%82/358/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_%D8%AF%D9%8A%D9%86-%D9%88%D8%AD%D9%8A%D8%A7%D8%A9_359_1",
+          "category_url": "https://www.youm7.com/Section/%D8%AF%D9%8A%D9%86-%D9%88%D8%AD%D9%8A%D8%A7%D8%A9/359/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u062e\u0628\u0627\u0631-\u0627\u0644\u0631\u064a\u0627\u0636\u0629_298_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/298/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u062e\u0628\u0627\u0631-\u0627\u0644\u0645\u062d\u0627\u0641\u0638\u0627\u062a_296_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A7%D8%AA/296/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u062e\u0628\u0627\u0631-\u0639\u0627\u062c\u0644\u0629_65_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%B9%D8%A7%D8%AC%D9%84%D8%A9/65/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u062e\u0628\u0627\u0631-\u0639\u0627\u0644\u0645\u064a\u0629_286_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9/286/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u062e\u0628\u0627\u0631-\u0639\u0631\u0628\u064a\u0629_88_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/88/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Section_\u0623\u0644\u0628\u0648\u0645\u0627\u062a-\u0627\u0644\u064a\u0648\u0645-\u0627\u0644\u0633\u0627\u0628\u0639_291_1",
+          "category_url": "https://www.youm7.com/Section/%D8%A3%D9%84%D8%A8%D9%88%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%8A%D9%88%D9%85-%D8%A7%D9%84%D8%B3%D8%A7%D8%A8%D8%B9/291/1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zajel Eritrean News Agency",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zenazajel.net/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d8%a3%d8%af%d8%a8-%d9%88%d9%81%d9%86-ar",
+          "category_url": "https://zenazajel.net/category/%d8%a3%d8%af%d8%a8-%d9%88%d9%81%d9%86-ar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d8%a7%d8%ae%d8%a8%d8%a7%d8%b1-ar",
+          "category_url": "https://zenazajel.net/category/%d8%a7%d8%ae%d8%a8%d8%a7%d8%b1-ar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d8%a8%d8%ad%d9%88%d8%ab-%d9%88%d8%af%d8%b1%d8%a7%d8%b3%d8%a7%d8%aa",
+          "category_url": "https://zenazajel.net/category/%d8%a8%d8%ad%d9%88%d8%ab-%d9%88%d8%af%d8%b1%d8%a7%d8%b3%d8%a7%d8%aa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d8%aa%d9%82%d8%a7%d8%b1%d9%8a%d8%b1-ar",
+          "category_url": "https://zenazajel.net/category/%d8%aa%d9%82%d8%a7%d8%b1%d9%8a%d8%b1-ar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d8%ad%d9%88%d8%a7%d8%b1%d8%a7%d8%aa-ar",
+          "category_url": "https://zenazajel.net/category/%d8%ad%d9%88%d8%a7%d8%b1%d8%a7%d8%aa-ar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d9%85%d9%82%d8%a7%d9%84%d8%a7%d8%aa-ar",
+          "category_url": "https://zenazajel.net/category/%d9%85%d9%82%d8%a7%d9%84%d8%a7%d8%aa-ar",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d9%85%d9%84%d9%81%d8%a7%d8%aa-%d8%a7%d9%84%d8%aa%d8%b9%d9%84%d9%8a%d9%85",
+          "category_url": "https://zenazajel.net/category/%d9%85%d9%84%d9%81%d8%a7%d8%aa-%d8%a7%d9%84%d8%aa%d8%b9%d9%84%d9%8a%d9%85",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_%d9%85%d9%84%d9%81%d8%a7%d8%aa-%d8%a7%d9%84%d9%87%d8%ac%d8%b1%d8%a9",
+          "category_url": "https://zenazajel.net/category/%d9%85%d9%84%d9%81%d8%a7%d8%aa-%d8%a7%d9%84%d9%87%d8%ac%d8%b1%d8%a9",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "ZBC news",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zbcnews.co.zw/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zim Eye",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.zimeye.net/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://www.zimeye.net/category/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_international-2",
+          "category_url": "https://www.zimeye.net/category/international-2",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_national",
+          "category_url": "https://www.zimeye.net/category/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinion",
+          "category_url": "https://www.zimeye.net/category/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sport",
+          "category_url": "https://www.zimeye.net/category/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_properties",
+          "category_url": "https://www.zimeye.net/category/properties",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_wilbert-mukori",
+          "category_url": "https://www.zimeye.net/category/wilbert-mukori",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zimbabwe Situation",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.zimbabwesituation.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_category_daily",
+          "category_url": "https://www.zimbabwesituation.com/news/category/daily",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "advertise",
+          "category_url": "https://www.zimbabwesituation.com/advertise",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "archives",
+          "category_url": "https://www.zimbabwesituation.com/archives",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "friends",
+          "category_url": "https://www.zimbabwesituation.com/friends",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lists",
+          "category_url": "https://www.zimbabwesituation.com/lists",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "support-us",
+          "category_url": "https://www.zimbabwesituation.com/support-us",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "text-only",
+          "category_url": "https://www.zimbabwesituation.com/text-only",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zing News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zingnews.vn/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zitamar News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.zitamar.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "group-subscriptions",
+          "category_url": "https://www.zitamar.com/group-subscriptions",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zoom Tchad",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zoomtchad.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zuger Woche",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zugerwoche.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "zuger-news",
+          "category_url": "https://zugerwoche.ch/zuger-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "aus-der-region",
+          "category_url": "https://zugerwoche.ch/aus-der-region",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "inserate",
+          "category_url": "https://zugerwoche.ch/inserate",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "kultur",
+          "category_url": "https://zugerwoche.ch/kultur",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle",
+          "category_url": "https://zugerwoche.ch/lifestyle",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politik",
+          "category_url": "https://zugerwoche.ch/politik",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "standpunkte",
+          "category_url": "https://zugerwoche.ch/standpunkte",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zurcher Unterlander",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zuonline.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://zuonline.ch/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_freizeitsport",
+          "category_url": "https://zuonline.ch/sport/freizeitsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_regionalsport",
+          "category_url": "https://zuonline.ch/sport/regionalsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_weitere",
+          "category_url": "https://zuonline.ch/sport/weitere",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-heute",
+          "category_url": "https://zuonline.ch/news-heute",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_ehc-kloten",
+          "category_url": "https://zuonline.ch/sport/ehc-kloten",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fc-zuerich",
+          "category_url": "https://zuonline.ch/sport/fc-zuerich",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_formel-1",
+          "category_url": "https://zuonline.ch/sport/formel-1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zurich 24",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zuerich24.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://zuerich24.ch/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_eishockey",
+          "category_url": "https://zuerich24.ch/sport/eishockey",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fussball",
+          "category_url": "https://zuerich24.ch/sport/fussball",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "dossiers",
+          "category_url": "https://zuerich24.ch/dossiers",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Zurichsee Zeitung",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://zsz.ch/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://zsz.ch/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_freizeitsport",
+          "category_url": "https://zsz.ch/sport/freizeitsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_regionalsport",
+          "category_url": "https://zsz.ch/sport/regionalsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_weitere",
+          "category_url": "https://zsz.ch/sport/weitere",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-heute",
+          "category_url": "https://zsz.ch/news-heute",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_ehc-kloten",
+          "category_url": "https://zsz.ch/sport/ehc-kloten",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fc-zuerich",
+          "category_url": "https://zsz.ch/sport/fc-zuerich",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_formel-1",
+          "category_url": "https://zsz.ch/sport/formel-1",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }

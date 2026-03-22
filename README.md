@@ -38,7 +38,6 @@ python verify_sites.py
 │   ├── data/exports/                  # Success + error datasets
 │   └── scraping/                      # Fetching, extraction, fallback, orchestration
 ├── verify_sites.py                    # Selector verification utility
-├── tests/                             # Focused runtime tests
 ├── requirements.txt                   # Python dependencies
 └── README.md                          # This file
 ```

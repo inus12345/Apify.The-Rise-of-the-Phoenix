@@ -1,52 +1,10 @@
-# =============================================================================
-# The Rise of the Phoenix - News Scraper Platform
-# Requirements File
-# =============================================================================
-
-# =============================================================================
-# Core Dependencies
-# =============================================================================
-httpx>=0.24.0               # HTTP client (fallback/static requests)
-beautifulsoup4>=4.12.0      # HTML parsing
-lxml>=4.9.0                 # BS4 parser backend (faster than html.parser)
-pydantic>=2.7.0             # Typed runtime models and JSON validation
-python-dateutil>=2.8.0       # Flexible date parsing
-apify>=1.9.0                # Apify Python SDK for Actor deployment
-
-# Preferred scraping stack (priority order)
-scrapling>=0.2.0           # Primary scraping backend (headless browser automation)
-pydoll-python>=2.2.0       # Secondary scraping backend (CDP browser automation)
-selenium>=4.10.0           # Final fallback backend for dynamic sites
-
-# =============================================================================
-# Web Interface (Phase 4 - Flask)
-# =============================================================================
-flask>=3.0.0                # Web framework
-
-# =============================================================================
-# Command Line Interface
-# =============================================================================
-
-# =============================================================================
-# Concurrency (optional - for multi-process scraping)
-# =============================================================================
-# celery>=5.3.0             # Task queue (comment out if not needed)
-# redis>=4.5.0              # Redis backend for Celery
-
-# =============================================================================
-# Validation & LLM Integration (optional - Phase 5+)
-# =============================================================================
-# openai>=1.0.0             # OpenAI API for LLM validation
-# anthropic>=0.3.0          # Anthropic Claude API
-# google-ai-generativelanguage>=0.1.0  # Google Vertex AI
-
-# =============================================================================
-# Testing & Development
-# =============================================================================
-pytest>=7.4.0               # Testing framework
-pytest-cov>=4.1.0          # Code coverage reporting
-
-# =============================================================================
-# Production Considerations
-# =============================================================================
-# gunicorn>=21.0.0          # WSGI server for Flask production deployment
+httpx>=0.24.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+pydantic>=2.7.0
+python-dateutil>=2.8.0
+apify>=1.9.0
+scrapling>=0.2.0
+pydoll-python>=2.2.0
+selenium>=4.10.0
+flask>=3.0.0
