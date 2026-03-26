@@ -13,7 +13,7 @@ Configuration-driven news and blog scraper prepared for Apify Actor deployment.
 ## Input notes
 
 - `sites_to_scrape` is a dropdown-backed multi-select of active catalog sites; leave it empty to scrape all active sites
-- `categories_to_scrape` is a dropdown-backed multi-select of tracked categories (scoped to site)
+- `categories_to_scrape` accepts manual entries in the format `Site Name|||https://category-url`
 - `execution_mode` explicitly selects `current` or `historic`
 - `historic_cutoff_date` is required for historic mode
 - `no_items_limit` disables `max_items_per_site` when you want unlimited article collection

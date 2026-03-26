@@ -111,23 +111,20 @@ def build_schema(
                 "items": {
                     "type": "string",
                     "enum": site_names,
-                    "enumTitles": site_titles,
                 },
             },
             "categories_to_scrape": {
                 "title": "Categories to scrape",
                 "type": "array",
                 "description": (
-                    "Optional category dropdown. Each option is tied to a website. "
+                    "Optional category overrides in the format 'Site Name|||https://category-url'. "
                     "Leave empty to scrape all tracked categories for selected websites."
                 ),
-                "editor": "select",
+                "editor": "stringList",
                 "prefill": [],
                 "uniqueItems": True,
                 "items": {
                     "type": "string",
-                    "enum": category_values,
-                    "enumTitles": category_titles,
                 },
             },
             "execution_mode": {
@@ -181,7 +178,7 @@ def build_schema(
                 "title": "Advanced: manual site category filters",
                 "type": "array",
                 "description": (
-                    "Optional legacy override. Prefer categories_to_scrape dropdown above."
+                    "Optional legacy override. Prefer categories_to_scrape entries above."
                 ),
                 "editor": "schemaBased",
                 "prefill": [],
@@ -194,7 +191,6 @@ def build_schema(
                             "description": "Exact site_name from the catalog.",
                             "editor": "select",
                             "enum": site_names,
-                            "enumTitles": site_titles,
                         },
                         "category_urls": {
                             "title": "Category URLs",
