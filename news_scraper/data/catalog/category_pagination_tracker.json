@@ -2,6 +2,112 @@
   "schema_version": "1.0.0",
   "sites": [
     {
+      "site_name": "20 Minutes France",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.20minutes.fr/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "actu-generale",
+          "category_url": "https://www.20minutes.fr/actu-generale",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "arts-stars_culture",
+          "category_url": "https://www.20minutes.fr/arts-stars/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "economie",
+          "category_url": "https://www.20minutes.fr/economie",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "monde",
+          "category_url": "https://www.20minutes.fr/monde",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politique",
+          "category_url": "https://www.20minutes.fr/politique",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.20minutes.fr/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_esport",
+          "category_url": "https://www.20minutes.fr/sport/esport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "actus",
+          "category_url": "https://www.20minutes.fr/actus",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "20 Minutos",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.20minutos.es/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "estaticos_home-newsletters",
+          "category_url": "https://www.20minutos.es/estaticos/home-newsletters",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "blogs_opinion",
+          "category_url": "https://www.20minutos.es/blogs_opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "andalucia",
+          "category_url": "https://www.20minutos.es/andalucia",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "animaleros",
+          "category_url": "https://www.20minutos.es/animaleros",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "aragon",
+          "category_url": "https://www.20minutos.es/aragon",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "asturias",
+          "category_url": "https://www.20minutos.es/asturias",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "218 News",
       "categories": [
         {
@@ -384,6 +490,106 @@
           "category_url": "https://abcnews.go.com/International",
           "total_known_pages": 3,
           "last_scraped_page_index": 2
+        }
+      ]
+    },
+    {
+      "site_name": "ABC News Australia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.abc.net.au/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "local",
+          "category_url": "https://www.abc.net.au/local",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.abc.net.au/news/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.abc.net.au/news/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_sport",
+          "category_url": "https://www.abc.net.au/news/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_topics",
+          "category_url": "https://www.abc.net.au/news/topics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.abc.net.au/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_australia",
+          "category_url": "https://www.abc.net.au/news/australia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_backstory",
+          "category_url": "https://www.abc.net.au/news/backstory",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "ABC7 New York",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://abc7ny.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "contact-eyewitness-news-tip-breaking-nyc_2599968",
+          "category_url": "https://abc7ny.com/contact-eyewitness-news-tip-breaking-nyc/2599968",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "morenews",
+          "category_url": "https://abc7ny.com/morenews",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://abc7ny.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "live-updates_iran-war-news-trump-strikes-delay-israel-middle-east-oil_18756340",
+          "category_url": "https://abc7ny.com/live-updates/iran-war-news-trump-strikes-delay-israel-middle-east-oil/18756340",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "connecticut",
+          "category_url": "https://abc7ny.com/connecticut",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
         }
       ]
     },
@@ -879,6 +1085,65 @@
         {
           "category_name": "topics_columns",
           "category_url": "https://africanews360.com/topics/columns",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Aftonbladet",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.aftonbladet.se/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet",
+          "category_url": "https://www.aftonbladet.se/sportbladet",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tagg_kampsport",
+          "category_url": "https://www.aftonbladet.se/tagg/kampsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tagg_motorsport",
+          "category_url": "https://www.aftonbladet.se/tagg/motorsport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet_fotboll",
+          "category_url": "https://www.aftonbladet.se/sportbladet/fotboll",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet_hockey",
+          "category_url": "https://www.aftonbladet.se/sportbladet/hockey",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet_speltips",
+          "category_url": "https://www.aftonbladet.se/sportbladet/speltips",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet_trav365",
+          "category_url": "https://www.aftonbladet.se/sportbladet/trav365",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sportbladet_bloggar_f1bloggen",
+          "category_url": "https://www.aftonbladet.se/sportbladet/bloggar/f1bloggen",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -2279,6 +2544,81 @@
       ]
     },
     {
+      "site_name": "Arab News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.arabnews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Ars Technica",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://arstechnica.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://arstechnica.com/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://arstechnica.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ai",
+          "category_url": "https://arstechnica.com/ai",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cars",
+          "category_url": "https://arstechnica.com/cars",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "features",
+          "category_url": "https://arstechnica.com/features",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "gadgets",
+          "category_url": "https://arstechnica.com/gadgets",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "gaming",
+          "category_url": "https://arstechnica.com/gaming",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Asahi Shimbun",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.asahi.com/ajw",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Asena Eritrean TV",
       "categories": [
         {
@@ -2553,6 +2893,29 @@
       ]
     },
     {
+      "site_name": "Axios",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.axios.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "pro_all-deals",
+          "category_url": "https://www.axios.com/pro/all-deals",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "the-axios-show",
+          "category_url": "https://www.axios.com/the-axios-show",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Baernerbaer",
       "categories": [
         {
@@ -2606,6 +2969,65 @@
         {
           "category_name": "region-emmental",
           "category_url": "https://baernerbaer.ch/region-emmental",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Bangkok Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.bangkokpost.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.bangkokpost.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.bangkokpost.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.bangkokpost.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.bangkokpost.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.bangkokpost.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_general",
+          "category_url": "https://www.bangkokpost.com/business/general",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_investment",
+          "category_url": "https://www.bangkokpost.com/business/investment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_motoring",
+          "category_url": "https://www.bangkokpost.com/business/motoring",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -2666,6 +3088,17 @@
           "category_name": "dossiers",
           "category_url": "https://banouto.bj/dossiers",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Barrons",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.barrons.com/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -3057,6 +3490,65 @@
       ]
     },
     {
+      "site_name": "Bild",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.bild.de/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_startseite_news_news-16804530.bild.html",
+          "category_url": "https://www.bild.de/news/startseite/news/news-16804530.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "spiele_spiele-news_spiele-news_home-15720500.bild.html",
+          "category_url": "https://www.bild.de/spiele/spiele-news/spiele-news/home-15720500.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fussball_fussball-international_home-15770912.bild.html",
+          "category_url": "https://www.bild.de/sport/fussball/fussball-international/home-15770912.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fussball_nationalmannschaft_home-15770882.bild.html",
+          "category_url": "https://www.bild.de/sport/fussball/nationalmannschaft/home-15770882.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_startseite_sport_sport-home-15479124.bild.html",
+          "category_url": "https://www.bild.de/sport/startseite/sport/sport-home-15479124.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_ausland_news-ausland_home-15681774.bild.html",
+          "category_url": "https://www.bild.de/news/ausland/news-ausland/home-15681774.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_einherzfuerkinder_ein-herz-fuer-kinder_home-15682108.bild.html",
+          "category_url": "https://www.bild.de/news/einherzfuerkinder/ein-herz-fuer-kinder/home-15682108.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_inland_news-inland_home-15665814.bild.html",
+          "category_url": "https://www.bild.de/news/inland/news-inland/home-15665814.bild.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "BizNews.com",
       "categories": [
         {
@@ -3132,6 +3624,17 @@
         {
           "category_name": "front_page",
           "category_url": "https://www.bloemfonteincourant.co.za/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Bloomberg News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.bloomberg.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -3511,6 +4014,41 @@
           "category_name": "front_page",
           "category_url": "https://businessdailyafrica.com/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Business Insider",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.businessinsider.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.businessinsider.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.businessinsider.com/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.businessinsider.com/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "show_big-business",
+          "category_url": "https://www.businessinsider.com/show/big-business",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -4175,6 +4713,124 @@
       ]
     },
     {
+      "site_name": "CBC News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.cbc.ca/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.cbc.ca/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.cbc.ca/news/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.cbc.ca/news/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_investigates",
+          "category_url": "https://www.cbc.ca/news/investigates",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_local",
+          "category_url": "https://www.cbc.ca/news/local",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_thenational",
+          "category_url": "https://www.cbc.ca/news/thenational",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.cbc.ca/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.cbc.ca/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CBS News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.cbsnews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cbs-news-confirmed",
+          "category_url": "https://www.cbsnews.com/cbs-news-confirmed",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cbs-news-mornings",
+          "category_url": "https://www.cbsnews.com/cbs-news-mornings",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cbslocal",
+          "category_url": "https://www.cbsnews.com/cbslocal",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "evening-news",
+          "category_url": "https://www.cbsnews.com/evening-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "face-the-nation",
+          "category_url": "https://www.cbsnews.com/face-the-nation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "healthwatch",
+          "category_url": "https://www.cbsnews.com/healthwatch",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.cbsnews.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cbs-investigates",
+          "category_url": "https://www.cbsnews.com/cbs-investigates",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Cebu Daily News",
       "categories": [
         {
@@ -4266,6 +4922,65 @@
       ]
     },
     {
+      "site_name": "Chicago Tribune",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.chicagotribune.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "aurora-beacon-news",
+          "category_url": "https://www.chicagotribune.com/aurora-beacon-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.chicagotribune.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_transportation",
+          "category_url": "https://www.chicagotribune.com/business/transportation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "elgin-courier-news",
+          "category_url": "https://www.chicagotribune.com/elgin-courier-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "local-news",
+          "category_url": "https://www.chicagotribune.com/local-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.chicagotribune.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.chicagotribune.com/news/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_national",
+          "category_url": "https://www.chicagotribune.com/news/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Chimp Reports",
       "categories": [
         {
@@ -4320,6 +5035,17 @@
           "category_name": "advertising-guide",
           "category_url": "https://chimpreports.com/advertising-guide",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "China Daily",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.chinadaily.com.cn/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -4435,6 +5161,53 @@
       ]
     },
     {
+      "site_name": "Clarin",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.clarin.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "juegos_ar_reto-actualidad",
+          "category_url": "https://www.clarin.com/juegos/ar/reto-actualidad",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.clarin.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "arq",
+          "category_url": "https://www.clarin.com/arq",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "astrologia",
+          "category_url": "https://www.clarin.com/astrologia",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "autos",
+          "category_url": "https://www.clarin.com/autos",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "br",
+          "category_url": "https://www.clarin.com/br",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Club of Mozambique",
       "categories": [
         {
@@ -4488,6 +5261,124 @@
         {
           "category_name": "news_category_environment",
           "category_url": "https://clubofmozambique.com/news/category/environment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CNBC",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.cnbc.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.cnbc.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health-and-science",
+          "category_url": "https://www.cnbc.com/health-and-science",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "pro_news",
+          "category_url": "https://www.cnbc.com/pro/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "small-business",
+          "category_url": "https://www.cnbc.com/small-business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.cnbc.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "transportation",
+          "category_url": "https://www.cnbc.com/transportation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world-markets",
+          "category_url": "https://www.cnbc.com/world-markets",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world-politics",
+          "category_url": "https://www.cnbc.com/world-politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CNET",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.cnet.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.cnet.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture_entertainment",
+          "category_url": "https://www.cnet.com/culture/entertainment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.cnet.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_fitness",
+          "category_url": "https://www.cnet.com/health/fitness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_nutrition",
+          "category_url": "https://www.cnet.com/health/nutrition",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_personal-care",
+          "category_url": "https://www.cnet.com/health/personal-care",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_sleep",
+          "category_url": "https://www.cnet.com/health/sleep",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture_entertainment_hottest-toys",
+          "category_url": "https://www.cnet.com/culture/entertainment/hottest-toys",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -4884,6 +5775,112 @@
       ]
     },
     {
+      "site_name": "Corriere della Sera",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.corriere.it/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "cook_healthy",
+          "category_url": "https://www.corriere.it/cook/healthy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cook_news",
+          "category_url": "https://www.corriere.it/cook/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cook_opinioni",
+          "category_url": "https://www.corriere.it/cook/opinioni",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "economia_opinioni",
+          "category_url": "https://www.corriere.it/economia/opinioni",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "economia_trasporti",
+          "category_url": "https://www.corriere.it/economia/trasporti",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "moda_business",
+          "category_url": "https://www.corriere.it/moda/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinioni",
+          "category_url": "https://www.corriere.it/opinioni",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "salute_ehealth",
+          "category_url": "https://www.corriere.it/salute/ehealth",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "CTV News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.ctvnews.ca/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.ctvnews.ca/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "canada",
+          "category_url": "https://www.ctvnews.ca/canada",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.ctvnews.ca/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politics",
+          "category_url": "https://www.ctvnews.ca/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.ctvnews.ca/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.ctvnews.ca/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Dabanga",
       "categories": [
         {
@@ -5057,6 +6054,17 @@
           "category_url": "https://independent.ng/category/views/editorial",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Daily Mail",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.dailymail.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
         }
       ]
     },
@@ -5385,6 +6393,53 @@
       ]
     },
     {
+      "site_name": "Daily Star UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.dailystar.co.uk/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.dailystar.co.uk/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_football",
+          "category_url": "https://www.dailystar.co.uk/sport/football",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "games",
+          "category_url": "https://www.dailystar.co.uk/games",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "horoscopes",
+          "category_url": "https://www.dailystar.co.uk/horoscopes",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "our-paper",
+          "category_url": "https://www.dailystar.co.uk/our-paper",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "showbiz",
+          "category_url": "https://www.dailystar.co.uk/showbiz",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Daily Tribune",
       "categories": [
         {
@@ -5561,6 +6616,41 @@
       ]
     },
     {
+      "site_name": "Dallas Morning News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.dallasnews.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_autos",
+          "category_url": "https://www.dallasnews.com/business/autos",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_obituaries",
+          "category_url": "https://www.dallasnews.com/news/obituaries",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topic_podcasts",
+          "category_url": "https://www.dallasnews.com/topic/podcasts",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sitemap",
+          "category_url": "https://www.dallasnews.com/sitemap",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Dantri",
       "categories": [
         {
@@ -5614,6 +6704,65 @@
         {
           "category_name": "thoi-su_chinh-tri.htm",
           "category_url": "https://dantri.com.vn/thoi-su/chinh-tri.htm",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Dawn Pakistan",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.dawn.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.dawn.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.dawn.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.dawn.com/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.dawn.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "latest-news",
+          "category_url": "https://www.dawn.com/latest-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newspaper",
+          "category_url": "https://www.dawn.com/newspaper",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "advertise",
+          "category_url": "https://www.dawn.com/advertise",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ai-policy",
+          "category_url": "https://www.dawn.com/ai-policy",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -6752,6 +7901,53 @@
       ]
     },
     {
+      "site_name": "Economic Times India",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://economictimes.indiatimes.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://economictimes.indiatimes.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_newsblogs",
+          "category_url": "https://economictimes.indiatimes.com/news/newsblogs",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://economictimes.indiatimes.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_ipl",
+          "category_url": "https://economictimes.indiatimes.com/news/ipl",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_politics",
+          "category_url": "https://economictimes.indiatimes.com/news/politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_elections_assembly",
+          "category_url": "https://economictimes.indiatimes.com/news/elections/assembly",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Economy24",
       "categories": [
         {
@@ -6929,6 +8125,112 @@
       ]
     },
     {
+      "site_name": "El Mundo",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.elmundo.es/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "newsletters.html",
+          "category_url": "https://www.elmundo.es/newsletters.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "deportes_futbol_uefa-nations-league.html",
+          "category_url": "https://www.elmundo.es/deportes/futbol/uefa-nations-league.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "internacional_africa.html",
+          "category_url": "https://www.elmundo.es/internacional/africa.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion.html",
+          "category_url": "https://www.elmundo.es/opinion.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_blogs.html",
+          "category_url": "https://www.elmundo.es/opinion/blogs.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_cartas-director.html",
+          "category_url": "https://www.elmundo.es/opinion/cartas-director.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_columnistas.html",
+          "category_url": "https://www.elmundo.es/opinion/columnistas.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_editorial.html",
+          "category_url": "https://www.elmundo.es/opinion/editorial.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "El Pais",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://elpais.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "actualidad",
+          "category_url": "https://elpais.com/actualidad",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_2026-03-26_breves-recuerdos-de-una-tragedia-incesante.html",
+          "category_url": "https://elpais.com/opinion/2026-03-26/breves-recuerdos-de-una-tragedia-incesante.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://elpais.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_columnas",
+          "category_url": "https://elpais.com/opinion/columnas",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_editoriales",
+          "category_url": "https://elpais.com/opinion/editoriales",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion_tribunas",
+          "category_url": "https://elpais.com/opinion/tribunas",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Emirates News Wire",
       "categories": [
         {
@@ -7036,6 +8338,17 @@
           "category_name": "business_entertainment",
           "category_url": "https://emiratitimes.com/business/entertainment",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Engadget",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.engadget.com/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -7335,12 +8648,106 @@
       ]
     },
     {
+      "site_name": "Euractiv",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.euractiv.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_eet",
+          "category_url": "https://www.euractiv.com/sections/eet",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_health-consumers",
+          "category_url": "https://www.euractiv.com/sections/health-consumers",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_opinion",
+          "category_url": "https://www.euractiv.com/sections/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "content_providers_opinion",
+          "category_url": "https://www.euractiv.com/content_providers/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.euractiv.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Euronews English",
       "categories": [
         {
           "category_name": "front_page",
           "category_url": "https://www.euronews.com/next",
           "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Evening Standard",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.standard.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.standard.co.uk/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.standard.co.uk/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.standard.co.uk/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.standard.co.uk/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "going-out",
+          "category_url": "https://www.standard.co.uk/going-out",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "homesandproperty",
+          "category_url": "https://www.standard.co.uk/homesandproperty",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle",
+          "category_url": "https://www.standard.co.uk/lifestyle",
+          "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
       ]
@@ -7470,6 +8877,17 @@
           "category_name": "somali",
           "category_url": "https://www.fanamc.com/somali",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Fast Company",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.fastcompany.com/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -7679,6 +9097,53 @@
         {
           "category_name": "front_page",
           "category_url": "https://fijitimes.com.fj/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Financial Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.ft.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "africa",
+          "category_url": "https://www.ft.com/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "companies",
+          "category_url": "https://www.ft.com/companies",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "markets",
+          "category_url": "https://www.ft.com/markets",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "technology",
+          "category_url": "https://www.ft.com/technology",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.ft.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.ft.com/opinion",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -7926,11 +9391,181 @@
       ]
     },
     {
+      "site_name": "Forbes",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.forbes.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "advisor_business",
+          "category_url": "https://www.forbes.com/advisor/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.forbes.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "digital-assets_news",
+          "category_url": "https://www.forbes.com/digital-assets/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.forbes.com/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_hearing-aids",
+          "category_url": "https://www.forbes.com/health/hearing-aids",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Foroyaa",
       "categories": [
         {
           "category_name": "front_page",
           "category_url": "https://foroyaa.net/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Fortune",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://fortune.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_health",
+          "category_url": "https://fortune.com/section/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_news",
+          "category_url": "https://fortune.com/section/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_workplace-culture",
+          "category_url": "https://fortune.com/section/workplace-culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_asia",
+          "category_url": "https://fortune.com/section/asia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_banking-finance",
+          "category_url": "https://fortune.com/section/banking-finance",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_big-tech",
+          "category_url": "https://fortune.com/section/big-tech",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_c-suite",
+          "category_url": "https://fortune.com/section/c-suite",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_commentary",
+          "category_url": "https://fortune.com/section/commentary",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Fox News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.foxnews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.foxnews.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.foxnews.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "shows_fox-nation",
+          "category_url": "https://www.foxnews.com/shows/fox-nation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.foxnews.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.foxnews.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_deals_health-and-fitness",
+          "category_url": "https://www.foxnews.com/category/deals/health-and-fitness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health_brain-health",
+          "category_url": "https://www.foxnews.com/category/health/brain-health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health_healthy-living",
+          "category_url": "https://www.foxnews.com/category/health/healthy-living",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "France 24 English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.france24.com/en",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -8359,6 +9994,47 @@
           "category_name": "GhanaHomePage",
           "category_url": "https://www.ghanaweb.com/GhanaHomePage/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Gizmodo",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://gizmodo.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "io9_corporate-culture",
+          "category_url": "https://gizmodo.com/io9/corporate-culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "science_health",
+          "category_url": "https://gizmodo.com/science/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tech_culture",
+          "category_url": "https://gizmodo.com/tech/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tech_transportation",
+          "category_url": "https://gizmodo.com/tech/transportation",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tech",
+          "category_url": "https://gizmodo.com/tech",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -8892,6 +10568,53 @@
       ]
     },
     {
+      "site_name": "Haaretz",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.haaretz.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "israel-news",
+          "category_url": "https://www.haaretz.com/israel-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "israel-news_israel-politics",
+          "category_url": "https://www.haaretz.com/israel-news/israel-politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "middle-east-news",
+          "category_url": "https://www.haaretz.com/middle-east-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.haaretz.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "us-news",
+          "category_url": "https://www.haaretz.com/us-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "israel-news_haaretz-daily-news",
+          "category_url": "https://www.haaretz.com/israel-news/haaretz-daily-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Haiti Libre",
       "categories": [
         {
@@ -9362,6 +11085,65 @@
       ]
     },
     {
+      "site_name": "Hindustan Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.hindustantimes.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.hindustantimes.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_bengaluru-news",
+          "category_url": "https://www.hindustantimes.com/cities/bengaluru-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_bhopal-news",
+          "category_url": "https://www.hindustantimes.com/cities/bhopal-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_chandigarh-news",
+          "category_url": "https://www.hindustantimes.com/cities/chandigarh-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_dehradun-news",
+          "category_url": "https://www.hindustantimes.com/cities/dehradun-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_delhi-news",
+          "category_url": "https://www.hindustantimes.com/cities/delhi-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_gurugram-news",
+          "category_url": "https://www.hindustantimes.com/cities/gurugram-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "cities_indore-news",
+          "category_url": "https://www.hindustantimes.com/cities/indore-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Horn Diplomat",
       "categories": [
         {
@@ -9561,6 +11343,65 @@
       ]
     },
     {
+      "site_name": "HuffPost US",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.huffpost.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "impact_business",
+          "category_url": "https://www.huffpost.com/impact/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.huffpost.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_us-news",
+          "category_url": "https://www.huffpost.com/news/us-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world-news",
+          "category_url": "https://www.huffpost.com/news/world-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_health",
+          "category_url": "https://www.huffpost.com/section/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_opinion",
+          "category_url": "https://www.huffpost.com/section/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_sports",
+          "category_url": "https://www.huffpost.com/section/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life_healthy-living",
+          "category_url": "https://www.huffpost.com/life/healthy-living",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "H\u00f6fner Volksblatt",
       "categories": [
         {
@@ -9626,6 +11467,47 @@
           "category_name": "front_page",
           "category_url": "https://isolezwelesixhosa.co.za/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "i24NEWS",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.i24news.tv/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_news",
+          "category_url": "https://www.i24news.tv/en/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_news_international",
+          "category_url": "https://www.i24news.tv/en/news/international",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_news_israel",
+          "category_url": "https://www.i24news.tv/en/news/israel",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_news_middle-east",
+          "category_url": "https://www.i24news.tv/en/news/middle-east",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_executive-committee",
+          "category_url": "https://www.i24news.tv/en/executive-committee",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -9863,6 +11745,53 @@
       ]
     },
     {
+      "site_name": "Independent Ireland",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.independent.ie/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.independent.ie/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_small-business",
+          "category_url": "https://www.independent.ie/business/small-business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_world",
+          "category_url": "https://www.independent.ie/business/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "farming_agri-business",
+          "category_url": "https://www.independent.ie/farming/agri-business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "farming_news",
+          "category_url": "https://www.independent.ie/farming/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "irish-news",
+          "category_url": "https://www.independent.ie/irish-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Independent Uganda",
       "categories": [
         {
@@ -9916,6 +11845,58 @@
         {
           "category_name": "tech-news",
           "category_url": "https://www.independent.co.ug/tech-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "India Today",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.indiatoday.in/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.indiatoday.in/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.indiatoday.in/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newsmo",
+          "category_url": "https://www.indiatoday.in/newsmo",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newspresso",
+          "category_url": "https://www.indiatoday.in/newspresso",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion-columns",
+          "category_url": "https://www.indiatoday.in/opinion-columns",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Indian Express",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://indianexpress.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -10119,6 +12100,17 @@
           "category_name": "category_urukundo",
           "category_url": "https://intyoza.com/category/urukundo",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Investors Business Daily",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.investors.com/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -10505,6 +12497,47 @@
       ]
     },
     {
+      "site_name": "Jakarta Globe",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://jakartaglobe.id/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://jakartaglobe.id/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://jakartaglobe.id/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://jakartaglobe.id/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newsindex",
+          "category_url": "https://jakartaglobe.id/newsindex",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle",
+          "category_url": "https://jakartaglobe.id/lifestyle",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Jambo News French",
       "categories": [
         {
@@ -10558,6 +12591,112 @@
         {
           "category_name": "actualites_category_sport",
           "category_url": "https://www.jambonews.net/actualites/category/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Japan Today",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://japantoday.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://japantoday.com/category/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_national",
+          "category_url": "https://japantoday.com/category/national",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://japantoday.com/category/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_world",
+          "category_url": "https://japantoday.com/category/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_features_health",
+          "category_url": "https://japantoday.com/category/features/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_features_opinions",
+          "category_url": "https://japantoday.com/category/features/opinions",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Jerusalem Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.jpost.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health-and-wellness",
+          "category_url": "https://www.jpost.com/health-and-wellness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "international",
+          "category_url": "https://www.jpost.com/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "israel-news",
+          "category_url": "https://www.jpost.com/israel-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "middle-east_iran-news",
+          "category_url": "https://www.jpost.com/middle-east/iran-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.jpost.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business-and-innovation_precious-metals",
+          "category_url": "https://www.jpost.com/business-and-innovation/precious-metals",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business-and-innovation_real-estate",
+          "category_url": "https://www.jpost.com/business-and-innovation/real-estate",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Advertise",
+          "category_url": "https://www.jpost.com/Advertise",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -11504,6 +13643,53 @@
       ]
     },
     {
+      "site_name": "Kyodo News English",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://english.kyodonews.net/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news_sports",
+          "category_url": "https://english.kyodonews.net/list/news/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news_world",
+          "category_url": "https://english.kyodonews.net/list/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news",
+          "category_url": "https://english.kyodonews.net/list/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news_arts",
+          "category_url": "https://english.kyodonews.net/list/news/arts",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news_expo",
+          "category_url": "https://english.kyodonews.net/list/news/expo",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "list_news_feature",
+          "category_url": "https://english.kyodonews.net/list/news/feature",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "KZN Industrial and Business",
       "categories": [
         {
@@ -11961,6 +14147,65 @@
       ]
     },
     {
+      "site_name": "La Repubblica",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.repubblica.it/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.repubblica.it/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_calcio_champions-league",
+          "category_url": "https://www.repubblica.it/sport/dirette/calcio/champions-league",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_calcio_coppa-italia",
+          "category_url": "https://www.repubblica.it/sport/dirette/calcio/coppa-italia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_calcio_europa-league",
+          "category_url": "https://www.repubblica.it/sport/dirette/calcio/europa-league",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_calcio_serie-a",
+          "category_url": "https://www.repubblica.it/sport/dirette/calcio/serie-a",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_calcio_serie-b",
+          "category_url": "https://www.repubblica.it/sport/dirette/calcio/serie-b",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_motori_formula-1",
+          "category_url": "https://www.repubblica.it/sport/dirette/motori/formula-1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_dirette_motori_moto-gp",
+          "category_url": "https://www.repubblica.it/sport/dirette/motori/moto-gp",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "La Voix de Djibouti",
       "categories": [
         {
@@ -12196,6 +14441,65 @@
       ]
     },
     {
+      "site_name": "Le Figaro",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.lefigaro.fr/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.lefigaro.fr/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "international",
+          "category_url": "https://www.lefigaro.fr/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politique",
+          "category_url": "https://www.lefigaro.fr/politique",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.lefigaro.fr/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "actualite-france",
+          "category_url": "https://www.lefigaro.fr/actualite-france",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "economie",
+          "category_url": "https://www.lefigaro.fr/economie",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "flash-actu",
+          "category_url": "https://www.lefigaro.fr/flash-actu",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "automobile",
+          "category_url": "https://www.lefigaro.fr/automobile",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Le Matinal",
       "categories": [
         {
@@ -12212,6 +14516,59 @@
         {
           "category_name": "front_page",
           "category_url": "https://www.lemauricien.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Le Monde",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.lemonde.fr/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "en_agriculture",
+          "category_url": "https://www.lemonde.fr/en/agriculture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_business",
+          "category_url": "https://www.lemonde.fr/en/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_international",
+          "category_url": "https://www.lemonde.fr/en/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_le-monde-africa",
+          "category_url": "https://www.lemonde.fr/en/le-monde-africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_opinion",
+          "category_url": "https://www.lemonde.fr/en/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_transport",
+          "category_url": "https://www.lemonde.fr/en/transport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_world-economy",
+          "category_url": "https://www.lemonde.fr/en/world-economy",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -12341,6 +14698,65 @@
         {
           "category_name": "a-la-minute",
           "category_url": "https://lenouvelliste.com/a-la-minute",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Le Parisien",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.leparisien.fr/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture-loisirs",
+          "category_url": "https://www.leparisien.fr/culture-loisirs",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "info-paris-ile-de-france-oise_transports",
+          "category_url": "https://www.leparisien.fr/info-paris-ile-de-france-oise/transports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "international",
+          "category_url": "https://www.leparisien.fr/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politique",
+          "category_url": "https://www.leparisien.fr/politique",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.leparisien.fr/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture-loisirs_cinema",
+          "category_url": "https://www.leparisien.fr/culture-loisirs/cinema",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture-loisirs_livres",
+          "category_url": "https://www.leparisien.fr/culture-loisirs/livres",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture-loisirs_musique",
+          "category_url": "https://www.leparisien.fr/culture-loisirs/musique",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -13003,6 +15419,17 @@
       ]
     },
     {
+      "site_name": "Liberation",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.liberation.fr/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Liberian Observer",
       "categories": [
         {
@@ -13444,6 +15871,47 @@
       ]
     },
     {
+      "site_name": "Livemint",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.livemint.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "auto-news",
+          "category_url": "https://www.livemint.com/auto-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "latest-news",
+          "category_url": "https://www.livemint.com/latest-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.livemint.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_us-news",
+          "category_url": "https://www.livemint.com/news/us-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.livemint.com/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Loop News Haiti",
       "categories": [
         {
@@ -13460,6 +15928,65 @@
         {
           "category_name": "front_page",
           "category_url": "https://looppng.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Los Angeles Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.latimes.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "b2b_health-life-science",
+          "category_url": "https://www.latimes.com/b2b/health-life-science",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "b2b_sports",
+          "category_url": "https://www.latimes.com/b2b/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.latimes.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "la-home-breaking-news-story.html",
+          "category_url": "https://www.latimes.com/la-home-breaking-news-story.html",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newsroom-directory",
+          "category_url": "https://www.latimes.com/newsroom-directory",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.latimes.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.latimes.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports_highschool",
+          "category_url": "https://www.latimes.com/sports/highschool",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -13724,6 +16251,53 @@
       ]
     },
     {
+      "site_name": "Maeil Business",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.mk.co.kr/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.mk.co.kr/news/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_culture",
+          "category_url": "https://www.mk.co.kr/news/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_economy",
+          "category_url": "https://www.mk.co.kr/news/economy",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_financial",
+          "category_url": "https://www.mk.co.kr/news/financial",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_interview",
+          "category_url": "https://www.mk.co.kr/news/interview",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_issue",
+          "category_url": "https://www.mk.co.kr/news/issue",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Mail and Gardian",
       "categories": [
         {
@@ -13778,6 +16352,47 @@
           "category_name": "section_crossword",
           "category_url": "https://mg.co.za/section/crossword",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Mainichi",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://mainichi.jp/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ch150911353i_Topics",
+          "category_url": "https://mainichi.jp/ch150911353i/Topics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Interview-culture",
+          "category_url": "https://mainichi.jp/Interview-culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "africa",
+          "category_url": "https://mainichi.jp/africa",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://mainichi.jp/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://mainichi.jp/opinion",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -14293,6 +16908,17 @@
       ]
     },
     {
+      "site_name": "MarketWatch",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.marketwatch.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Martin Plaut",
       "categories": [
         {
@@ -14347,6 +16973,47 @@
           "category_name": "category_uncategorized_britain",
           "category_url": "https://martinplaut.com/category/uncategorized/britain",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Mashable",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://mashable.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health-wellness",
+          "category_url": "https://mashable.com/category/health-wellness",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_mental-health",
+          "category_url": "https://mashable.com/category/mental-health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_transportation",
+          "category_url": "https://mashable.com/category/transportation",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_activism",
+          "category_url": "https://mashable.com/category/activism",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_apps-software",
+          "category_url": "https://mashable.com/category/apps-software",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -14609,6 +17276,65 @@
       ]
     },
     {
+      "site_name": "Metro UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://metro.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "lifestyle_health",
+          "category_url": "https://metro.co.uk/lifestyle/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://metro.co.uk/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://metro.co.uk/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://metro.co.uk/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://metro.co.uk/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tv-soaps_coronation-street",
+          "category_url": "https://metro.co.uk/tv-soaps/coronation-street",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_politics",
+          "category_url": "https://metro.co.uk/news/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_tech",
+          "category_url": "https://metro.co.uk/news/tech",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Midi Madagasikara",
       "categories": [
         {
@@ -14654,6 +17380,59 @@
         {
           "category_name": "noticias",
           "category_url": "https://miramar.co.mz/noticias",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Mirror UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.mirror.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.mirror.co.uk/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_politics",
+          "category_url": "https://www.mirror.co.uk/news/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_royals",
+          "category_url": "https://www.mirror.co.uk/news/royals",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_football",
+          "category_url": "https://www.mirror.co.uk/sport/football",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "3am",
+          "category_url": "https://www.mirror.co.uk/3am",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "money_shopping-deals",
+          "category_url": "https://www.mirror.co.uk/money/shopping-deals",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "tv",
+          "category_url": "https://www.mirror.co.uk/tv",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -14969,6 +17748,17 @@
         {
           "category_name": "mpumalanga-news_local_sports-news",
           "category_url": "https://www.citizen.co.za/mpumalanga-news/local/sports-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "MSNBC",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.msnbc.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -15485,6 +18275,124 @@
       ]
     },
     {
+      "site_name": "National Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://nationalpost.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_business-essentials",
+          "category_url": "https://nationalpost.com/category/business-essentials",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_entertainment",
+          "category_url": "https://nationalpost.com/category/entertainment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://nationalpost.com/category/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_healthing",
+          "category_url": "https://nationalpost.com/category/healthing",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://nationalpost.com/category/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_world",
+          "category_url": "https://nationalpost.com/category/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_travel_international",
+          "category_url": "https://nationalpost.com/category/travel/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_driving",
+          "category_url": "https://nationalpost.com/category/driving",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "NBC News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.nbcnews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "http://www.nbcnews.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.nbcnews.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture-matters",
+          "category_url": "https://www.nbcnews.com/culture-matters",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.nbcnews.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "nightly-news",
+          "category_url": "https://www.nbcnews.com/nightly-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "us-news",
+          "category_url": "https://www.nbcnews.com/us-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.nbcnews.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_weather",
+          "category_url": "https://www.nbcnews.com/news/weather",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Ndjamena Hebdo",
       "categories": [
         {
@@ -15538,6 +18446,17 @@
         {
           "category_name": "category_education",
           "category_url": "https://ndjamenahebdo.net/category/education",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "NDTV",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.ndtv.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -15785,6 +18704,65 @@
         {
           "category_name": "category_editorial",
           "category_url": "https://nationaldailyng.com/category/editorial",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "New York Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://nypost.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://nypost.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://nypost.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health-care",
+          "category_url": "https://nypost.com/health-care",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "mens-health",
+          "category_url": "https://nypost.com/mens-health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "mental-health",
+          "category_url": "https://nypost.com/mental-health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://nypost.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://nypost.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports-plus",
+          "category_url": "https://nypost.com/sports-plus",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -16264,6 +19242,65 @@
       ]
     },
     {
+      "site_name": "Newsweek",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.newsweek.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.newsweek.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.newsweek.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newsmakers",
+          "category_url": "https://www.newsweek.com/newsmakers",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.newsweek.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.newsweek.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.newsweek.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topic_china",
+          "category_url": "https://www.newsweek.com/topic/china",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topic_middle-east",
+          "category_url": "https://www.newsweek.com/topic/middle-east",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Ngmisr",
       "categories": [
         {
@@ -16420,6 +19457,100 @@
       ]
     },
     {
+      "site_name": "Nikkei",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.nikkei.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.nikkei.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_column",
+          "category_url": "https://www.nikkei.com/business/column",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_eating-out",
+          "category_url": "https://www.nikkei.com/business/eating-out",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_ec",
+          "category_url": "https://www.nikkei.com/business/ec",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_electronics",
+          "category_url": "https://www.nikkei.com/business/electronics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_energy",
+          "category_url": "https://www.nikkei.com/business/energy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_entertainment",
+          "category_url": "https://www.nikkei.com/business/entertainment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_food",
+          "category_url": "https://www.nikkei.com/business/food",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Nikkei Asia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://asia.nikkei.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://asia.nikkei.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "economy",
+          "category_url": "https://asia.nikkei.com/economy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://asia.nikkei.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politics",
+          "category_url": "https://asia.nikkei.com/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Northern Natal News",
       "categories": [
         {
@@ -16472,6 +19603,65 @@
         {
           "category_name": "front_page",
           "category_url": "https://defesamoz.info/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "NPR",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.npr.org/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_business",
+          "category_url": "https://www.npr.org/sections/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_culture",
+          "category_url": "https://www.npr.org/sections/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_health",
+          "category_url": "https://www.npr.org/sections/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_national",
+          "category_url": "https://www.npr.org/sections/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_news",
+          "category_url": "https://www.npr.org/sections/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_pop-culture",
+          "category_url": "https://www.npr.org/sections/pop-culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_world",
+          "category_url": "https://www.npr.org/sections/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sections_allsongs",
+          "category_url": "https://www.npr.org/sections/allsongs",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -17080,6 +20270,65 @@
       ]
     },
     {
+      "site_name": "PBS NewsHour",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.pbs.org/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour",
+          "category_url": "https://www.pbs.org/newshour",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_health",
+          "category_url": "https://www.pbs.org/newshour/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_nation",
+          "category_url": "https://www.pbs.org/newshour/nation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_world",
+          "category_url": "https://www.pbs.org/newshour/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_arts",
+          "category_url": "https://www.pbs.org/newshour/arts",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_brief",
+          "category_url": "https://www.pbs.org/newshour/brief",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_classroom",
+          "category_url": "https://www.pbs.org/newshour/classroom",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newshour_economy",
+          "category_url": "https://www.pbs.org/newshour/economy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Philippine Defense News",
       "categories": [
         {
@@ -17212,6 +20461,118 @@
         {
           "category_name": "front_page",
           "category_url": "https://politico.cd/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Politico Europe",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.politico.eu/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_agriculture",
+          "category_url": "https://www.politico.eu/section/agriculture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_health-care",
+          "category_url": "https://www.politico.eu/section/health-care",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_opinion",
+          "category_url": "https://www.politico.eu/section/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_policy",
+          "category_url": "https://www.politico.eu/section/policy",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_central-banker",
+          "category_url": "https://www.politico.eu/section/central-banker",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_competition",
+          "category_url": "https://www.politico.eu/section/competition",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_cybersecurity",
+          "category_url": "https://www.politico.eu/section/cybersecurity",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_defense",
+          "category_url": "https://www.politico.eu/section/defense",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Politico US",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.politico.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_california",
+          "category_url": "https://www.politico.com/news/california",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_column-currents",
+          "category_url": "https://www.politico.com/news/column-currents",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_compass",
+          "category_url": "https://www.politico.com/news/compass",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_matt-wuerker",
+          "category_url": "https://www.politico.com/news/matt-wuerker",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_new-york",
+          "category_url": "https://www.politico.com/news/new-york",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_magazine",
+          "category_url": "https://www.politico.com/section/magazine",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "2026-elections",
+          "category_url": "https://www.politico.com/2026-elections",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -17440,6 +20801,47 @@
           "category_name": "front_page",
           "category_url": "https://propaganda-eg.com/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "ProPublica",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.propublica.org/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "local-initiatives",
+          "category_url": "https://www.propublica.org/local-initiatives",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_health-care",
+          "category_url": "https://www.propublica.org/topics/health-care",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "newsapps",
+          "category_url": "https://www.propublica.org/newsapps",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics",
+          "category_url": "https://www.propublica.org/topics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics_criminal-justice",
+          "category_url": "https://www.propublica.org/topics/criminal-justice",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -18496,6 +21898,47 @@
       ]
     },
     {
+      "site_name": "RTE News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.rte.ie/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.rte.ie/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.rte.ie/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.rte.ie/news/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.rte.ie/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.rte.ie/sport",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "RTNC",
       "categories": [
         {
@@ -19006,6 +22449,47 @@
       ]
     },
     {
+      "site_name": "Seeking Alpha",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://seekingalpha.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "market-news",
+          "category_url": "https://seekingalpha.com/market-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "market-news_ai-tech-stocks",
+          "category_url": "https://seekingalpha.com/market-news/ai-tech-stocks",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "market-news_budget-regulation",
+          "category_url": "https://seekingalpha.com/market-news/budget-regulation",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "market-news_dividend-funds",
+          "category_url": "https://seekingalpha.com/market-news/dividend-funds",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "market-news_dividend-stocks",
+          "category_url": "https://seekingalpha.com/market-news/dividend-stocks",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Semonegna",
       "categories": [
         {
@@ -19467,6 +22951,159 @@
       ]
     },
     {
+      "site_name": "Sky News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://news.sky.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://news.sky.com/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "analysis",
+          "category_url": "https://news.sky.com/analysis",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "data-and-forensics",
+          "category_url": "https://news.sky.com/data-and-forensics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "entertainment",
+          "category_url": "https://news.sky.com/entertainment",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "money",
+          "category_url": "https://news.sky.com/money",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "offbeat",
+          "category_url": "https://news.sky.com/offbeat",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Sky News Australia",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.skynews.com.au/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "australia-news_sport",
+          "category_url": "https://www.skynews.com.au/australia-news/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.skynews.com.au/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle_arts-and-culture",
+          "category_url": "https://www.skynews.com.au/lifestyle/arts-and-culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle_health",
+          "category_url": "https://www.skynews.com.au/lifestyle/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "listen_opinionated-podcast",
+          "category_url": "https://www.skynews.com.au/listen/opinionated-podcast",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.skynews.com.au/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sky-news-radio",
+          "category_url": "https://www.skynews.com.au/sky-news-radio",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "stream_news-shows",
+          "category_url": "https://www.skynews.com.au/stream/news-shows",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Slate",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://slate.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://slate.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://slate.com/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture_sports",
+          "category_url": "https://slate.com/culture/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-and-politics",
+          "category_url": "https://slate.com/news-and-politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-and-politics_the-world",
+          "category_url": "https://slate.com/news-and-politics/the-world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_metropolis",
+          "category_url": "https://slate.com/business/metropolis",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Solomon Star",
       "categories": [
         {
@@ -19726,6 +23363,65 @@
       ]
     },
     {
+      "site_name": "Spiegel",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.spiegel.de/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.spiegel.de/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_wintersport",
+          "category_url": "https://www.spiegel.de/sport/wintersport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "international",
+          "category_url": "https://www.spiegel.de/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_formel1",
+          "category_url": "https://www.spiegel.de/sport/formel1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport_fussball",
+          "category_url": "https://www.spiegel.de/sport/fussball",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland",
+          "category_url": "https://www.spiegel.de/ausland",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "backstage",
+          "category_url": "https://www.spiegel.de/backstage",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "barrierefreiheit",
+          "category_url": "https://www.spiegel.de/barrierefreiheit",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Standard",
       "categories": [
         {
@@ -19791,6 +23487,94 @@
           "category_name": "la-foi",
           "category_url": "https://starpress.info/la-foi",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Star Tribune",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.startribune.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.startribune.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "food-culture",
+          "category_url": "https://www.startribune.com/food-culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-politics",
+          "category_url": "https://www.startribune.com/news-politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.startribune.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.startribune.com/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news-politics_weather",
+          "category_url": "https://www.startribune.com/news-politics/weather",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "STAT",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.statnews.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_first-opinion",
+          "category_url": "https://www.statnews.com/category/first-opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://www.statnews.com/category/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health-tech",
+          "category_url": "https://www.statnews.com/category/health-tech",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_insurance",
+          "category_url": "https://www.statnews.com/category/insurance",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topic_health-disparities",
+          "category_url": "https://www.statnews.com/topic/health-disparities",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -19909,6 +23693,17 @@
           "category_name": "lusofonia_sao-tome-e-principe",
           "category_url": "https://stpdigital.net/lusofonia/sao-tome-e-principe",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Stuff",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.stuff.co.nz/",
+          "total_known_pages": 2,
           "last_scraped_page_index": 0
         }
       ]
@@ -20356,6 +24151,65 @@
       ]
     },
     {
+      "site_name": "Sydney Morning Herald",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.smh.com.au/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.smh.com.au/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_small-business",
+          "category_url": "https://www.smh.com.au/business/small-business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.smh.com.au/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "healthcare",
+          "category_url": "https://www.smh.com.au/healthcare",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "lifestyle_health-and-wellness",
+          "category_url": "https://www.smh.com.au/lifestyle/health-and-wellness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "national",
+          "category_url": "https://www.smh.com.au/national",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.smh.com.au/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "property_news",
+          "category_url": "https://www.smh.com.au/property/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Taarifa English",
       "categories": [
         {
@@ -20437,6 +24291,59 @@
       ]
     },
     {
+      "site_name": "Tagesschau",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.tagesschau.de/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "archiv",
+          "category_url": "https://www.tagesschau.de/archiv",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "archiv_allemeldungen",
+          "category_url": "https://www.tagesschau.de/archiv/allemeldungen",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland",
+          "category_url": "https://www.tagesschau.de/ausland",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland_afrika",
+          "category_url": "https://www.tagesschau.de/ausland/afrika",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland_amerika",
+          "category_url": "https://www.tagesschau.de/ausland/amerika",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland_asien",
+          "category_url": "https://www.tagesschau.de/ausland/asien",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "ausland_europa",
+          "category_url": "https://www.tagesschau.de/ausland/europa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Taipei Times",
       "categories": [
         {
@@ -20490,6 +24397,65 @@
         {
           "category_name": "News_lang",
           "category_url": "https://www.taipeitimes.com/News/lang",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Taiwan News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.taiwannews.com.tw/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "en_category_Business",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Culture",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Health",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Lifestyle",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Lifestyle?type=Sports&nav=1",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Opinion",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_World",
+          "category_url": "https://www.taiwannews.com.tw/en/category/World",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Business",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Business?type=All",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_Business",
+          "category_url": "https://www.taiwannews.com.tw/en/category/Business?type=Investing&nav=1",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -21148,6 +25114,47 @@
       ]
     },
     {
+      "site_name": "The Atlantic",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theatlantic.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.theatlantic.com/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.theatlantic.com/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "national-security",
+          "category_url": "https://www.theatlantic.com/national-security",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_ai-watchdog",
+          "category_url": "https://www.theatlantic.com/category/ai-watchdog",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_features",
+          "category_url": "https://www.theatlantic.com/category/features",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Bohol Chronicle",
       "categories": [
         {
@@ -21422,6 +25429,112 @@
       ]
     },
     {
+      "site_name": "The Daily Star Bangladesh",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.thedailystar.net/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.thedailystar.net/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_business-plus",
+          "category_url": "https://www.thedailystar.net/business/business-plus",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.thedailystar.net/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health_healthcare",
+          "category_url": "https://www.thedailystar.net/health/healthcare",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life-living_health-fitness",
+          "category_url": "https://www.thedailystar.net/life-living/health-fitness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.thedailystar.net/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.thedailystar.net/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.thedailystar.net/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Denver Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.denverpost.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.denverpost.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.denverpost.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_colorado",
+          "category_url": "https://www.denverpost.com/news/colorado",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.denverpost.com/news/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_national",
+          "category_url": "https://www.denverpost.com/news/national",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_news-obituaries",
+          "category_url": "https://www.denverpost.com/news/news-obituaries",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Diarist",
       "categories": [
         {
@@ -21486,6 +25599,17 @@
         {
           "category_name": "front_page",
           "category_url": "https://theeastafrican.co.ke/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Economist",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.economist.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -21573,6 +25697,65 @@
         {
           "category_name": "category_lifestyle",
           "category_url": "https://www.thegazette.news/category/lifestyle",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Globe and Mail",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theglobeandmail.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.theglobeandmail.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.theglobeandmail.com/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.theglobeandmail.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.theglobeandmail.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.theglobeandmail.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "canada",
+          "category_url": "https://www.theglobeandmail.com/canada",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "drive",
+          "category_url": "https://www.theglobeandmail.com/drive",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "for-you",
+          "category_url": "https://www.theglobeandmail.com/for-you",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -21745,11 +25928,246 @@
       ]
     },
     {
+      "site_name": "The Hill",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://thehill.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Hindu",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.thehindu.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.thehindu.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_agri-business",
+          "category_url": "https://www.thehindu.com/business/agri-business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.thehindu.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_international",
+          "category_url": "https://www.thehindu.com/news/international",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.thehindu.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sci-tech_agriculture",
+          "category_url": "https://www.thehindu.com/sci-tech/agriculture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sci-tech_health",
+          "category_url": "https://www.thehindu.com/sci-tech/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "society_history-and-culture",
+          "category_url": "https://www.thehindu.com/society/history-and-culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Independent UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.independent.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "climate-change_news",
+          "category_url": "https://www.independent.co.uk/climate-change/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "independentpremium_news-analysis",
+          "category_url": "https://www.independent.co.uk/independentpremium/news-analysis",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life-style_health-and-families",
+          "category_url": "https://www.independent.co.uk/life-style/health-and-families",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.independent.co.uk/news/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.independent.co.uk/news/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.independent.co.uk/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.independent.co.uk/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "topics-list",
+          "category_url": "https://www.independent.co.uk/topics-list",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The investigator News",
       "categories": [
         {
           "category_name": "front_page",
           "category_url": "https://theinvestigatornews.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Irish News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.irishnews.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life_health",
+          "category_url": "https://www.irishnews.com/life/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.irishnews.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_business",
+          "category_url": "https://www.irishnews.com/news/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.irishnews.com/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.irishnews.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.irishnews.com/sport",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Irish Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.irishtimes.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.irishtimes.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "crosswords-puzzles_news-quiz",
+          "category_url": "https://www.irishtimes.com/crosswords-puzzles/news-quiz",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.irishtimes.com/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.irishtimes.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.irishtimes.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "podcasts_in-the-news",
+          "category_url": "https://www.irishtimes.com/podcasts/in-the-news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "podcasts_inside-business",
+          "category_url": "https://www.irishtimes.com/podcasts/inside-business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.irishtimes.com/sport",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -21826,6 +26244,17 @@
       ]
     },
     {
+      "site_name": "The Japan Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.japantimes.co.jp/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Jet Newspaper",
       "categories": [
         {
@@ -21879,6 +26308,65 @@
       ]
     },
     {
+      "site_name": "The Korea Herald",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.koreaherald.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "Business",
+          "category_url": "https://www.koreaherald.com/Business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "LifenCulture",
+          "category_url": "https://www.koreaherald.com/LifenCulture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "LifenCulture_Culture",
+          "category_url": "https://www.koreaherald.com/LifenCulture/Culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "National",
+          "category_url": "https://www.koreaherald.com/National",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "National_Health",
+          "category_url": "https://www.koreaherald.com/National/Health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Opinion",
+          "category_url": "https://www.koreaherald.com/Opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "PRnewswire",
+          "category_url": "https://www.koreaherald.com/PRnewswire",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "Sports",
+          "category_url": "https://www.koreaherald.com/Sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Leadership",
       "categories": [
         {
@@ -21913,6 +26401,53 @@
           "category_name": "front_page",
           "category_url": "https://manilatimes.net/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Mercury News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.mercurynews.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.mercurynews.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.mercurynews.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_california-news",
+          "category_url": "https://www.mercurynews.com/news/california-news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.mercurynews.com/news/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_national",
+          "category_url": "https://www.mercurynews.com/news/national",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_news-obituaries",
+          "category_url": "https://www.mercurynews.com/news/news-obituaries",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -22036,6 +26571,53 @@
       ]
     },
     {
+      "site_name": "The New Arab",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.newarab.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "features_culture",
+          "category_url": "https://www.newarab.com/features/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.newarab.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_health",
+          "category_url": "https://www.newarab.com/news/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_sports",
+          "category_url": "https://www.newarab.com/news/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.newarab.com/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.newarab.com/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The New Dawn Liberia",
       "categories": [
         {
@@ -22090,6 +26672,53 @@
           "category_name": "category_liberia-news_politics-news",
           "category_url": "https://www.thenewdawnliberia.com/category/liberia-news/politics-news",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The New Yorker",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.newyorker.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.newyorker.com/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news",
+          "category_url": "https://www.newyorker.com/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "100",
+          "category_url": "https://www.newyorker.com/100",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "archive",
+          "category_url": "https://www.newyorker.com/archive",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "fiction-and-poetry",
+          "category_url": "https://www.newyorker.com/fiction-and-poetry",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "goings-on",
+          "category_url": "https://www.newyorker.com/goings-on",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -22549,6 +27178,47 @@
       ]
     },
     {
+      "site_name": "The Seattle Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.seattletimes.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.seattletimes.com/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life_culture",
+          "category_url": "https://www.seattletimes.com/life/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "nation-world",
+          "category_url": "https://www.seattletimes.com/nation-world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "nation-world_nation",
+          "category_url": "https://www.seattletimes.com/nation-world/nation",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "nation-world_nation-politics",
+          "category_url": "https://www.seattletimes.com/nation-world/nation-politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Sierra Leone Telegraph",
       "categories": [
         {
@@ -22814,6 +27484,65 @@
       ]
     },
     {
+      "site_name": "The Straits Times",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.straitstimes.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.straitstimes.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.straitstimes.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sport",
+          "category_url": "https://www.straitstimes.com/sport",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://www.straitstimes.com/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "asia",
+          "category_url": "https://www.straitstimes.com/asia",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life",
+          "category_url": "https://www.straitstimes.com/life",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "paid-press-releases",
+          "category_url": "https://www.straitstimes.com/paid-press-releases",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "singapore",
+          "category_url": "https://www.straitstimes.com/singapore",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Sun Newspaper",
       "categories": [
         {
@@ -22873,6 +27602,17 @@
       ]
     },
     {
+      "site_name": "The Sun UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.thesun.co.uk/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Sun VoTN",
       "categories": [
         {
@@ -22890,6 +27630,17 @@
         {
           "category_name": "category_politics",
           "category_url": "https://thesun.ng/category/politics/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Telegraph UK",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.telegraph.co.uk/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -22955,11 +27706,92 @@
       ]
     },
     {
+      "site_name": "The Verge",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.theverge.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.theverge.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.theverge.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "transportation",
+          "category_url": "https://www.theverge.com/transportation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "amazon",
+          "category_url": "https://www.theverge.com/amazon",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "anthropic",
+          "category_url": "https://www.theverge.com/anthropic",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "antitrust",
+          "category_url": "https://www.theverge.com/antitrust",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "apple",
+          "category_url": "https://www.theverge.com/apple",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "archives_full",
+          "category_url": "https://www.theverge.com/archives/full",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "The Visayas Journal",
       "categories": [
         {
           "category_name": "front_page",
           "category_url": "https://thevisayasjournal.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Wall Street Journal",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.wsj.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "The Washington Post",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.washingtonpost.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -23277,6 +28109,65 @@
       ]
     },
     {
+      "site_name": "Time",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://time.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_business",
+          "category_url": "https://time.com/section/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_health",
+          "category_url": "https://time.com/section/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_sports",
+          "category_url": "https://time.com/section/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_world",
+          "category_url": "https://time.com/section/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_climate",
+          "category_url": "https://time.com/section/climate",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_entertainment",
+          "category_url": "https://time.com/section/entertainment",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_ideas",
+          "category_url": "https://time.com/section/ideas",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "section_politics",
+          "category_url": "https://time.com/section/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Times Live",
       "categories": [
         {
@@ -23517,6 +28408,112 @@
       ]
     },
     {
+      "site_name": "Toronto Star",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.thestar.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business",
+          "category_url": "https://www.thestar.com/business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "business_small-business",
+          "category_url": "https://www.thestar.com/business/small-business",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "life_health-wellness",
+          "category_url": "https://www.thestar.com/life/health-wellness",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world",
+          "category_url": "https://www.thestar.com/news/world",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.thestar.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politics_political-opinion",
+          "category_url": "https://www.thestar.com/politics/political-opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.thestar.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_world_africa",
+          "category_url": "https://www.thestar.com/news/world/africa",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Toronto Sun",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://torontosun.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_health",
+          "category_url": "https://torontosun.com/category/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_healthing",
+          "category_url": "https://torontosun.com/category/healthing",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news",
+          "category_url": "https://torontosun.com/category/news",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_opinion",
+          "category_url": "https://torontosun.com/category/opinion",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_sports",
+          "category_url": "https://torontosun.com/category/sports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_news_world",
+          "category_url": "https://torontosun.com/category/news/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Tribune de Geneve",
       "categories": [
         {
@@ -23570,6 +28567,17 @@
         {
           "category_name": "culture_livres",
           "category_url": "https://www.tdg.ch/culture/livres",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "TRT World",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.trtworld.com/",
           "total_known_pages": 1,
           "last_scraped_page_index": 0
         }
@@ -24045,6 +29053,76 @@
       ]
     },
     {
+      "site_name": "US News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.usnews.com/news",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "USA Today",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.usatoday.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "opinion",
+          "category_url": "https://www.usatoday.com/opinion",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "sports",
+          "category_url": "https://www.usatoday.com/sports",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_from-the-archives",
+          "category_url": "https://www.usatoday.com/news/from-the-archives",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_investigations",
+          "category_url": "https://www.usatoday.com/news/investigations",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_nation",
+          "category_url": "https://www.usatoday.com/news/nation",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_politics",
+          "category_url": "https://www.usatoday.com/news/politics",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "top-workplaces",
+          "category_url": "https://www.usatoday.com/top-workplaces",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "atlanta",
+          "category_url": "https://www.usatoday.com/atlanta",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "USTDA",
       "categories": [
         {
@@ -24298,6 +29376,47 @@
           "category_name": "front_page",
           "category_url": "https://www.vetogate.com/",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Vice",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.vice.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_section_life",
+          "category_url": "https://www.vice.com/en/section/life",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_comedy",
+          "category_url": "https://www.vice.com/en/category/comedy",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_entertainment",
+          "category_url": "https://www.vice.com/en/category/entertainment",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_life",
+          "category_url": "https://www.vice.com/en/category/life",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "en_category_news",
+          "category_url": "https://www.vice.com/en/category/news",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -24907,6 +30026,65 @@
       ]
     },
     {
+      "site_name": "Vox",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.vox.com/",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.vox.com/culture",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://www.vox.com/health",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "news_archives_2",
+          "category_url": "https://www.vox.com/news/archives/2",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "advice",
+          "category_url": "https://www.vox.com/advice",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "archives_full",
+          "category_url": "https://www.vox.com/archives/full",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "climate",
+          "category_url": "https://www.vox.com/climate",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "explainers",
+          "category_url": "https://www.vox.com/explainers",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "future-perfect",
+          "category_url": "https://www.vox.com/future-perfect",
+          "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "Waagacusub",
       "categories": [
         {
@@ -25252,6 +30430,47 @@
       ]
     },
     {
+      "site_name": "Wired",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.wired.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 1
+        },
+        {
+          "category_name": "category_business",
+          "category_url": "https://www.wired.com/category/business",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_culture",
+          "category_url": "https://www.wired.com/category/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_big-story",
+          "category_url": "https://www.wired.com/category/big-story",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_gear",
+          "category_url": "https://www.wired.com/category/gear",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "category_politics",
+          "category_url": "https://www.wired.com/category/politics",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
       "site_name": "womensworldbanking",
       "categories": [
         {
@@ -25264,6 +30483,47 @@
           "category_name": "work-for-us",
           "category_url": "https://www.womensworldbanking.org/work-for-us",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Yahoo News",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://news.yahoo.com/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "health",
+          "category_url": "https://news.yahoo.com/health",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "world",
+          "category_url": "https://news.yahoo.com/world",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "coronavirus",
+          "category_url": "https://news.yahoo.com/coronavirus",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "originals",
+          "category_url": "https://news.yahoo.com/originals",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "politics",
+          "category_url": "https://news.yahoo.com/politics",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]
@@ -25323,6 +30583,47 @@
           "category_name": "category_oromia",
           "category_url": "https://yeroo.org/category/oromia",
           "total_known_pages": 1,
+          "last_scraped_page_index": 0
+        }
+      ]
+    },
+    {
+      "site_name": "Yomiuri Shimbun",
+      "categories": [
+        {
+          "category_name": "front_page",
+          "category_url": "https://www.yomiuri.co.jp/",
+          "total_known_pages": 2,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "column_dakarasports",
+          "category_url": "https://www.yomiuri.co.jp/column/dakarasports",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "column_opinionpoll",
+          "category_url": "https://www.yomiuri.co.jp/column/opinionpoll",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture",
+          "category_url": "https://www.yomiuri.co.jp/culture",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture_book",
+          "category_url": "https://www.yomiuri.co.jp/culture/book",
+          "total_known_pages": 3,
+          "last_scraped_page_index": 0
+        },
+        {
+          "category_name": "culture_cinema",
+          "category_url": "https://www.yomiuri.co.jp/culture/cinema",
+          "total_known_pages": 3,
           "last_scraped_page_index": 0
         }
       ]

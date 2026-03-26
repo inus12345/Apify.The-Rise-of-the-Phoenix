@@ -41,6 +41,18 @@ BAD_CATEGORY_PATH = re.compile(
     r"(/|$)",
     re.IGNORECASE,
 )
+BAD_CATEGORY_SUBSTRINGS = (
+    "/redirect",
+    "/consent",
+    "/collectconsent",
+    "/partners-list",
+    "/v2/partners",
+    "/post/submit",
+    "/reader-resources",
+    "/classifieds",
+    "/help/",
+    "/helpcenter",
+)
 BLOCK_INDICATORS = (
     "bot verification",
     "verify you are human",
@@ -883,7 +895,7 @@ def main() -> None:
                     {
                         "category_name": "front_page",
                         "category_url": final_url,
-                        "total_known_pages": 1,
+                        "total_known_pages": initial_known_pages(final_url, is_front_page=True),
                         "last_scraped_page_index": 0,
                     }
                 ]
@@ -891,7 +903,7 @@ def main() -> None:
                     {
                         "category_name": derive_category_name(url),
                         "category_url": url,
-                        "total_known_pages": 1,
+                        "total_known_pages": initial_known_pages(url),
                         "last_scraped_page_index": 0,
                     }
                     for url in discovered["category_urls"]
@@ -1003,6 +1015,28 @@ def normalize_required_text(value: Any, fallback: str) -> str:
     return fallback
 
 
+def initial_known_pages(category_url: str, *, is_front_page: bool = False) -> int:
+    """Seed pagination depth so historic mode can progress without manual edits."""
+
+    if is_front_page:
+        return 2
+    return 3 if supports_implicit_pagination_seed(category_url) else 1
+
+
+def supports_implicit_pagination_seed(category_url: str) -> bool:
+    """Return True when `/page/{n}` probing is likely safe for this URL."""
+
+    parsed = urlsplit(category_url)
+    path = (parsed.path or "/").lower()
+    if path in {"", "/"}:
+        return False
+    if re.search(r"\.[a-z0-9]{2,6}$", path):
+        return False
+    if any(token in path for token in ("/feed", "/rss", ".xml")):
+        return False
+    return True
+
+
 def detect_underlying_tech(html: str, soup: BeautifulSoup) -> str:
     generator = soup.find("meta", attrs={"name": "generator"}) or soup.find("meta", attrs={"property": "generator"})
     content = (generator.get("content") if generator else "") or ""
@@ -1041,6 +1075,9 @@ def discover_categories(base_url: str, soup: BeautifulSoup, limit_categories: in
             if path in ("", "/"):
                 continue
             if BAD_CATEGORY_PATH.search(path):
+                continue
+            lowered_path = path.lower()
+            if any(token in lowered_path for token in BAD_CATEGORY_SUBSTRINGS):
                 continue
             if re.match(r"^/p/", path, flags=re.IGNORECASE):
                 continue

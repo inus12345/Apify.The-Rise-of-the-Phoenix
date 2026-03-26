@@ -585,6 +585,7 @@ class ArticleExtractor:
                 "/rss",
                 "/feed",
                 ".xml",
+                "/_logout",
                 "/connexion",
                 "/login",
                 "/abonnement",
@@ -593,7 +594,19 @@ class ArticleExtractor:
                 "/users/admin",
                 "/mentions-legales",
                 "/homepage/",
+                "/latestheadlines",
+                "/more-from-ft-group",
                 "desktop_hp_",
+                "/redirect",
+                "/consent",
+                "/collectconsent",
+                "/v2/partners",
+                "/partners-list",
+                "/post/submit",
+                "/reader-resources",
+                "/classifieds",
+                "/help/",
+                "/helpcenter",
             )
         ):
             return False
@@ -1005,6 +1018,16 @@ class ArticleExtractor:
             "/x/detail/",
             "/homepage/",
             "desktop_hp_",
+            "/redirect",
+            "/consent",
+            "/collectconsent",
+            "/v2/partners",
+            "/partners-list",
+            "/post/submit",
+            "/reader-resources",
+            "/classifieds",
+            "/help/",
+            "/helpcenter",
         ]
         if any(marker in path for marker in blocked_markers):
             return (-10, True)
@@ -1872,17 +1895,19 @@ class ScraperRunner:
                 fetch.tool.value,
                 published.isoformat(),
             )
+            normalized_title = coerce_scalar(article.get("article_title")) or "Untitled"
+            normalized_article_url = coerce_scalar(article.get("article_url")) or article_url
             return SuccessDatasetItem(
                 site_name=site.site_name,
                 country=site.country,
                 region=site.region,
                 language=site.language,
-                article_title=article["article_title"],
+                article_title=normalized_title,
                 author=coerce_scalar(article.get("author")),
                 article_body=coerce_body(article["article_body"]),
                 tags=coerce_tags(article.get("tags")),
                 date_published=published,
-                article_url=article["article_url"],
+                article_url=normalized_article_url,
                 url_hash=article["url_hash"],
                 main_image_url=article.get("main_image_url"),
                 seo_description=coerce_scalar(article.get("seo_description")),
@@ -2175,11 +2200,18 @@ class ScraperRunner:
                         (str(category.category_url), build_page_url(str(category.category_url), page_index), page_index)
                     )
             else:
+                category_url = str(category.category_url)
+                supports_pagination = supports_explicit_pagination(category_url) or supports_implicit_pagination(
+                    category_url
+                )
+                if not supports_pagination:
+                    targets.append((category_url, build_page_url(category_url, 1), 1))
+                    continue
                 start_page = max(category.last_scraped_page_index + 1, 1)
                 end_page = max(category.total_known_pages, start_page)
                 for page_index in range(start_page, end_page + 1):
                     targets.append(
-                        (str(category.category_url), build_page_url(str(category.category_url), page_index), page_index)
+                        (category_url, build_page_url(category_url, page_index), page_index)
                     )
         return targets
 
@@ -2278,7 +2310,7 @@ def dotted_lookup(payload: dict[str, Any], dotted_path: str) -> Any:
 def order_tools(preferred_tool: ScrapingTool | None, order: list[ScrapingTool]) -> list[ScrapingTool]:
     """Move the preferred tool to the front without changing fallback order."""
 
-    if preferred_tool is None:
+    if preferred_tool is None or preferred_tool not in order:
         return order[:]
     return [preferred_tool] + [tool for tool in order if tool != preferred_tool]
 
@@ -2336,6 +2368,39 @@ def derive_category_name(category_url: str) -> str:
     if not path:
         return "front_page"
     return path.replace("/", "_")
+
+
+def supports_explicit_pagination(category_url: str) -> bool:
+    """Return True when a category URL explicitly encodes page navigation."""
+
+    if "{page}" in category_url:
+        return True
+
+    parsed = urlsplit(category_url)
+    query_keys = {key.lower() for key, _ in parse_qsl(parsed.query, keep_blank_values=True)}
+    if "page" in query_keys:
+        return True
+
+    path = parsed.path.lower()
+    if "/page/" in path:
+        return True
+
+    return False
+
+
+def supports_implicit_pagination(category_url: str) -> bool:
+    """Best-effort check for routes where appending `/page/{n}` may work."""
+
+    parsed = urlsplit(category_url)
+    path = parsed.path or "/"
+    lowered = path.lower()
+    if lowered in {"", "/"}:
+        return False
+    if re.search(r"\.[a-z0-9]{2,6}$", lowered):
+        return False
+    if any(token in lowered for token in ("/feed", "/rss", ".xml")):
+        return False
+    return True
 
 
 def build_page_url(category_url: str, page_index: int) -> str:

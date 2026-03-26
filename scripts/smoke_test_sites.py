@@ -223,6 +223,7 @@ def inspect_site(
     engine = ScraperEngine(timeout=timeout)
     if fast_http_only:
         engine.strict_order = [ScrapingTool.SCRAPLING]
+        engine.available_tools = [tool for tool in engine.available_tools if tool == ScrapingTool.SCRAPLING]
     site_result: dict[str, object] = {
         "site_name": site.site_name,
         "base_url": str(site.base_url),

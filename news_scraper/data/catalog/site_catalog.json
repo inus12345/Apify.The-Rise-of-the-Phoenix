@@ -2,6 +2,32 @@
   "schema_version": "1.0.0",
   "sites": [
     {
+      "site_name": "20 Minutes France",
+      "base_url": "https://www.20minutes.fr/",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "fr",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=fr.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "20 Minutos",
+      "base_url": "https://www.20minutos.es/",
+      "country": "Spain",
+      "region": "Southern Europe",
+      "language": "es",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=es.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "218 News",
       "base_url": "https://218tv.net/",
       "country": "Libya",
@@ -1025,6 +1051,83 @@
       "last_verified_at": null
     },
     {
+      "site_name": "ABC News Australia",
+      "base_url": "https://www.abc.net.au/",
+      "country": "Australia",
+      "region": "Australia and New Zealand",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-AU.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "ABC7 New York",
+      "base_url": "https://abc7ny.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:40:31.997670Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1068,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:33.028621Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 999,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:33.793802Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 913,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:34.553018Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 912,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:35.566672Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 962,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Abogado",
       "base_url": "https://abogado.com.ph/",
       "country": "Philippines",
@@ -1191,6 +1294,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-20 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Aftonbladet",
+      "base_url": "https://www.aftonbladet.se/",
+      "country": "Sweden",
+      "region": "Northern Europe",
+      "language": "sv",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=sv.",
       "last_verified_at": null
     },
     {
@@ -1805,6 +1921,66 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Arab News",
+      "base_url": "https://www.arabnews.com/",
+      "country": "Saudi Arabia",
+      "region": "Western Asia",
+      "language": "en|ar",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.arabnews.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Ars Technica",
+      "base_url": "https://arstechnica.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-23T20:07:29.843434Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 2379,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-23T20:07:31.928269Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 2207,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Asahi Shimbun",
+      "base_url": "https://www.asahi.com/ajw",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "en|ja",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://ajw-origin.potaufeu.asahi.com/ajw/?device=pc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Asena Eritrean TV",
       "base_url": "https://asenatv.com/",
       "country": "Eritrea",
@@ -1909,6 +2085,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Axios",
+      "base_url": "https://www.axios.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Baernerbaer",
       "base_url": "https://baernerbaer.ch/",
       "country": "Switzerland",
@@ -1922,6 +2111,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Bangkok Post",
+      "base_url": "https://www.bangkokpost.com/",
+      "country": "Thailand",
+      "region": "South-eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:00.467984Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 910,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Banouto",
       "base_url": "https://banouto.bj/",
       "country": "Benin",
@@ -1932,6 +2145,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-20 from live homepage. Detected html lang=fr.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Barrons",
+      "base_url": "https://www.barrons.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '401 HTTP Forbidden' for url 'https://www.barrons.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
       "last_verified_at": null
     },
     {
@@ -2065,6 +2291,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Bild",
+      "base_url": "https://www.bild.de/",
+      "country": "Germany",
+      "region": "Western Europe",
+      "language": "de",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=de.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "BizNews.com",
       "base_url": "https://www.biznews.com/",
       "country": "South Africa",
@@ -2101,6 +2340,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-20 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Bloomberg News",
+      "base_url": "https://www.bloomberg.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.bloomberg.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -2257,6 +2509,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-20 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.businessdailyafrica.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Business Insider",
+      "base_url": "https://www.businessinsider.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -2507,6 +2772,32 @@
       "last_verified_at": null
     },
     {
+      "site_name": "CBC News",
+      "base_url": "https://www.cbc.ca/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en|fr",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "CBS News",
+      "base_url": "https://www.cbsnews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Cebu Daily News",
       "base_url": "https://cebudailynews.inquirer.net/",
       "country": "Philippines",
@@ -2572,6 +2863,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Chicago Tribune",
+      "base_url": "https://www.chicagotribune.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:04.380277Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 278,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Chimp Reports",
       "base_url": "https://chimpreports.com/",
       "country": "Uganda",
@@ -2582,6 +2897,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "China Daily",
+      "base_url": "https://www.chinadaily.com.cn/",
+      "country": "China",
+      "region": "Eastern Asia",
+      "language": "en|zh",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=unknown.",
       "last_verified_at": null
     },
     {
@@ -2637,6 +2965,70 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Clarin",
+      "base_url": "https://www.clarin.com/",
+      "country": "Argentina",
+      "region": "South America",
+      "language": "es",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-26T08:19:16.802732Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 77,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:17.534204Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 291,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:19.237223Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 661,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:20.029684Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 446,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:20.347464Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 350,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=es.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Club of Mozambique",
       "base_url": "https://clubofmozambique.com/",
       "country": "Mozambique",
@@ -2647,6 +3039,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "CNBC",
+      "base_url": "https://www.cnbc.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "CNET",
+      "base_url": "https://www.cnet.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -2806,6 +3224,64 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Corriere della Sera",
+      "base_url": "https://www.corriere.it/",
+      "country": "Italy",
+      "region": "Southern Europe",
+      "language": "it",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:09.816236Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 2773,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=it-IT.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "CTV News",
+      "base_url": "https://www.ctvnews.ca/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-23T20:07:33.964731Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1211,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-23T20:07:36.437244Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1802,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Dabanga",
       "base_url": "https://www.dabangasudan.org/",
       "country": "Sudan",
@@ -2842,6 +3318,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-GB.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Daily Mail",
+      "base_url": "https://www.dailymail.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:16.340382Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 2688,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=unknown.",
       "last_verified_at": null
     },
     {
@@ -3014,6 +3514,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Daily Star UK",
+      "base_url": "https://www.dailystar.co.uk/",
+      "country": "United Kingdom",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Daily Tribune",
       "base_url": "https://tribune.net.ph/",
       "country": "Philippines",
@@ -3066,6 +3579,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Dallas Morning News",
+      "base_url": "https://www.dallasnews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Dantri",
       "base_url": "https://dantri.com.vn/",
       "country": "Vietnam",
@@ -3076,6 +3602,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=vi.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Dawn Pakistan",
+      "base_url": "https://www.dawn.com/",
+      "country": "Pakistan",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:18.779017Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 543,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -3708,6 +4258,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Economic Times India",
+      "base_url": "https://economictimes.indiatimes.com/",
+      "country": "India",
+      "region": "South Asia",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Economy24",
       "base_url": "https://economy24.co.za/",
       "country": "South Africa",
@@ -3747,6 +4310,43 @@
       "last_verified_at": null
     },
     {
+      "site_name": "El Mundo",
+      "base_url": "https://www.elmundo.es/",
+      "country": "Spain",
+      "region": "Southern Europe",
+      "language": "es",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:21.651879Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 963,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=es.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "El Pais",
+      "base_url": "https://elpais.com/",
+      "country": "Spain",
+      "region": "Southern Europe",
+      "language": "es",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=es-ES.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Emirates News Wire",
       "base_url": "https://emiratesnewswire.ae/",
       "country": "United Arab Emirates",
@@ -3770,6 +4370,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Engadget",
+      "base_url": "https://www.engadget.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -3851,6 +4464,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Euractiv",
+      "base_url": "https://www.euractiv.com/",
+      "country": "Belgium",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-GB.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Euronews English",
       "base_url": "https://www.euronews.com/next",
       "country": "Europe",
@@ -3861,6 +4487,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Bootstrapped from legacy SQLite config",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Evening Standard",
+      "base_url": "https://www.standard.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:22.799426Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 427,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -3900,6 +4550,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Fast Company",
+      "base_url": "https://www.fastcompany.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.fastcompany.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -3981,6 +4644,40 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Financial Times",
+      "base_url": "https://www.ft.com/",
+      "country": "United Kingdom",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-23T20:07:40.020829Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1971,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-23T20:07:42.189503Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 2023,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-GB.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "FiND iT Nuus",
       "base_url": "https://nuusflits.com/",
       "country": "South Africa",
@@ -4046,6 +4743,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Forbes",
+      "base_url": "https://www.forbes.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Auto-deactivated after smoke validation: repeated 403/paywall style failures on homepage and categories in HTTP-only runtime.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Foroyaa",
       "base_url": "https://foroyaa.net/",
       "country": "The Gambia",
@@ -4056,6 +4766,45 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Fortune",
+      "base_url": "https://fortune.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Fox News",
+      "base_url": "https://www.foxnews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "France 24 English",
+      "base_url": "https://www.france24.com/en",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.france24.com/en'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -4199,6 +4948,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Gizmodo",
+      "base_url": "https://gizmodo.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -4358,6 +5120,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Haaretz",
+      "base_url": "https://www.haaretz.com/",
+      "country": "Israel",
+      "region": "Western Asia",
+      "language": "en|he",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Haiti Libre",
       "base_url": "https://www.haitilibre.com/",
       "country": "Haiti",
@@ -4488,6 +5263,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Hindustan Times",
+      "base_url": "https://www.hindustantimes.com/",
+      "country": "India",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Horn Diplomat",
       "base_url": "https://www.horndiplomat.com/",
       "country": "Somalia",
@@ -4553,6 +5341,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "HuffPost US",
+      "base_url": "https://www.huffpost.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "H\u00f6fner Volksblatt",
       "base_url": "https://www.hoefner.ch/",
       "country": "Switzerland",
@@ -4576,6 +5377,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "i24NEWS",
+      "base_url": "https://www.i24news.tv/",
+      "country": "Israel",
+      "region": "Western Asia",
+      "language": "en|fr|ar",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -4683,6 +5497,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Independent Ireland",
+      "base_url": "https://www.independent.ie/",
+      "country": "Ireland",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Independent Uganda",
       "base_url": "https://www.independent.co.ug/",
       "country": "Uganda",
@@ -4693,6 +5520,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "India Today",
+      "base_url": "https://www.indiatoday.in/",
+      "country": "India",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Indian Express",
+      "base_url": "https://indianexpress.com/",
+      "country": "India",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://indianexpress.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -4878,6 +5731,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Investors Business Daily",
+      "base_url": "https://www.investors.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.investors.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
       "site_name": "IOL",
       "base_url": "https://iol.co.za/",
       "country": "South Africa",
@@ -4995,6 +5861,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Jakarta Globe",
+      "base_url": "https://jakartaglobe.id/",
+      "country": "Indonesia",
+      "region": "South-eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=eng.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Jambo News French",
       "base_url": "https://www.jambonews.net/",
       "country": "Rwanda",
@@ -5005,6 +5884,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=fr-FR.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Japan Today",
+      "base_url": "https://japantoday.com/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Jerusalem Post",
+      "base_url": "https://www.jpost.com/",
+      "country": "Israel",
+      "region": "Western Asia",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -5346,6 +6251,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Kyodo News English",
+      "base_url": "https://english.kyodonews.net/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "KZN Industrial and Business",
       "base_url": "https://www.kznindustrialnews.co.za/",
       "country": "South Africa",
@@ -5489,6 +6407,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "La Repubblica",
+      "base_url": "https://www.repubblica.it/",
+      "country": "Italy",
+      "region": "Southern Europe",
+      "language": "it",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:25.887465Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 2413,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=it.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "La Voix de Djibouti",
       "base_url": "https://lavoixdedjibouti.info/",
       "country": "Djibouti",
@@ -5554,6 +6496,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Le Figaro",
+      "base_url": "https://www.lefigaro.fr/",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "fr",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:27.658861Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 858,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=fr.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Le Matinal",
       "base_url": "https://english.lematinal.media/",
       "country": "Mauritius",
@@ -5577,6 +6543,60 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=fr-FR.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Le Monde",
+      "base_url": "https://www.lemonde.fr/",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "fr",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:04:17.676880Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1225,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:04:18.945576Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1202,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:08:02.086970Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 1056,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:09:30.589528Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 1009,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -5616,6 +6636,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=fr.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Le Parisien",
+      "base_url": "https://www.leparisien.fr/",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "fr",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=fr-FR.",
       "last_verified_at": null
     },
     {
@@ -5827,6 +6860,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Liberation",
+      "base_url": "https://www.liberation.fr/",
+      "country": "France",
+      "region": "Western Europe",
+      "language": "fr",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.liberation.fr'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Liberian Observer",
       "base_url": "https://www.liberianobserver.com/",
       "country": "Liberia",
@@ -5944,6 +6990,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Livemint",
+      "base_url": "https://www.livemint.com/",
+      "country": "India",
+      "region": "South Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Loop News Haiti",
       "base_url": "https://haiti.loopnews.com/",
       "country": "Haiti",
@@ -5967,6 +7026,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 without live discovery. Homepage fetch failed: ConnectError: [Errno 8] nodename nor servname provided, or not known",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Los Angeles Times",
+      "base_url": "https://www.latimes.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -6048,6 +7120,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Maeil Business",
+      "base_url": "https://www.mk.co.kr/",
+      "country": "South Korea",
+      "region": "Eastern Asia",
+      "language": "ko|en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=ko.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Mail and Gardian",
       "base_url": "https://mg.co.za/",
       "country": "South Africa",
@@ -6058,6 +7143,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-ZA.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Mainichi",
+      "base_url": "https://mainichi.jp/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "ja",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=ja.",
       "last_verified_at": null
     },
     {
@@ -6217,6 +7315,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "MarketWatch",
+      "base_url": "https://www.marketwatch.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '401 HTTP Forbidden' for url 'https://www.marketwatch.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Martin Plaut",
       "base_url": "https://martinplaut.com/",
       "country": "Ethiopia",
@@ -6227,6 +7338,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Mashable",
+      "base_url": "https://mashable.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -6321,6 +7445,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Metro UK",
+      "base_url": "https://metro.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:33.019830Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 929,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Homepage/article smoke check passed on 2026-03-24, so the site is active.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Midi Madagasikara",
       "base_url": "https://midi-madagasikara.mg/",
       "country": "Madagascar",
@@ -6357,6 +7505,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=pt-PT.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Mirror UK",
+      "base_url": "https://www.mirror.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:35.961754Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1115,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Homepage/article smoke check passed on 2026-03-24, so the site is active.",
       "last_verified_at": null
     },
     {
@@ -6474,6 +7646,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-GB.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "MSNBC",
+      "base_url": "https://www.msnbc.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -6633,6 +7818,32 @@
       "last_verified_at": null
     },
     {
+      "site_name": "National Post",
+      "base_url": "https://nationalpost.com/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "NBC News",
+      "base_url": "https://www.nbcnews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Ndjamena Hebdo",
       "base_url": "https://ndjamenahebdo.net/",
       "country": "Chad",
@@ -6643,6 +7854,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=fr-FR.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "NDTV",
+      "base_url": "https://www.ndtv.com/",
+      "country": "India",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.ndtv.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -6708,6 +7932,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "New York Post",
+      "base_url": "https://nypost.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:40.055756Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 247,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -6880,6 +8128,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Newsweek",
+      "base_url": "https://www.newsweek.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Ngmisr",
       "base_url": "https://ngmisr.com/",
       "country": "Egypt",
@@ -6958,6 +8219,53 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Nikkei",
+      "base_url": "https://www.nikkei.com/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "ja",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=ja.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Nikkei Asia",
+      "base_url": "https://asia.nikkei.com/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-23T20:07:47.427124Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 116,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-23T20:07:49.794923Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1107,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Northern Natal News",
       "base_url": "https://www.citizen.co.za/northern-natal-news/local/news-headlines",
       "country": "South Africa",
@@ -6981,6 +8289,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=en-ZA. Homepage appears to be a static/government-style bulletin page without extractable article body/date fields for this scraper schema.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "NPR",
+      "base_url": "https://www.npr.org/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -7192,6 +8513,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "PBS NewsHour",
+      "base_url": "https://www.pbs.org/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-us.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Philippine Defense News",
       "base_url": "https://phildefnews.blogspot.com/",
       "country": "Philippines",
@@ -7267,6 +8601,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 without live discovery. Homepage fetch failed: ConnectTimeout: timed out Primary domain currently times out from this runtime environment, so scraping is disabled until connectivity stabilizes.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Politico Europe",
+      "base_url": "https://www.politico.eu/",
+      "country": "Belgium",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-GB.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Politico US",
+      "base_url": "https://www.politico.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en. Homepage content looks like a bot-protection or access-check page.",
       "last_verified_at": null
     },
     {
@@ -7358,6 +8718,70 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-21 from live homepage. Detected html lang=unknown. Homepage content looks like a bot-protection or access-check page. Domain currently serves a suspended account page, so scraping is disabled.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "ProPublica",
+      "base_url": "https://www.propublica.org/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:40:35.887364Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 57,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:36.060216Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 61,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:36.233010Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 59,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:36.349661Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 58,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:36.455038Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 57,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -7738,6 +9162,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "RTE News",
+      "base_url": "https://www.rte.ie/",
+      "country": "Ireland",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "RTNC",
       "base_url": "https://rtnc.cd/",
       "country": "Democratic Republic of the Congo",
@@ -7891,6 +9328,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Seeking Alpha",
+      "base_url": "https://seekingalpha.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Auto-deactivated after smoke validation: homepage and categories blocked/failed across available tools in HTTP-only runtime.",
       "last_verified_at": null
     },
     {
@@ -8111,6 +9561,96 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Sky News",
+      "base_url": "https://news.sky.com/",
+      "country": "United Kingdom",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-26T08:19:22.359791Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 456,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:22.614806Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 336,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:23.169107Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 326,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:23.606461Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 375,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:24.136872Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 336,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Sky News Australia",
+      "base_url": "https://www.skynews.com.au/",
+      "country": "Australia",
+      "region": "Australia and New Zealand",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Slate",
+      "base_url": "https://slate.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -8508,6 +10048,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Spiegel",
+      "base_url": "https://www.spiegel.de/",
+      "country": "Germany",
+      "region": "Western Europe",
+      "language": "de",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:44.676996Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1633,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=de.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Standard",
       "base_url": "https://standard.gm/",
       "country": "The Gambia",
@@ -8534,6 +10098,32 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Star Tribune",
+      "base_url": "https://www.startribune.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "STAT",
+      "base_url": "https://www.statnews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Stop",
       "base_url": "https://stop.co.mz/",
       "country": "Mozambique",
@@ -8557,6 +10147,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=pt-PT.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Stuff",
+      "base_url": "https://www.stuff.co.nz/",
+      "country": "New Zealand",
+      "region": "Australia and New Zealand",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en. Auto-deactivated after smoke validation: homepage fetch/extraction repeatedly fails in this runtime (InvalidHtml/blocked behavior).",
       "last_verified_at": null
     },
     {
@@ -8742,6 +10345,30 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Sydney Morning Herald",
+      "base_url": "https://www.smh.com.au/",
+      "country": "Australia",
+      "region": "Australia and New Zealand",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:46.196426Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 739,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Taarifa English",
       "base_url": "https://taarifa.rw/",
       "country": "Rwanda",
@@ -8781,6 +10408,60 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Tagesschau",
+      "base_url": "https://www.tagesschau.de/",
+      "country": "Germany",
+      "region": "Western Europe",
+      "language": "de",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:04:22.603136Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1102,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:04:23.791793Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1097,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:08:05.170460Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 1064,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:09:52.775422Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 1069,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=de.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Taipei Times",
       "base_url": "https://www.taipeitimes.com/",
       "country": "Taiwan",
@@ -8791,6 +10472,30 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=unknown.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Taiwan News",
+      "base_url": "https://www.taiwannews.com.tw/",
+      "country": "Taiwan",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:09:58.749045Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 2340,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -9132,6 +10837,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Atlantic",
+      "base_url": "https://www.theatlantic.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Homepage content looks like a bot-protection or access-check page.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Bohol Chronicle",
       "base_url": "https://www.boholchronicle.com.ph/",
       "country": "Philippines",
@@ -9236,6 +10954,43 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Daily Star Bangladesh",
+      "base_url": "https://www.thedailystar.net/",
+      "country": "Bangladesh",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:10:02.071076Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1460,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Denver Post",
+      "base_url": "https://www.denverpost.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Diarist",
       "base_url": "https://www.thediarist.ph/",
       "country": "Philippines",
@@ -9259,6 +11014,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://theeastafrican.co.ke'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Economist",
+      "base_url": "https://www.economist.com/",
+      "country": "United Kingdom",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.economist.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
       "last_verified_at": null
     },
     {
@@ -9298,6 +11066,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Globe and Mail",
+      "base_url": "https://www.theglobeandmail.com/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-CA.",
       "last_verified_at": null
     },
     {
@@ -9405,6 +11186,67 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Hill",
+      "base_url": "https://thehill.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://thehill.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Hindu",
+      "base_url": "https://www.thehindu.com/",
+      "country": "India",
+      "region": "Southern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:10:08.026817Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 4884,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Independent UK",
+      "base_url": "https://www.independent.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:10:08.514785Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 77,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The investigator News",
       "base_url": "https://theinvestigatornews.com/",
       "country": "Uganda",
@@ -9415,6 +11257,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Irish News",
+      "base_url": "https://www.irishnews.com/",
+      "country": "Ireland",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Irish Times",
+      "base_url": "https://www.irishtimes.com/",
+      "country": "Ireland",
+      "region": "Northern Europe",
+      "language": "en",
+      "underlying_tech": "React",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -9444,6 +11312,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Japan Times",
+      "base_url": "https://www.japantimes.co.jp/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.japantimes.co.jp'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Jet Newspaper",
       "base_url": "http://www.thejetnewspaper.com/",
       "country": "Fiji | Solomon Islands | Vanuatu",
@@ -9454,6 +11335,60 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Korea Herald",
+      "base_url": "https://www.koreaherald.com/",
+      "country": "South Korea",
+      "region": "Eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:04:32.401220Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 3439,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:04:36.306452Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 3644,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:08:13.302853Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 3533,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:10:16.498581Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 3523,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -9496,6 +11431,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Mercury News",
+      "base_url": "https://www.mercurynews.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Namibian",
       "base_url": "https://www.namibian.com.na/",
       "country": "Namibia",
@@ -9522,6 +11470,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The New Arab",
+      "base_url": "https://www.newarab.com/",
+      "country": "United Kingdom",
+      "region": "Northern Europe",
+      "language": "en|ar",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The New Dawn Liberia",
       "base_url": "https://www.thenewdawnliberia.com/",
       "country": "Liberia",
@@ -9532,6 +11493,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The New Yorker",
+      "base_url": "https://www.newyorker.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -9717,6 +11691,70 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Seattle Times",
+      "base_url": "https://www.seattletimes.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-26T08:19:27.185758Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 990,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:28.274030Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 1002,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:29.206936Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 932,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:30.320033Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 975,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-26T08:19:31.207605Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 930,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Sierra Leone Telegraph",
       "base_url": "https://www.thesierraleonetelegraph.com/",
       "country": "Sierra Leone",
@@ -9782,6 +11820,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Straits Times",
+      "base_url": "https://www.straitstimes.com/",
+      "country": "Singapore",
+      "region": "South-eastern Asia",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Sun Newspaper",
       "base_url": "https://thesunnewspaper.cm/",
       "country": "Cameroon",
@@ -9792,6 +11843,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Sun UK",
+      "base_url": "https://www.thesun.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Homepage and key sections currently return HTML with no extractable article links across Scrapling and Selenium, so scraping is disabled until a site-specific parser is added.",
       "last_verified_at": null
     },
     {
@@ -9808,6 +11872,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Telegraph UK",
+      "base_url": "https://www.telegraph.co.uk/",
+      "country": "United Kingdom",
+      "region": "Western Europe",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '403 Forbidden' for url 'https://www.telegraph.co.uk'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Tide News Online",
       "base_url": "https://www.thetidenewsonline.com/",
       "country": "Nigeria",
@@ -9821,6 +11898,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "The Verge",
+      "base_url": "https://www.theverge.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "The Visayas Journal",
       "base_url": "https://thevisayasjournal.com/",
       "country": "Philippines",
@@ -9831,6 +11921,32 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Wall Street Journal",
+      "base_url": "https://www.wsj.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 without live discovery. Homepage fetch failed: HTTPStatusError: Client error '401 HTTP Forbidden' for url 'https://www.wsj.com'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "The Washington Post",
+      "base_url": "https://www.washingtonpost.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 without live discovery. Homepage fetch failed: ReadTimeout: The read operation timed out",
       "last_verified_at": null
     },
     {
@@ -9925,6 +12041,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Time",
+      "base_url": "https://time.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Times Live",
       "base_url": "https://www.timeslive.co.za/",
       "country": "South Africa",
@@ -10003,6 +12132,32 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Toronto Star",
+      "base_url": "https://www.thestar.com/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en. Homepage content looks like a bot-protection or access-check page.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Toronto Sun",
+      "base_url": "https://torontosun.com/",
+      "country": "Canada",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-26 from live homepage. Detected html lang=en.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Tribune de Geneve",
       "base_url": "https://www.tdg.ch/",
       "country": "Switzerland",
@@ -10013,6 +12168,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=fr.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "TRT World",
+      "base_url": "https://www.trtworld.com/",
+      "country": "T\u00fcrkiye",
+      "region": "Western Asia",
+      "language": "en",
+      "underlying_tech": "Next.js",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en.",
       "last_verified_at": null
     },
     {
@@ -10159,6 +12327,32 @@
       "last_verified_at": null
     },
     {
+      "site_name": "US News",
+      "base_url": "https://www.usnews.com/news",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 without live discovery. Homepage fetch failed: ReadTimeout: The read operation timed out",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "USA Today",
+      "base_url": "https://www.usatoday.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "USTDA",
       "base_url": "https://www.ustda.gov/news",
       "country": "United States",
@@ -10234,6 +12428,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=ar-eg. Category/listing routes currently return HTTP 403 or anti-bot responses in this runtime, so scraping is disabled until access restrictions are relaxed.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Vice",
+      "base_url": "https://www.vice.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },
     {
@@ -10419,6 +12626,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Vox",
+      "base_url": "https://www.vox.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "WordPress",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-23 from live homepage. Detected html lang=en-US. Homepage content looks like a bot-protection or access-check page.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Waagacusub",
       "base_url": "https://waagacusub.com/",
       "country": "Somalia",
@@ -10536,6 +12756,70 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Wired",
+      "base_url": "https://www.wired.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-24T19:40:39.623058Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 1969,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:42.345362Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 2315,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:43.483571Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 3,
+          "avg_response_time_ms": 1780,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:44.571428Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 4,
+          "avg_response_time_ms": 1774,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-24T19:40:45.742038Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 5,
+          "avg_response_time_ms": 1787,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "womensworldbanking",
       "base_url": "https://www.womensworldbanking.org/",
       "country": "Unknown",
@@ -10549,6 +12833,19 @@
       "last_verified_at": null
     },
     {
+      "site_name": "Yahoo News",
+      "base_url": "https://news.yahoo.com/",
+      "country": "United States",
+      "region": "Northern America",
+      "language": "en",
+      "underlying_tech": "Custom CMS",
+      "active": false,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=en-US. Auto-deactivated after smoke validation: consent/redirect flow produced no extractable article links in HTTP-only runtime.",
+      "last_verified_at": null
+    },
+    {
       "site_name": "Yeroo",
       "base_url": "https://yeroo.org/",
       "country": "Ethiopia",
@@ -10559,6 +12856,19 @@
       "preferred_scraping_tool": "scrapling",
       "scraping_history": [],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
+      "last_verified_at": null
+    },
+    {
+      "site_name": "Yomiuri Shimbun",
+      "base_url": "https://www.yomiuri.co.jp/",
+      "country": "Japan",
+      "region": "Eastern Asia",
+      "language": "ja",
+      "underlying_tech": "Custom CMS",
+      "active": true,
+      "preferred_scraping_tool": "scrapling",
+      "scraping_history": [],
+      "notes": "Auto-onboarded 2026-03-24 from live homepage. Detected html lang=ja.",
       "last_verified_at": null
     },
     {
