@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -928,6 +929,7 @@ def main() -> None:
     save_json_model(runtime.catalog_path, catalog)
     save_json_model(runtime.selectors_path, selector_map)
     save_json_model(runtime.tracker_path, tracker)
+    regenerate_actor_input_schema()
 
     print(f"Onboarded {len(payload)} sites")
     print(f"Catalog: {runtime.catalog_path}")
@@ -939,6 +941,18 @@ def fetch_homepage(client: httpx.Client, base_url: str) -> tuple[str, str]:
     response = client.get(base_url)
     response.raise_for_status()
     return response.text, normalize_url(str(response.url))
+
+
+def regenerate_actor_input_schema() -> None:
+    generator_script = Path(__file__).resolve().parent / "generate_actor_input_schema.py"
+    if not generator_script.exists():
+        print(f"Warning: could not find schema generator at {generator_script}")
+        return
+    try:
+        subprocess.run([sys.executable, str(generator_script)], check=True)
+        print("Refreshed Apify input schema (.actor/input_schema.json)")
+    except subprocess.CalledProcessError as exc:
+        print(f"Warning: failed to regenerate Apify input schema ({exc})")
 
 
 def canonical_site_base_url(requested_url: str, fetched_url: str) -> str:
