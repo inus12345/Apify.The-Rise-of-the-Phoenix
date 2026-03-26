@@ -242,9 +242,9 @@ class InputConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    sites_to_scrape: list[str] = Field(default_factory=list)
+    sites_to_scrape: list[str] = Field(default_factory=lambda: ["AP News"])
     category_filters: dict[str, list[str]] = Field(default_factory=dict)
-    max_items_per_site: int | None = Field(default=50, ge=1)
+    max_items_per_site: int | None = Field(default=10, ge=1)
     no_items_limit: bool = False
     execution_mode: ExecutionMode | None = None
     historic_cutoff_date: datetime | None = None
@@ -255,7 +255,7 @@ class InputConfig(BaseModel):
         if self.no_items_limit:
             self.max_items_per_site = None
         elif self.max_items_per_site is None:
-            self.max_items_per_site = 50
+            self.max_items_per_site = 10
 
         if self.execution_mode is None:
             self.execution_mode = ExecutionMode.HISTORIC if self.historic_cutoff_date else ExecutionMode.CURRENT

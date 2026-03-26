@@ -12,6 +12,8 @@ CATALOG_PATH = ROOT / "news_scraper" / "data" / "catalog" / "site_catalog.json"
 TRACKER_PATH = ROOT / "news_scraper" / "data" / "catalog" / "category_pagination_tracker.json"
 OUTPUT_PATH = ROOT / ".actor" / "input_schema.json"
 CATEGORY_OPTION_DELIMITER = "|||"
+DEFAULT_SITE_NAME = "AP News"
+DEFAULT_MAX_ITEMS_PER_SITE = 10
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -93,6 +95,7 @@ def build_schema(
     category_values: list[str],
     category_titles: list[str],
 ) -> dict[str, Any]:
+    default_site_selection = [DEFAULT_SITE_NAME] if DEFAULT_SITE_NAME in site_names else (site_names[:1] if site_names else [])
     return {
         "title": "The Rise of the Phoenix input",
         "type": "object",
@@ -106,7 +109,8 @@ def build_schema(
                     "sites in the catalog."
                 ),
                 "editor": "select",
-                "prefill": [],
+                "prefill": default_site_selection,
+                "default": default_site_selection,
                 "uniqueItems": True,
                 "items": {
                     "type": "string",
@@ -156,7 +160,7 @@ def build_schema(
                 "editor": "number",
                 "minimum": 1,
                 "maximum": 20000,
-                "default": 50,
+                "default": DEFAULT_MAX_ITEMS_PER_SITE,
             },
             "no_items_limit": {
                 "title": "No article limit",

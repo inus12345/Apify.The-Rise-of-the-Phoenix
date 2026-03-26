@@ -19,6 +19,7 @@ from news_scraper.scraping import ScraperRunner, default_runtime_config
 
 ERROR_DATASET_NAME = "error-log"
 CATEGORY_OPTION_DELIMITER = "|||"
+DEFAULT_SITE_NAME = "AP News"
 
 
 def log_backend_diagnostics() -> None:
@@ -63,7 +64,10 @@ def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
     payload = dict(raw_input or {})
     mode = str(payload.get("execution_mode", "") or "").strip().lower()
     no_items_limit = _coerce_bool(payload.pop("no_items_limit", False))
+    sites_field_present = "sites_to_scrape" in payload
     selected_sites = [str(site).strip() for site in payload.get("sites_to_scrape", []) or [] if str(site).strip()]
+    if not sites_field_present and not selected_sites:
+        selected_sites = [DEFAULT_SITE_NAME]
 
     site_category_filters = payload.pop("site_category_filters", []) or []
     categories_to_scrape = payload.pop("categories_to_scrape", []) or []
@@ -132,7 +136,7 @@ def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
         payload["max_items_per_site"] = None
 
     payload.setdefault("sites_to_scrape", [])
-    payload.setdefault("max_items_per_site", 50)
+    payload.setdefault("max_items_per_site", 10)
     payload.setdefault(
         "proxy_config",
         {

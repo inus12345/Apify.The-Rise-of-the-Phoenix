@@ -18,11 +18,11 @@ Use these exact input keys in your Apify run:
 
 | Input field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `sites_to_scrape` | `array[string]` | No | Select one or more active catalog sites. Leave empty to scrape all active sites. |
+| `sites_to_scrape` | `array[string]` | No | Select one or more active catalog sites. Default run target is `["AP News"]`. |
 | `categories_to_scrape` | `array[string]` | No | Manual category override values in format `Site Name|||https://category-url`. |
 | `execution_mode` | `string` | Yes | `current` or `historic`. |
 | `historic_cutoff_date` | `string` | Required in historic mode | ISO timestamp cutoff, e.g. `2025-01-01T00:00:00Z`. |
-| `max_items_per_site` | `integer` | No | Per-site cap when `no_items_limit` is `false`. |
+| `max_items_per_site` | `integer` | No | Per-site cap when `no_items_limit` is `false` (default `10`). |
 | `no_items_limit` | `boolean` | No | If `true`, ignores `max_items_per_site`. |
 | `proxy_config` | `object` | No | Apify proxy or custom proxy URLs. |
 | `site_category_filters` | `array[object]` | No | Advanced legacy override for explicit site-to-category mapping. |
