@@ -1,0 +1,32 @@
+{
+  "$schema": "https://apify-projects.github.io/actor-json-schemas/output.json?v=0.3",
+  "actorOutputSchemaVersion": 1,
+  "title": "The Rise of the Phoenix output",
+  "description": "Structured links to scraped article results and run summary artifacts.",
+  "properties": {
+    "articles": {
+      "type": "string",
+      "title": "Scraped articles",
+      "description": "Default dataset items produced by Actor.push_data().",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?clean=true"
+    },
+    "articlesOverview": {
+      "type": "string",
+      "title": "Articles (overview view)",
+      "description": "Default dataset with the overview table view preselected.",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview&clean=true"
+    },
+    "runSummary": {
+      "type": "string",
+      "title": "Run summary (OUTPUT record)",
+      "description": "Key-value store OUTPUT record containing execution mode and item counts.",
+      "template": "{{links.apiDefaultKeyValueStoreUrl}}/records/OUTPUT"
+    },
+    "runApi": {
+      "type": "string",
+      "title": "Run API details",
+      "description": "Full run object from the Apify API endpoint.",
+      "template": "{{links.apiRunUrl}}"
+    }
+  }
+}

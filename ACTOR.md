@@ -79,6 +79,7 @@ This Actor writes:
 - **Default dataset**: successful article records
 - **Named dataset `error-log`**: failed URLs, tool fallback diagnostics, and extraction errors
 - **Key-value store `OUTPUT`**: run summary (`successItemCount`, `errorItemCount`, mode, and site scope)
+- **Apify Output tab links**: configured via `.actor/output_schema.json` for quick access to dataset items and run summary
 
 ## Best Practices
 
