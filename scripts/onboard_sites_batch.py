@@ -1033,8 +1033,8 @@ def initial_known_pages(category_url: str, *, is_front_page: bool = False) -> in
     """Seed pagination depth so historic mode can progress without manual edits."""
 
     if is_front_page:
-        return 2
-    return 3 if supports_implicit_pagination_seed(category_url) else 1
+        return 10
+    return 50 if supports_implicit_pagination_seed(category_url) else 1
 
 
 def supports_implicit_pagination_seed(category_url: str) -> bool:
@@ -1042,8 +1042,6 @@ def supports_implicit_pagination_seed(category_url: str) -> bool:
 
     parsed = urlsplit(category_url)
     path = (parsed.path or "/").lower()
-    if path in {"", "/"}:
-        return False
     if re.search(r"\.[a-z0-9]{2,6}$", path):
         return False
     if any(token in path for token in ("/feed", "/rss", ".xml")):

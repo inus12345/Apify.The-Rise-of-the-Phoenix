@@ -9,9 +9,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "news_scraper" / "data" / "catalog" / "site_catalog.json"
-TRACKER_PATH = ROOT / "news_scraper" / "data" / "catalog" / "category_pagination_tracker.json"
 OUTPUT_PATH = ROOT / ".actor" / "input_schema.json"
-CATEGORY_OPTION_DELIMITER = "|||"
 DEFAULT_SITE_NAME = "AP News"
 DEFAULT_MAX_ITEMS_PER_SITE = 10
 
@@ -20,81 +18,20 @@ def load_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def build_site_options(catalog: dict[str, Any]) -> tuple[list[str], list[str], dict[str, str]]:
+def build_site_options(catalog: dict[str, Any]) -> list[str]:
     active_sites = [site for site in catalog.get("sites", []) if site.get("active")]
     active_sites.sort(key=lambda site: str(site.get("site_name", "")).lower())
 
     site_names: list[str] = []
-    site_titles: list[str] = []
-    fallback_urls: dict[str, str] = {}
     for site in active_sites:
         site_name = str(site.get("site_name", "")).strip()
-        base_url = str(site.get("base_url", "")).strip()
-        if not site_name or not base_url:
+        if not site_name:
             continue
-        country = str(site.get("country", "")).strip()
-        language = str(site.get("language", "")).strip()
-        details = " | ".join(part for part in (country, language) if part)
-        title = f"{site_name} ({details})" if details else site_name
         site_names.append(site_name)
-        site_titles.append(title)
-        fallback_urls[site_name] = base_url
-    return site_names, site_titles, fallback_urls
+    return site_names
 
 
-def build_category_options(
-    tracker: dict[str, Any],
-    active_site_names: list[str],
-    fallback_urls: dict[str, str],
-) -> tuple[list[str], list[str]]:
-    tracker_by_name = {str(site.get("site_name", "")).strip(): site for site in tracker.get("sites", [])}
-
-    category_values: list[str] = []
-    category_titles: list[str] = []
-    seen: set[str] = set()
-
-    for site_name in active_site_names:
-        tracked_site = tracker_by_name.get(site_name) or {}
-        categories = tracked_site.get("categories", []) or []
-
-        if not categories:
-            fallback_url = fallback_urls.get(site_name, "")
-            if fallback_url:
-                categories = [
-                    {
-                        "category_name": "front_page",
-                        "category_url": fallback_url,
-                    }
-                ]
-
-        sorted_categories = sorted(
-            categories,
-            key=lambda item: (
-                str(item.get("category_name", "")).lower(),
-                str(item.get("category_url", "")).lower(),
-            ),
-        )
-        for category in sorted_categories:
-            category_name = str(category.get("category_name", "")).strip() or "category"
-            category_url = str(category.get("category_url", "")).strip()
-            if not category_url:
-                continue
-            value = f"{site_name}{CATEGORY_OPTION_DELIMITER}{category_url}"
-            if value in seen:
-                continue
-            seen.add(value)
-            category_values.append(value)
-            category_titles.append(f"{site_name} | {category_name} | {category_url}")
-
-    return category_values, category_titles
-
-
-def build_schema(
-    site_names: list[str],
-    site_titles: list[str],
-    category_values: list[str],
-    category_titles: list[str],
-) -> dict[str, Any]:
+def build_schema(site_names: list[str]) -> dict[str, Any]:
     default_site_selection = [DEFAULT_SITE_NAME] if DEFAULT_SITE_NAME in site_names else (site_names[:1] if site_names else [])
     return {
         "title": "The Rise of the Phoenix input",
@@ -216,10 +153,8 @@ def build_schema(
 
 def main() -> None:
     catalog = load_json(CATALOG_PATH)
-    tracker = load_json(TRACKER_PATH)
-    site_names, site_titles, fallback_urls = build_site_options(catalog)
-    category_values, category_titles = build_category_options(tracker, site_names, fallback_urls)
-    schema = build_schema(site_names, site_titles, category_values, category_titles)
+    site_names = build_site_options(catalog)
+    schema = build_schema(site_names)
     OUTPUT_PATH.write_text(json.dumps(schema, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 

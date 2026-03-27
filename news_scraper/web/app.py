@@ -103,7 +103,7 @@ def sanitize_run_request(payload: dict[str, Any], site_options: list[dict[str, A
         raise ValueError("Mode must be either current or historic.")
 
     try:
-        max_items_per_site = int(payload.get("max_items_per_site", 25))
+        max_items_per_site = int(payload.get("max_items_per_site", 10))
     except (TypeError, ValueError) as exc:
         raise ValueError("Max items per site must be a number.") from exc
     if max_items_per_site < 1 or max_items_per_site > 1000:

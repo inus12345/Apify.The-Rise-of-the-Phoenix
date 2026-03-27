@@ -2394,8 +2394,6 @@ def supports_implicit_pagination(category_url: str) -> bool:
     parsed = urlsplit(category_url)
     path = parsed.path or "/"
     lowered = path.lower()
-    if lowered in {"", "/"}:
-        return False
     if re.search(r"\.[a-z0-9]{2,6}$", lowered):
         return False
     if any(token in lowered for token in ("/feed", "/rss", ".xml")):

@@ -1916,7 +1916,28 @@
       "underlying_tech": "React",
       "active": true,
       "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-27T08:48:28.147630Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 358,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T08:48:28.879143Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 413,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Bootstrapped from legacy SQLite config",
       "last_verified_at": null
     },
@@ -2182,7 +2203,28 @@
       "underlying_tech": "Next.js",
       "active": true,
       "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-27T08:48:29.256475Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 172,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T08:48:29.429941Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 2,
+          "avg_response_time_ms": 118,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Bootstrapped from legacy SQLite config",
       "last_verified_at": null
     },
@@ -8845,7 +8887,258 @@
       "underlying_tech": "Custom CMS",
       "active": true,
       "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-27T10:17:41.009957Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.038461538461538464,
+          "sample_size": 26,
+          "avg_response_time_ms": 373,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:17:54.453694Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.038461538461538464,
+          "sample_size": 26,
+          "avg_response_time_ms": 374,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:18:08.025211Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 381,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:18:21.434327Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 376,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:18:34.862710Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 378,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:18:48.290225Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 379,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:19:01.797391Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 381,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:19:15.238484Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 381,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:19:28.760651Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 384,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:19:42.186103Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 382,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:19:55.592290Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 384,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:20:09.036168Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 382,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:20:22.519733Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 378,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:20:35.931795Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 379,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:20:49.494930Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 385,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:21:02.851186Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 380,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:21:16.304540Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 383,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:21:29.760464Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 383,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:21:43.212663Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 385,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:21:56.682611Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 386,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:22:10.232033Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 391,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:22:23.772198Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 391,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:22:37.264489Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 388,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:22:50.697711Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 389,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        },
+        {
+          "timestamp": "2026-03-27T10:23:04.123847Z",
+          "tool": "scrapling",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 391,
+          "block_detected": false,
+          "error_type": "HTTPStatusError"
+        }
+      ],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=mg-mg.",
       "last_verified_at": null
     },
@@ -9040,7 +9333,268 @@
       "underlying_tech": "WordPress",
       "active": true,
       "preferred_scraping_tool": "scrapling",
-      "scraping_history": [],
+      "scraping_history": [
+        {
+          "timestamp": "2026-03-27T11:08:23.351772Z",
+          "tool": "selenium",
+          "success": false,
+          "success_rate": 0.0,
+          "sample_size": 1,
+          "avg_response_time_ms": 120001,
+          "block_detected": false,
+          "error_type": "ReadTimeoutError"
+        },
+        {
+          "timestamp": "2026-03-27T13:32:20.822214Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1209,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:26.461508Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1207,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:28.388637Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1228,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:30.166261Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1228,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:32.626385Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1254,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:38.602600Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1230,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:40.349568Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1224,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:42.607875Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1249,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:51.031964Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1236,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:52.823638Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1217,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:54.140869Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1220,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:32:55.549243Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1224,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:09.529747Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1239,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:11.382930Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1242,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:13.014341Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1234,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:14.722604Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1237,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:20.482509Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1240,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:22.194119Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1237,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:23.670105Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1234,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:24.903401Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1224,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:30.796687Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1233,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:32.897922Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1259,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:34.561177Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1244,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:36.325745Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1250,
+          "block_detected": false,
+          "error_type": null
+        },
+        {
+          "timestamp": "2026-03-27T13:33:38.125076Z",
+          "tool": "scrapling",
+          "success": true,
+          "success_rate": 1.0,
+          "sample_size": 26,
+          "avg_response_time_ms": 1246,
+          "block_detected": false,
+          "error_type": null
+        }
+      ],
       "notes": "Auto-onboarded 2026-03-22 from live homepage. Detected html lang=en-US.",
       "last_verified_at": null
     },

@@ -91,11 +91,30 @@
         overflow: auto;
       }
 
+      .site-list::-webkit-scrollbar,
+      .category-groups::-webkit-scrollbar,
+      .event-feed::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      .site-list::-webkit-scrollbar-thumb,
+      .category-groups::-webkit-scrollbar-thumb,
+      .event-feed::-webkit-scrollbar-thumb {
+        background: rgba(16, 37, 63, 0.18);
+        border-radius: 999px;
+      }
+
       .site-option,
       .category-option {
         border: 1px solid var(--phoenix-line);
         border-radius: 1rem;
         transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      }
+
+      .site-option.is-selected,
+      .category-option.is-selected {
+        border-color: rgba(33, 77, 122, 0.5);
+        background: rgba(33, 77, 122, 0.06) !important;
       }
 
       .site-option:hover,
@@ -190,6 +209,38 @@
         border: 1px dashed rgba(16, 37, 63, 0.18);
         background: rgba(255, 255, 255, 0.48);
       }
+
+      .mini-chip {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 0.35rem 0.65rem;
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        border: 1px solid rgba(16, 37, 63, 0.14);
+        background: rgba(255, 255, 255, 0.85);
+        color: var(--phoenix-blue);
+      }
+
+      .event-item.level-success {
+        border-left-color: rgba(29, 135, 84, 0.55);
+      }
+
+      .event-item.level-error {
+        border-left-color: rgba(186, 54, 54, 0.55);
+      }
+
+      .event-item.level-muted {
+        border-left-color: rgba(97, 112, 131, 0.34);
+      }
+
+      .preset-btn.active {
+        background: rgba(33, 77, 122, 0.14);
+        border-color: rgba(33, 77, 122, 0.4);
+        color: var(--phoenix-blue);
+      }
     </style>
   </head>
   <body>
@@ -236,11 +287,19 @@
             <div class="d-flex align-items-center justify-content-between mb-3">
               <div>
                 <div class="section-title mb-2">Step 1</div>
-                <h2 class="h4 mb-0">Choose Websites</h2>
+                <h2 class="h4 mb-0 d-flex align-items-center gap-2">
+                  <span>Choose Websites</span>
+                  <span class="mini-chip" id="siteSelectionCount">0 selected</span>
+                </h2>
               </div>
-              <button class="btn btn-sm btn-outline-secondary rounded-pill" id="toggleAllSites" type="button">
-                Select all
-              </button>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary rounded-pill" id="toggleVisibleSites" type="button">
+                  Select visible
+                </button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill" id="toggleAllSites" type="button">
+                  Select all
+                </button>
+              </div>
             </div>
 
             {% if not site_options %}
@@ -255,7 +314,7 @@
               <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
               <input class="form-control" id="siteSearch" placeholder="Filter by site name, country, or tech" />
             </div>
-            <div class="d-flex align-items-center gap-2 mb-3 text-secondary small">
+            <div class="d-flex align-items-center gap-2 mb-3 text-secondary small" id="siteSelectionHint">
               <i class="bi bi-info-circle"></i>
               <span>Select one or many sites. The category panel updates automatically.</span>
             </div>
@@ -271,7 +330,10 @@
                 <div class="d-flex align-items-center justify-content-between mb-3">
                   <div>
                     <div class="section-title mb-2">Step 2</div>
-                    <h2 class="h4 mb-0">Choose Categories</h2>
+                    <h2 class="h4 mb-0 d-flex align-items-center gap-2">
+                      <span>Choose Categories</span>
+                      <span class="mini-chip" id="categorySelectionCount">0 selected</span>
+                    </h2>
                   </div>
                   <button class="btn btn-sm btn-outline-secondary rounded-pill" id="clearCategories" type="button">
                     Clear category picks
@@ -279,6 +341,10 @@
                 </div>
                 <div class="small text-secondary mb-3">
                   If you leave a selected site's categories unchecked, the scraper will use all tracked categories for that site.
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text bg-white"><i class="bi bi-funnel"></i></span>
+                  <input class="form-control" id="categorySearch" placeholder="Filter categories by name or URL" />
                 </div>
                 <div class="category-groups d-grid gap-3" id="categoryGroups">
                   <div class="placeholder-panel rounded-4 p-4 text-secondary">
@@ -305,10 +371,16 @@
                       id="maxItems"
                       name="max_items_per_site"
                       type="number"
-                      value="25"
+                      value="10"
                       min="1"
                       max="1000"
                     />
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+                      <button class="btn btn-sm btn-outline-secondary rounded-pill preset-btn active" type="button" data-max-items="10">10</button>
+                      <button class="btn btn-sm btn-outline-secondary rounded-pill preset-btn" type="button" data-max-items="25">25</button>
+                      <button class="btn btn-sm btn-outline-secondary rounded-pill preset-btn" type="button" data-max-items="50">50</button>
+                      <button class="btn btn-sm btn-outline-secondary rounded-pill preset-btn" type="button" data-max-items="100">100</button>
+                    </div>
                   </div>
                   <div>
                     <label class="config-label mb-2" for="cutoff">Historic cutoff</label>
@@ -344,6 +416,7 @@
                 <div class="text-secondary" id="progressMessage">
                   Waiting for a scrape to start.
                 </div>
+                <div class="small text-secondary mt-1">Last update: <span id="lastUpdated">-</span></div>
               </div>
               <span class="status-badge status-idle" id="runStatus">idle</span>
             </div>
@@ -422,8 +495,14 @@
 
       const siteListEl = document.getElementById("siteList");
       const siteSearchEl = document.getElementById("siteSearch");
+      const categorySearchEl = document.getElementById("categorySearch");
       const categoryGroupsEl = document.getElementById("categoryGroups");
       const selectionSummaryEl = document.getElementById("selectionSummary");
+      const siteSelectionCountEl = document.getElementById("siteSelectionCount");
+      const categorySelectionCountEl = document.getElementById("categorySelectionCount");
+      const siteSelectionHintEl = document.getElementById("siteSelectionHint");
+      const maxItemsEl = document.getElementById("maxItems");
+      const lastUpdatedEl = document.getElementById("lastUpdated");
       const modeEl = document.getElementById("mode");
       const cutoffEl = document.getElementById("cutoff");
       const formEl = document.getElementById("scrapeForm");
@@ -452,33 +531,61 @@
         return SITE_DATA.filter((site) => state.selectedSites.has(site.name));
       }
 
-      function updateSelectionSummary() {
-        const selectedSites = getSelectedSiteRecords();
-        if (!selectedSites.length) {
-          selectionSummaryEl.textContent = "No websites selected yet.";
-          return;
-        }
-        const manuallySelectedCategories = selectedSites.reduce((total, site) => {
-          return total + (state.selectedCategories[site.name]?.length || 0);
-        }, 0);
-        selectionSummaryEl.textContent =
-          `${selectedSites.length} site(s) selected. ${manuallySelectedCategories} category override(s) applied.`;
-      }
-
-      function renderSites() {
-        if (!siteListEl) return;
+      function getFilteredSiteRecords() {
         const query = (siteSearchEl?.value || "").trim().toLowerCase();
-        const html = SITE_DATA.filter((site) => {
+        return SITE_DATA.filter((site) => {
           if (!query) return true;
           return [site.name, site.country, site.region, site.technology, site.language]
             .join(" ")
             .toLowerCase()
             .includes(query);
-        })
+        });
+      }
+
+      function formatTimestamp(timestamp) {
+        if (!timestamp) return "-";
+        const date = new Date(timestamp);
+        if (Number.isNaN(date.getTime())) return timestamp;
+        return date.toLocaleString();
+      }
+
+      function updateSelectionSummary() {
+        const selectedSites = getSelectedSiteRecords();
+        if (!selectedSites.length) {
+          selectionSummaryEl.textContent = "No websites selected yet.";
+        } else {
+          const manuallySelectedCategories = selectedSites.reduce((total, site) => {
+            return total + (state.selectedCategories[site.name]?.length || 0);
+          }, 0);
+          selectionSummaryEl.textContent =
+            `${selectedSites.length} site(s) selected. ${manuallySelectedCategories} category override(s) applied.`;
+        }
+        const selectedCategoryCount = selectedSites.reduce(
+          (total, site) => total + (state.selectedCategories[site.name]?.length || 0),
+          0
+        );
+        if (siteSelectionCountEl) {
+          siteSelectionCountEl.textContent = `${selectedSites.length} selected`;
+        }
+        if (categorySelectionCountEl) {
+          categorySelectionCountEl.textContent = `${selectedCategoryCount} selected`;
+        }
+        if (siteSelectionHintEl) {
+          siteSelectionHintEl.innerHTML = selectedSites.length
+            ? `<i class="bi bi-check2-circle"></i><span>${selectedSites.length} site(s) active in this run configuration.</span>`
+            : `<i class="bi bi-info-circle"></i><span>Select one or many sites. The category panel updates automatically.</span>`;
+        }
+        runButtonEl.disabled = !selectedSites.length;
+      }
+
+      function renderSites() {
+        if (!siteListEl) return;
+        const html = getFilteredSiteRecords()
           .map((site) => {
             const checked = state.selectedSites.has(site.name) ? "checked" : "";
+            const selectedClass = state.selectedSites.has(site.name) ? "is-selected" : "";
             return `
-              <label class="site-option p-3 d-block bg-white">
+              <label class="site-option p-3 d-block bg-white ${selectedClass}">
                 <div class="form-check">
                   <input class="form-check-input site-checkbox" type="checkbox" value="${escapeHtml(site.name)}" ${checked} />
                   <div class="form-check-label ms-1 w-100">
@@ -517,6 +624,7 @@
 
       function renderCategories() {
         const selectedSites = getSelectedSiteRecords();
+        const categoryQuery = (categorySearchEl?.value || "").trim().toLowerCase();
         if (!selectedSites.length) {
           categoryGroupsEl.innerHTML = `
             <div class="placeholder-panel rounded-4 p-4 text-secondary">
@@ -530,10 +638,15 @@
           .map((site) => {
             const selectedCategoryUrls = new Set(state.selectedCategories[site.name] || []);
             const categoryCards = site.categories
+              .filter((category) => {
+                if (!categoryQuery) return true;
+                return [category.name, category.url].join(" ").toLowerCase().includes(categoryQuery);
+              })
               .map((category) => {
                 const checked = selectedCategoryUrls.has(category.url) ? "checked" : "";
+                const selectedClass = selectedCategoryUrls.has(category.url) ? "is-selected" : "";
                 return `
-                  <label class="category-option p-3 bg-white d-block">
+                  <label class="category-option p-3 bg-white d-block ${selectedClass}">
                     <div class="form-check">
                       <input
                         class="form-check-input category-checkbox"
@@ -553,6 +666,12 @@
               })
               .join("");
 
+            const categoryBody = categoryCards || `
+              <div class="placeholder-panel rounded-4 p-3 text-secondary">
+                No categories match the current filter for this site.
+              </div>
+            `;
+
             return `
               <section class="rounded-4 border overflow-hidden bg-white">
                 <div class="group-header px-3 py-3 d-flex flex-wrap align-items-center justify-content-between gap-2">
@@ -568,7 +687,7 @@
                     Select all categories
                   </button>
                 </div>
-                <div class="p-3 d-grid gap-3">${categoryCards}</div>
+                <div class="p-3 d-grid gap-3">${categoryBody}</div>
               </section>
             `;
           })
@@ -626,7 +745,7 @@
         eventFeedEl.innerHTML = events
           .map((event) => {
             return `
-              <div class="event-item rounded-4 border bg-white p-3">
+              <div class="event-item level-${escapeHtml(event.level)} rounded-4 border bg-white p-3">
                 <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
                   <span class="badge text-bg-light text-uppercase">${escapeHtml(event.level)}</span>
                   <span class="small text-secondary">${escapeHtml(event.timestamp)}</span>
@@ -667,7 +786,10 @@
         }
 
         const disableRun = run.status === "queued" || run.status === "running";
-        runButtonEl.disabled = disableRun;
+        runButtonEl.disabled = disableRun || !state.selectedSites.size;
+        if (lastUpdatedEl) {
+          lastUpdatedEl.textContent = formatTimestamp(run.updated_at);
+        }
       }
 
       async function pollRun(runId) {
@@ -708,7 +830,7 @@
           sites,
           categories,
           mode: modeEl.value,
-          max_items_per_site: Number(document.getElementById("maxItems").value || 25),
+          max_items_per_site: Number(maxItemsEl.value || 25),
           historic_cutoff_date: cutoffEl.value.trim(),
         };
       }
@@ -728,6 +850,20 @@
         updateSelectionSummary();
       });
 
+      document.getElementById("toggleVisibleSites")?.addEventListener("click", () => {
+        const visible = getFilteredSiteRecords();
+        const visibleNames = visible.map((site) => site.name);
+        const allVisibleSelected = visibleNames.length > 0 && visibleNames.every((name) => state.selectedSites.has(name));
+        if (allVisibleSelected) {
+          visibleNames.forEach((name) => state.selectedSites.delete(name));
+        } else {
+          visibleNames.forEach((name) => state.selectedSites.add(name));
+        }
+        renderSites();
+        renderCategories();
+        updateSelectionSummary();
+      });
+
       document.getElementById("clearCategories")?.addEventListener("click", () => {
         state.selectedCategories = {};
         renderCategories();
@@ -735,6 +871,24 @@
       });
 
       siteSearchEl?.addEventListener("input", renderSites);
+      categorySearchEl?.addEventListener("input", renderCategories);
+
+      document.querySelectorAll(".preset-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const value = Number(button.dataset.maxItems || 25);
+          maxItemsEl.value = String(value);
+          document.querySelectorAll(".preset-btn").forEach((preset) => preset.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+
+      maxItemsEl.addEventListener("input", () => {
+        const current = String(maxItemsEl.value || "");
+        document.querySelectorAll(".preset-btn").forEach((preset) => {
+          const matches = preset.dataset.maxItems === current;
+          preset.classList.toggle("active", matches);
+        });
+      });
 
       formEl?.addEventListener("submit", async (event) => {
         event.preventDefault();

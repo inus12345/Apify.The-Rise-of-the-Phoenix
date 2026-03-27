@@ -62,7 +62,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--historic-pages",
         type=int,
-        default=5,
+        default=50,
         help="Seed total_known_pages for categories where page-2 probing works",
     )
     parser.add_argument(
