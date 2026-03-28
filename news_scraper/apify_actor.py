@@ -128,6 +128,9 @@ def normalize_actor_input(raw_input: dict[str, Any] | None) -> InputConfig:
 
     if payload["execution_mode"] == "current":
         payload["historic_cutoff_date"] = None
+        payload["historic_max_pages_per_category"] = None
+    elif payload.get("historic_max_pages_per_category") == "":
+        payload["historic_max_pages_per_category"] = None
 
     payload["no_items_limit"] = no_items_limit
     if no_items_limit:
@@ -209,6 +212,7 @@ async def push_datasets(runner: ScraperRunner, input_config: InputConfig) -> dic
         "errorDatasetName": ERROR_DATASET_NAME,
         "sitesRequested": input_config.sites_to_scrape,
         "categoryFilters": input_config.category_filters,
+        "historicMaxPagesPerCategory": input_config.historic_max_pages_per_category,
     }
     await Actor.set_value("OUTPUT", summary)
     return summary
@@ -230,10 +234,11 @@ async def main() -> None:
         runner = ScraperRunner(runtime)
 
         Actor.log.info(
-            "Starting scraper run in %s mode for %s with max_items_per_site=%s (proxy: useApifyProxy=%s, customProxy=%s)",
+            "Starting scraper run in %s mode for %s with max_items_per_site=%s historic_max_pages_per_category=%s (proxy: useApifyProxy=%s, customProxy=%s)",
             input_config.execution_mode.value,
             input_config.sites_to_scrape or "all active sites",
             input_config.max_items_per_site,
+            input_config.historic_max_pages_per_category,
             input_config.proxy_config.useApifyProxy,
             bool(input_config.proxy_config.proxyUrls),
         )

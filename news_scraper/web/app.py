@@ -112,6 +112,18 @@ def sanitize_run_request(payload: dict[str, Any], site_options: list[dict[str, A
     historic_cutoff_date = str(payload.get("historic_cutoff_date", "") or "").strip() or None
     if mode == "historic" and not historic_cutoff_date:
         raise ValueError("Historic mode requires a cutoff date.")
+    historic_max_pages_raw = payload.get("historic_max_pages_per_category")
+    if historic_max_pages_raw in (None, ""):
+        historic_max_pages_per_category: int | None = None
+    else:
+        try:
+            historic_max_pages_per_category = int(historic_max_pages_raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("Historic pages per category must be a number.") from exc
+        if historic_max_pages_per_category < 1 or historic_max_pages_per_category > 1000:
+            raise ValueError("Historic pages per category must be between 1 and 1000.")
+    if mode != "historic":
+        historic_max_pages_per_category = None
 
     raw_categories = payload.get("categories", {}) or {}
     category_filters: dict[str, list[str]] = {}
@@ -132,6 +144,7 @@ def sanitize_run_request(payload: dict[str, Any], site_options: list[dict[str, A
         "mode": mode,
         "max_items_per_site": max_items_per_site,
         "historic_cutoff_date": historic_cutoff_date,
+        "historic_max_pages_per_category": historic_max_pages_per_category,
     }
 
 
@@ -149,6 +162,7 @@ def build_run_state(run_id: str, payload: dict[str, Any]) -> dict[str, Any]:
             "mode": payload["mode"],
             "max_items_per_site": payload["max_items_per_site"],
             "historic_cutoff_date": payload["historic_cutoff_date"],
+            "historic_max_pages_per_category": payload["historic_max_pages_per_category"],
             "category_filters": payload["category_filters"],
         },
         "progress": {
@@ -265,6 +279,9 @@ def execute_run(run_id: str, payload: dict[str, Any]) -> None:
             category_filters=payload["category_filters"],
             max_items_per_site=payload["max_items_per_site"],
             historic_cutoff_date=payload["historic_cutoff_date"] if payload["mode"] == "historic" else None,
+            historic_max_pages_per_category=(
+                payload["historic_max_pages_per_category"] if payload["mode"] == "historic" else None
+            ),
             proxy_config=ProxyConfig(),
         )
 

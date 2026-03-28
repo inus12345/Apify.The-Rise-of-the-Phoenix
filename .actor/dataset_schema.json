@@ -112,6 +112,11 @@
         "type": ["string", "null"],
         "title": "Source HTML language",
         "description": "The source document's HTML lang value, when available."
+      },
+      "cutoff_filtered": {
+        "type": "boolean",
+        "title": "Cutoff filtered",
+        "description": "True when the article publication date is older than the historic cutoff date."
       }
     }
   },
@@ -127,6 +132,7 @@
           "article_url",
           "scraping_tool",
           "execution_mode",
+          "cutoff_filtered",
           "country",
           "region"
         ],
@@ -158,6 +164,10 @@
           "execution_mode": {
             "label": "Mode",
             "format": "text"
+          },
+          "cutoff_filtered": {
+            "label": "Filtered",
+            "format": "boolean"
           },
           "country": {
             "label": "Country",

@@ -90,6 +90,17 @@ def build_schema(site_names: list[str]) -> dict[str, Any]:
                 "editor": "textfield",
                 "example": "2025-01-01T00:00:00Z",
             },
+            "historic_max_pages_per_category": {
+                "title": "Historic pages per category",
+                "type": "integer",
+                "description": (
+                    "Optional cap on pages crawled per category in historic mode. Leave empty to use "
+                    "tracked category depth."
+                ),
+                "editor": "number",
+                "minimum": 1,
+                "maximum": 1000,
+            },
             "max_items_per_site": {
                 "title": "Article limit per site",
                 "type": "integer",

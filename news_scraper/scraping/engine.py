@@ -1523,17 +1523,24 @@ class ScraperRunner:
             total_targets = 0
             planned_targets_by_site: dict[str, int] = {}
             LOGGER.info(
-                "Run config execution_mode=%s sites=%s max_items_per_site=%s category_filter_sites=%d",
+                "Run config execution_mode=%s sites=%s max_items_per_site=%s historic_max_pages_per_category=%s category_filter_sites=%d",
                 input_config.execution_mode.value,
                 input_config.sites_to_scrape or "all-active",
                 input_config.max_items_per_site,
+                input_config.historic_max_pages_per_category,
                 len(input_config.category_filters),
             )
 
             for site in catalog_sites:
                 site_tracker = get_or_create_site_tracker(tracker, site.site_name)
                 selected_categories = set(input_config.category_filters.get(site.site_name, [])) or None
-                targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
+                targets = self._build_targets(
+                    site,
+                    site_tracker,
+                    input_config.execution_mode,
+                    selected_categories,
+                    input_config.historic_max_pages_per_category,
+                )
                 planned_targets_by_site[site.site_name] = len(targets)
                 total_targets += len(targets)
                 LOGGER.info(
@@ -1755,7 +1762,13 @@ class ScraperRunner:
         selected_categories: set[str] | None = None,
         progress_callback: ProgressCallback | None = None,
     ) -> dict[str, int]:
-        targets = self._build_targets(site, site_tracker, input_config.execution_mode, selected_categories)
+        targets = self._build_targets(
+            site,
+            site_tracker,
+            input_config.execution_mode,
+            selected_categories,
+            input_config.historic_max_pages_per_category,
+        )
         seen_urls = {str(item.article_url) for item in datasets.success_dataset}
         max_items = input_config.max_items_per_site
         collected = 0
@@ -1884,16 +1897,16 @@ class ScraperRunner:
             self._record_site_attempt(site, fetch.attempts)
 
             published = ensure_utc(article["date_published"])
-            if cutoff_date and published < ensure_utc(cutoff_date):
-                return None, None
+            cutoff_filtered = bool(cutoff_date and published < ensure_utc(cutoff_date))
 
             self._record_success(site, fetch.tool, fetch.elapsed_ms)
             LOGGER.info(
-                "Article success site=%s url=%s tool=%s published=%s",
+                "Article success site=%s url=%s tool=%s published=%s cutoff_filtered=%s",
                 site.site_name,
                 article_url,
                 fetch.tool.value,
                 published.isoformat(),
+                cutoff_filtered,
             )
             normalized_title = coerce_scalar(article.get("article_title")) or "Untitled"
             normalized_article_url = coerce_scalar(article.get("article_url")) or article_url
@@ -1916,6 +1929,7 @@ class ScraperRunner:
                 execution_mode=mode,
                 category_url=category_url,
                 source_html_lang=coerce_scalar(article.get("source_html_lang")),
+                cutoff_filtered=cutoff_filtered,
             ), None
         except Exception as exc:
             self._record_failure(site, exc)
@@ -2170,6 +2184,7 @@ class ScraperRunner:
         site_tracker: SiteCategoryTracker,
         mode: ExecutionMode,
         selected_categories: set[str] | None = None,
+        historic_max_pages_per_category: int | None = None,
     ) -> list[tuple[str, str, int]]:
         if not site_tracker.categories:
             site_tracker.categories.append(
@@ -2209,6 +2224,8 @@ class ScraperRunner:
                     continue
                 start_page = max(category.last_scraped_page_index + 1, 1)
                 end_page = max(category.total_known_pages, start_page)
+                if historic_max_pages_per_category is not None:
+                    end_page = min(end_page, start_page + historic_max_pages_per_category - 1)
                 for page_index in range(start_page, end_page + 1):
                     targets.append(
                         (category_url, build_page_url(category_url, page_index), page_index)

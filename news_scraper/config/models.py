@@ -248,6 +248,7 @@ class InputConfig(BaseModel):
     no_items_limit: bool = False
     execution_mode: ExecutionMode | None = None
     historic_cutoff_date: datetime | None = None
+    historic_max_pages_per_category: int | None = Field(default=None, ge=1)
     proxy_config: ProxyConfig = Field(default_factory=ProxyConfig)
 
     @model_validator(mode="after")
@@ -262,6 +263,7 @@ class InputConfig(BaseModel):
 
         if self.execution_mode == ExecutionMode.CURRENT:
             self.historic_cutoff_date = None
+            self.historic_max_pages_per_category = None
             return self
 
         if self.historic_cutoff_date is None:
@@ -292,6 +294,7 @@ class SuccessDatasetItem(BaseModel):
     execution_mode: ExecutionMode
     category_url: HttpUrl | None = None
     source_html_lang: str | None = None
+    cutoff_filtered: bool = False
 
     @field_validator("article_url", "main_image_url", "category_url", mode="before")
     @classmethod

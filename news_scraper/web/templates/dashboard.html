@@ -393,6 +393,20 @@
                       disabled
                     />
                   </div>
+                  <div>
+                    <label class="config-label mb-2" for="historicMaxPages">Historic pages per category</label>
+                    <input
+                      class="form-control form-control-lg rounded-4"
+                      id="historicMaxPages"
+                      name="historic_max_pages_per_category"
+                      type="number"
+                      min="1"
+                      max="1000"
+                      placeholder="Leave blank to use tracked page depth"
+                      disabled
+                    />
+                    <div class="small text-secondary mt-2">Applies only in historic mode.</div>
+                  </div>
                   <div class="rounded-4 border p-3 bg-light-subtle">
                     <div class="fw-semibold mb-2">Run summary</div>
                     <div class="small text-secondary" id="selectionSummary">
@@ -505,6 +519,7 @@
       const lastUpdatedEl = document.getElementById("lastUpdated");
       const modeEl = document.getElementById("mode");
       const cutoffEl = document.getElementById("cutoff");
+      const historicMaxPagesEl = document.getElementById("historicMaxPages");
       const formEl = document.getElementById("scrapeForm");
       const runButtonEl = document.getElementById("runButton");
       const runStatusEl = document.getElementById("runStatus");
@@ -832,11 +847,13 @@
           mode: modeEl.value,
           max_items_per_site: Number(maxItemsEl.value || 25),
           historic_cutoff_date: cutoffEl.value.trim(),
+          historic_max_pages_per_category: historicMaxPagesEl.value.trim(),
         };
       }
 
       modeEl.addEventListener("change", () => {
         cutoffEl.disabled = modeEl.value !== "historic";
+        historicMaxPagesEl.disabled = modeEl.value !== "historic";
       });
 
       document.getElementById("toggleAllSites")?.addEventListener("click", () => {
